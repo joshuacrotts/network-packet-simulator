@@ -28,7 +28,7 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.model.Ball;

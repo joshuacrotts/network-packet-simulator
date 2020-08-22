@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       DataLinkRectangle.java
+// FILENAME :       SessionRectangle.java
 //
 // DESCRIPTION :
 //
@@ -28,21 +28,22 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class DataLinkRectangle extends OSIRectangle {
+public class SessionRectangle extends OSIRectangle {
 
-  private static final Color dataLinkActiveColor = new Color(224, 225, 255);
+  private static final Color presentationActiveColor = new Color(253, 225, 253);
 
-  public DataLinkRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "DATA LINK");
+  public SessionRectangle(Simulator simulator, int x, int y) {
+    super(simulator, "SESSION");
     super.x = x;
     super.y = y;
-    super.setActiveColor(dataLinkActiveColor);
+    
+    super.setActiveColor(presentationActiveColor);
   }
 
   @Override

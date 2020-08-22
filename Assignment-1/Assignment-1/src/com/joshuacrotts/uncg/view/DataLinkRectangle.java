@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       PhysicalRectangle.java
+// FILENAME :       DataLinkRectangle.java
 //
 // DESCRIPTION :
 //
@@ -28,21 +28,21 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class PhysicalRectangle extends OSIRectangle {
+public class DataLinkRectangle extends OSIRectangle {
 
-  private static final Color physicalActiveColor = new Color(224, 224, 224);
+  private static final Color dataLinkActiveColor = new Color(224, 225, 255);
 
-  public PhysicalRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "PHYSICAL");
+  public DataLinkRectangle(Simulator simulator, int x, int y) {
+    super(simulator, "DATA LINK");
     super.x = x;
     super.y = y;
-    super.setActiveColor(physicalActiveColor);
+    super.setActiveColor(dataLinkActiveColor);
   }
 
   @Override

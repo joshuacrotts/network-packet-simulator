@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       SessionRectangle.java
+// FILENAME :       ApplicationRectangle.java
 //
 // DESCRIPTION :
 //
@@ -28,22 +28,21 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class SessionRectangle extends OSIRectangle {
+public class ApplicationRectangle extends OSIRectangle {
 
-  private static final Color presentationActiveColor = new Color(253, 225, 253);
-
-  public SessionRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "SESSION");
+  private static final Color applicationActiveColor = new Color(225, 255, 255);
+  
+  public ApplicationRectangle(Simulator simulator, int x, int y) {
+    super(simulator, "APPLICATION");
     super.x = x;
     super.y = y;
-    
-    super.setActiveColor(presentationActiveColor);
+    super.setActiveColor(applicationActiveColor);
   }
 
   @Override

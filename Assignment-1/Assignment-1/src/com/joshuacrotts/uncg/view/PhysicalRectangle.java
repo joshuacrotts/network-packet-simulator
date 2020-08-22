@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       NetworkBackground.java
+// FILENAME :       PhysicalRectangle.java
 //
 // DESCRIPTION :
 //
@@ -28,45 +28,31 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
-import com.joshuacrotts.uncg.model.DestinationHost;
-import com.joshuacrotts.uncg.model.SourceHost;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class NetworkBackground {
+public class PhysicalRectangle extends OSIRectangle {
 
-  private final Simulator simulator;
+  private static final Color physicalActiveColor = new Color(224, 224, 224);
 
-  private final SourceHost source;
-  private final DestinationHost dest;
-
-  public NetworkBackground(Simulator simulator) {
-    this.simulator = simulator;
-
-    this.source = new SourceHost(simulator);
-    this.dest = new DestinationHost(simulator);
+  public PhysicalRectangle(Simulator simulator, int x, int y) {
+    super(simulator, "PHYSICAL");
+    super.x = x;
+    super.y = y;
+    super.setActiveColor(physicalActiveColor);
   }
 
-  /**
-   *
-   */
-  public void updateBackground() {
-    if (this.simulator.getRedBall().getX() < this.simulator.getWidth() / 2) {
-      this.source.updateSource();
-    }
-
-    if (this.simulator.getRedBall().getX() >= this.simulator.getWidth() / 2) {
-      this.dest.updateDestination();
-    }
+  @Override
+  public void update() {
+    super.updateOSIRectangle(super.getSimulator().getRedBall());
+    super.updateOSIRectangle(super.getSimulator().getBlueBall());
   }
 
-  /**
-   *
-   */
-  public void drawBackground(Graphics2D g2) {
-    this.source.drawSource(g2);
-    this.dest.drawDestination(g2);
+  @Override
+  public void drawRectangle(Graphics2D g2) {
+    super.drawOSIRectangle(g2);
   }
 }

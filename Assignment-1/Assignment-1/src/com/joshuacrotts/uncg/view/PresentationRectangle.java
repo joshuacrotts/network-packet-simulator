@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       ApplicationRectangle.java
+// FILENAME :       PresentationRectangle.java
 //
 // DESCRIPTION :
 //
@@ -28,21 +28,22 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class ApplicationRectangle extends OSIRectangle {
+public class PresentationRectangle extends OSIRectangle {
 
-  private static final Color applicationActiveColor = new Color(225, 255, 255);
-  
-  public ApplicationRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "APPLICATION");
+  private static final Color presentationActiveColor = new Color(254, 254, 195);
+
+  public PresentationRectangle(Simulator simulator, int x, int y) {
+    super(simulator, "PRESENTATION");
     super.x = x;
     super.y = y;
-    super.setActiveColor(applicationActiveColor);
+    
+    super.setActiveColor(presentationActiveColor);
   }
 
   @Override

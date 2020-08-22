@@ -31,13 +31,13 @@
 package com.joshuacrotts.uncg.model;
 
 import com.joshuacrotts.uncg.Simulator;
-import com.joshuacrotts.view.ApplicationRectangle;
-import com.joshuacrotts.view.DataLinkRectangle;
-import com.joshuacrotts.view.NetworkRectangle;
-import com.joshuacrotts.view.PhysicalRectangle;
-import com.joshuacrotts.view.PresentationRectangle;
-import com.joshuacrotts.view.SessionRectangle;
-import com.joshuacrotts.view.TransportRectangle;
+import com.joshuacrotts.uncg.view.ApplicationRectangle;
+import com.joshuacrotts.uncg.view.DataLinkRectangle;
+import com.joshuacrotts.uncg.view.NetworkRectangle;
+import com.joshuacrotts.uncg.view.PhysicalRectangle;
+import com.joshuacrotts.uncg.view.PresentationRectangle;
+import com.joshuacrotts.uncg.view.SessionRectangle;
+import com.joshuacrotts.uncg.view.TransportRectangle;
 import java.awt.Graphics2D;
 
 public class SourceHost {

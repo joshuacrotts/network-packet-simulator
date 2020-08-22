@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       PresentationRectangle.java
+// FILENAME :       NetworkBackground.java
 //
 // DESCRIPTION :
 //
@@ -28,32 +28,45 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
-import java.awt.Color;
+import com.joshuacrotts.uncg.model.DestinationHost;
+import com.joshuacrotts.uncg.model.SourceHost;
 import java.awt.Graphics2D;
 
-public class PresentationRectangle extends OSIRectangle {
+public class NetworkBackground {
 
-  private static final Color presentationActiveColor = new Color(254, 254, 195);
+  private final Simulator simulator;
 
-  public PresentationRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "PRESENTATION");
-    super.x = x;
-    super.y = y;
-    
-    super.setActiveColor(presentationActiveColor);
+  private final SourceHost source;
+  private final DestinationHost dest;
+
+  public NetworkBackground(Simulator simulator) {
+    this.simulator = simulator;
+
+    this.source = new SourceHost(simulator);
+    this.dest = new DestinationHost(simulator);
   }
 
-  @Override
-  public void update() {
-    super.updateOSIRectangle(super.getSimulator().getRedBall());
-    super.updateOSIRectangle(super.getSimulator().getBlueBall());
+  /**
+   *
+   */
+  public void updateBackground() {
+    if (this.simulator.getRedBall().getX() < this.simulator.getWidth() / 2) {
+      this.source.updateSource();
+    }
+
+    if (this.simulator.getRedBall().getX() >= this.simulator.getWidth() / 2) {
+      this.dest.updateDestination();
+    }
   }
 
-  @Override
-  public void drawRectangle(Graphics2D g2) {
-    super.drawOSIRectangle(g2);
+  /**
+   *
+   */
+  public void drawBackground(Graphics2D g2) {
+    this.source.drawSource(g2);
+    this.dest.drawDestination(g2);
   }
 }

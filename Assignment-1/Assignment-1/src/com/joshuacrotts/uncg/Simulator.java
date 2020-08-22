@@ -36,7 +36,7 @@ import com.joshuacrotts.uncg.model.PauseButton;
 import com.joshuacrotts.uncg.model.ResumeButton;
 import com.joshuacrotts.uncg.model.StopButton;
 import com.joshuacrotts.uncg.model.UIButton;
-import com.joshuacrotts.view.NetworkBackground;
+import com.joshuacrotts.uncg.view.NetworkBackground;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

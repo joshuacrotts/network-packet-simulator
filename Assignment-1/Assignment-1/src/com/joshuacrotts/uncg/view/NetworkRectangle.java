@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       TransportRectangle.java
+// FILENAME :       NetworkRectangle.java
 //
 // DESCRIPTION :
 //
@@ -28,28 +28,27 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.view;
+package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class TransportRectangle extends OSIRectangle {
+public class NetworkRectangle extends OSIRectangle {
 
-  private static final Color transportActiveColor = new Color(224, 254, 188);
+  private static final Color networkActiveColor = new Color(255, 225, 189);
 
-  public TransportRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "TRANSPORT");
+  public NetworkRectangle(Simulator simulator, int x, int y) {
+    super(simulator, "NETWORK");
     super.x = x;
     super.y = y;
-    
-    super.setActiveColor(transportActiveColor);
+    super.setActiveColor(networkActiveColor);
   }
 
   @Override
   public void update() {
     super.updateOSIRectangle(super.getSimulator().getRedBall());
-    super.updateOSIRectangle(super.getSimulator().getBlueBall());
+    super.updateOSIRectangle(super.getSimulator().getBlueBall());    
   }
 
   @Override
