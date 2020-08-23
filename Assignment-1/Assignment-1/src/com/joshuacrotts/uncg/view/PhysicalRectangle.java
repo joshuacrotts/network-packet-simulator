@@ -31,18 +31,19 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class PhysicalRectangle extends OSIRectangle {
 
-  private static final Color physicalActiveColor = new Color(224, 224, 224);
+  private static final Color PHYSICAL_ACTIVE_COLOR = new Color(224, 224, 224);
 
-  public PhysicalRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "PHYSICAL");
+  public PhysicalRectangle(Simulator simulator, HostType hostType, int x, int y) {
+    super(simulator, hostType, "PHYSICAL");
     super.x = x;
     super.y = y;
-    super.setActiveColor(physicalActiveColor);
+    super.setActiveColor(PHYSICAL_ACTIVE_COLOR);
   }
 
   @Override

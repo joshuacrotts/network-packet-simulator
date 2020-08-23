@@ -32,6 +32,7 @@ package com.joshuacrotts.uncg;
 
 import com.joshuacrotts.uncg.model.Ball;
 import com.joshuacrotts.uncg.model.MouseModel;
+import com.joshuacrotts.uncg.model.NetworkData;
 import com.joshuacrotts.uncg.model.PauseButton;
 import com.joshuacrotts.uncg.model.ResumeButton;
 import com.joshuacrotts.uncg.model.StopButton;
@@ -43,6 +44,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -66,8 +68,8 @@ public class Simulator extends JPanel {
   /**
    * Other simulator-related variables and objects.
    */
-  private final Ball redBall;
-  private final Ball blueBall;
+  private Ball redBall;
+  private Ball blueBall;
 
   /**
    * Status variables.
@@ -93,6 +95,8 @@ public class Simulator extends JPanel {
     super.add(this.resumeButton);
     super.add(this.stopButton);
 
+    this.promptMessageInput();
+
     this.parentFrame = new JFrame(TITLE);
     this.parentFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     this.parentFrame.setMaximumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -108,8 +112,6 @@ public class Simulator extends JPanel {
     super.addMouseMotionListener(mouse);
 
     this.osiModel = new NetworkBackground(this);
-    this.redBall = new Ball(20, 20, 2, 0, Color.RED);
-    this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE);
 
   }
 
@@ -158,7 +160,7 @@ public class Simulator extends JPanel {
     this.timer = new Timer(FRAME_DELAY, (ActionEvent e) -> {
       if (!this.isPaused) {
         this.redBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
-        this.blueBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
+        //this.blueBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
         this.osiModel.updateBackground();
         repaint();
       }
@@ -191,7 +193,20 @@ public class Simulator extends JPanel {
    */
   private void drawBalls(Graphics2D g2) {
     this.redBall.drawBall(g2);
-    this.blueBall.drawBall(g2);
+    //this.blueBall.drawBall(g2);
+  }
+
+  /**
+   *
+   * @return
+   */
+  private void promptMessageInput() {
+    String redMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for red: ", JOptionPane.QUESTION_MESSAGE);
+    //String blueMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for blue: ", JOptionPane.QUESTION_MESSAGE);
+    NetworkData redData = new NetworkData(redMsg);
+    //NetworkData blueData = new NetworkData(blueMsg);
+    this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
+    this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, null);
   }
 
   public int getSimulatorFrameWidth() {

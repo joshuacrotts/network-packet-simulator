@@ -31,18 +31,23 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.StdOps;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.JOptionPane;
 
-public class ApplicationRectangle extends OSIRectangle {
+public class ApplicationRectangle extends OSIRectangle implements MouseListener {
 
-  private static final Color applicationActiveColor = new Color(225, 255, 255);
-  
-  public ApplicationRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "APPLICATION");
+  private static final Color APPLICATION_ACTIVE_COLOR = new Color(225, 255, 255);
+
+  public ApplicationRectangle(Simulator simulator, HostType hostType, int x, int y) {
+    super(simulator, hostType, "APPLICATION");
     super.x = x;
     super.y = y;
-    super.setActiveColor(applicationActiveColor);
+    super.setActiveColor(APPLICATION_ACTIVE_COLOR);
   }
 
   @Override
@@ -54,5 +59,40 @@ public class ApplicationRectangle extends OSIRectangle {
   @Override
   public void drawRectangle(Graphics2D g2) {
     super.drawOSIRectangle(g2);
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    /* If we click the right mouse and we're over the actual rectangle. */
+    if (e.getButton() == MouseEvent.BUTTON3
+            && StdOps.mouseOver(e.getX(), e.getY(), this.x, this.y, this.width, this.height)) {
+
+      super.getSimulator().setPaused(true);
+
+      String host = super.getHostType().toString();
+
+      /* Print out the messages at the application layer. */
+      String redMsg = super.isActive() ? super.getSimulator().getRedBall().getNetworkData().getMessage() : "Red Ball has not reached Application Layer yet for " + host + ".";
+      //String blueMsg = super.isActive() ? super.getSimulator().getBlueBall().getNetworkData().getMessage() : "Blue Ball has not reached Application Layer yet for " + host + ".";
+      JOptionPane.showMessageDialog(super.getSimulator(), redMsg, "Red Data at Application Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
+      //JOptionPane.showMessageDialog(super.getSimulator(), blueMsg, "Blue Data at Application Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
+    }
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
   }
 }

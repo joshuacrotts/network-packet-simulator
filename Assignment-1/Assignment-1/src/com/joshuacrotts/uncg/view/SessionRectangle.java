@@ -31,19 +31,20 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class SessionRectangle extends OSIRectangle {
 
-  private static final Color presentationActiveColor = new Color(253, 225, 253);
+  private static final Color SESSION_ACTIVE_COLOR = new Color(253, 225, 253);
 
-  public SessionRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "SESSION");
+  public SessionRectangle(Simulator simulator, HostType hostType, int x, int y) {
+    super(simulator, hostType, "SESSION");
     super.x = x;
     super.y = y;
     
-    super.setActiveColor(presentationActiveColor);
+    super.setActiveColor(SESSION_ACTIVE_COLOR);
   }
 
   @Override

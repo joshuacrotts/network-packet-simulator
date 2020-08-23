@@ -31,18 +31,19 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class DataLinkRectangle extends OSIRectangle {
 
-  private static final Color dataLinkActiveColor = new Color(224, 225, 255);
+  private static final Color DATA_LINK_ACTIVE_COLOR = new Color(224, 225, 255);
 
-  public DataLinkRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "DATA LINK");
+  public DataLinkRectangle(Simulator simulator, HostType hostType, int x, int y) {
+    super(simulator, hostType, "DATA LINK");
     super.x = x;
     super.y = y;
-    super.setActiveColor(dataLinkActiveColor);
+    super.setActiveColor(DATA_LINK_ACTIVE_COLOR);
   }
 
   @Override

@@ -36,21 +36,22 @@ import java.awt.Point;
 
 public class Ball {
 
+  private NetworkData networkData;
+
   private final Point pos;
-  
-  private int dx, dy;
+  private final Color color;
+
   private static final int DEFAULT_CHASE_VELOCITY = 1;
-  
+  private int dx, dy;
   private final int BALL_WIDTH = 20;
   private final int BALL_HEIGHT = 20;
 
-  private final Color color;
-
-  public Ball(int x, int y, int dx, int dy, Color color) {
+  public Ball(int x, int y, int dx, int dy, Color color, NetworkData networkData) {
     this.color = color;
     this.pos = new Point(x, y);
     this.dx = dx;
     this.dy = dy;
+    this.networkData = networkData;
   }
 
   /**
@@ -87,6 +88,10 @@ public class Ball {
   public void drawBall(Graphics2D g2) {
     g2.setColor(this.color);
     g2.fillOval(this.getX(), this.getY(), this.BALL_WIDTH, this.BALL_HEIGHT);
+  }
+
+  public NetworkData getNetworkData() {
+    return this.networkData;
   }
 
   public int getX() {

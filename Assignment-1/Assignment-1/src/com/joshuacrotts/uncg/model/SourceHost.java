@@ -41,7 +41,7 @@ import com.joshuacrotts.uncg.view.TransportRectangle;
 import java.awt.Graphics2D;
 
 public class SourceHost {
-  
+
   private final int H_START_OFFSET = 300;
   private final int Y_START_OFFSET = 50;
 
@@ -55,13 +55,15 @@ public class SourceHost {
 
   public SourceHost(Simulator simulator) {
 
-    this.app = new ApplicationRectangle(simulator, H_START_OFFSET, 50);
-    this.dl = new DataLinkRectangle(simulator, H_START_OFFSET, 150);
-    this.ntwk = new NetworkRectangle(simulator, H_START_OFFSET, 250);
-    this.phys = new PhysicalRectangle(simulator, H_START_OFFSET, 350);
-    this.pres = new PresentationRectangle(simulator, H_START_OFFSET, 450);
-    this.session = new SessionRectangle(simulator, H_START_OFFSET, 550);
-    this.trans = new TransportRectangle(simulator, H_START_OFFSET, 650);
+    this.app = new ApplicationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 50);
+    this.pres = new PresentationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 150);
+    this.session = new SessionRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 250);
+    this.trans = new TransportRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 350);
+    this.ntwk = new NetworkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 450);
+    this.dl = new DataLinkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 550);
+    this.phys = new PhysicalRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 650);
+
+    simulator.addMouseListener(app);
   }
 
   /**
@@ -79,6 +81,7 @@ public class SourceHost {
 
   /**
    *
+   * @param g2
    */
   public void drawSource(Graphics2D g2) {
     this.app.drawRectangle(g2);

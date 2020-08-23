@@ -32,6 +32,7 @@ package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.model.Ball;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -44,14 +45,18 @@ public abstract class OSIRectangle extends Rectangle {
 
   private final Simulator simulator;
 
+  // This will need to be either isRedActive or isBlueActive or something to 
+  // that effect later on down the road. Perhaps an array?
   private boolean isActive = false;
 
   private Color activeColor;
   private Color inactiveColor;
-  private String osiType;
+  private final String osiType;
+  private final HostType hostType;
 
-  public OSIRectangle(Simulator simulator, String osiType) {
+  public OSIRectangle(Simulator simulator, HostType hostType, String osiType) {
     this.osiType = osiType;
+    this.hostType = hostType;
     this.simulator = simulator;
     this.width = RECT_WIDTH;
     this.height = RECT_HEIGHT;
@@ -101,6 +106,7 @@ public abstract class OSIRectangle extends Rectangle {
 
   /**
    *
+   * @param g2
    */
   public abstract void drawRectangle(Graphics2D g2);
 
@@ -130,5 +136,9 @@ public abstract class OSIRectangle extends Rectangle {
 
   public Simulator getSimulator() {
     return this.simulator;
+  }
+
+  public HostType getHostType() {
+    return this.hostType;
   }
 }

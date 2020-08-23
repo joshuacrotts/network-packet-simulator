@@ -31,18 +31,19 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class NetworkRectangle extends OSIRectangle {
 
-  private static final Color networkActiveColor = new Color(255, 225, 189);
+  private static final Color NETWORK_ACTIVE_COLOR = new Color(255, 225, 189);
 
-  public NetworkRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "NETWORK");
+  public NetworkRectangle(Simulator simulator, HostType hostType, int x, int y) {
+    super(simulator, hostType, "NETWORK");
     super.x = x;
     super.y = y;
-    super.setActiveColor(networkActiveColor);
+    super.setActiveColor(NETWORK_ACTIVE_COLOR);
   }
 
   @Override

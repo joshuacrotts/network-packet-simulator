@@ -57,15 +57,16 @@ public class DestinationHost {
   public DestinationHost(Simulator simulator) {
 
     int H_POS = simulator.getSimulatorFrameWidth() - H_START_OFFSET - OSIRectangle.RECT_WIDTH;
-    System.out.println(H_POS);
-    
-    this.app = new ApplicationRectangle(simulator, H_POS, 50);
-    this.dl = new DataLinkRectangle(simulator, H_POS, 150);
-    this.ntwk = new NetworkRectangle(simulator, H_POS, 250);
-    this.phys = new PhysicalRectangle(simulator, H_POS, 350);
-    this.pres = new PresentationRectangle(simulator, H_POS, 450);
-    this.session = new SessionRectangle(simulator, H_POS, 550);
-    this.trans = new TransportRectangle(simulator, H_POS, 650);
+
+    this.app = new ApplicationRectangle(simulator, HostType.DESTINATION, H_POS, 50);
+    this.pres = new PresentationRectangle(simulator, HostType.DESTINATION, H_POS, 150);
+    this.session = new SessionRectangle(simulator, HostType.DESTINATION, H_POS, 250);
+    this.trans = new TransportRectangle(simulator, HostType.DESTINATION, H_POS, 350);
+    this.ntwk = new NetworkRectangle(simulator, HostType.DESTINATION, H_POS, 450);
+    this.dl = new DataLinkRectangle(simulator, HostType.DESTINATION, H_POS, 550);
+    this.phys = new PhysicalRectangle(simulator, HostType.DESTINATION, H_POS, 650);
+
+    simulator.addMouseListener(app);
   }
 
   /**

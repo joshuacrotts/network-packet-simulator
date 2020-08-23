@@ -31,19 +31,20 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.model.HostType;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class TransportRectangle extends OSIRectangle {
 
-  private static final Color transportActiveColor = new Color(224, 254, 188);
+  private static final Color TRANSPORT_ACTIVE_COLOR = new Color(224, 254, 188);
 
-  public TransportRectangle(Simulator simulator, int x, int y) {
-    super(simulator, "TRANSPORT");
+  public TransportRectangle(Simulator simulator, HostType hostType, int x, int y) {
+    super(simulator, hostType, "TRANSPORT");
     super.x = x;
     super.y = y;
     
-    super.setActiveColor(transportActiveColor);
+    super.setActiveColor(TRANSPORT_ACTIVE_COLOR);
   }
 
   @Override
