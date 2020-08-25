@@ -23,7 +23,7 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    08 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
@@ -31,19 +31,26 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.StdOps;
 import com.joshuacrotts.uncg.model.HostType;
+import com.joshuacrotts.uncg.model.OSIType;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import javax.swing.JOptionPane;
 
-public class DataLinkRectangle extends OSIRectangle {
+public class DataLinkRectangle extends OSIRectangle implements MouseListener, MouseMotionListener {
 
   private static final Color DATA_LINK_ACTIVE_COLOR = new Color(224, 225, 255);
 
   public DataLinkRectangle(Simulator simulator, HostType hostType, int x, int y) {
-    super(simulator, hostType, "DATA LINK");
+    super(simulator, hostType, OSIType.DATALINK);
     super.x = x;
     super.y = y;
     super.setActiveColor(DATA_LINK_ACTIVE_COLOR);
+    super.setMouseOverColor(StdOps.changeColorBrightness(DATA_LINK_ACTIVE_COLOR, COLOR_BRIGHTNESS_OFFSET));
   }
 
   @Override
@@ -55,5 +62,49 @@ public class DataLinkRectangle extends OSIRectangle {
   @Override
   public void drawRectangle(Graphics2D g2) {
     super.drawOSIRectangle(g2);
+  }
+
+  @Override
+  public void mouseClicked(MouseEvent e) {
+    if (e.getButton() == MouseEvent.BUTTON3
+            && StdOps.isMouseOver(e.getX(), e.getY(), this.x, this.y, this.width, this.height)) {
+
+      super.getSimulator().setPaused(true);
+
+      String host = super.getHostType().toString();
+
+      String redMsg = super.isActive() ? super.getSimulator().getRedBall().getNetworkData().getMessage() : "Red Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".";
+      JOptionPane.showMessageDialog(super.getSimulator(), redMsg, "Red Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
+    }
+  }
+
+  @Override
+  public void mouseMoved(MouseEvent e) {
+    if (StdOps.isMouseOver(e.getX(), e.getY(), this.x, this.y, this.width, this.height)) {
+      this.setActiveColor(this.getMouseOverColor());
+    } else {
+      this.setActiveColor(DATA_LINK_ACTIVE_COLOR);
+    }
+  }
+
+  @Override
+  public void mousePressed(MouseEvent e) {
+
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseExited(MouseEvent e) {
+  }
+
+  @Override
+  public void mouseDragged(MouseEvent e) {
   }
 }

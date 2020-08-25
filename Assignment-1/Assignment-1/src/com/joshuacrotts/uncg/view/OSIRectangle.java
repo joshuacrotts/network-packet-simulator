@@ -23,7 +23,7 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    08 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
@@ -33,6 +33,7 @@ package com.joshuacrotts.uncg.view;
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.model.Ball;
 import com.joshuacrotts.uncg.model.HostType;
+import com.joshuacrotts.uncg.model.OSIType;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -40,21 +41,28 @@ import java.awt.Rectangle;
 
 public abstract class OSIRectangle extends Rectangle {
 
-  public static final int RECT_WIDTH = 120;
-  public static final int RECT_HEIGHT = 50;
-
   private final Simulator simulator;
 
-  // This will need to be either isRedActive or isBlueActive or something to 
-  // that effect later on down the road. Perhaps an array?
+  public static final int RECT_WIDTH = 120;
+  public static final int RECT_HEIGHT = 50;
+  protected static final int COLOR_BRIGHTNESS_OFFSET = -20;
+
+  /* This will need to be either isRedActive or isBlueActive or something to 
+     that effect later on down the road. Perhaps an array? */
   private boolean isActive = false;
 
+  /* Colors for the different status flags of the rectangle. Mostly dealing with
+     the mouse listeners. */
   private Color activeColor;
   private Color inactiveColor;
-  private final String osiType;
+  private Color mouseOverColor;
+  
+  /* Information relating the OSI rectangle to its type, and its host (either
+     source or destination. */
+  private final OSIType osiType;
   private final HostType hostType;
 
-  public OSIRectangle(Simulator simulator, HostType hostType, String osiType) {
+  public OSIRectangle(Simulator simulator, HostType hostType, OSIType osiType) {
     this.osiType = osiType;
     this.hostType = hostType;
     this.simulator = simulator;
@@ -93,10 +101,10 @@ public abstract class OSIRectangle extends Rectangle {
     g2.setColor(Color.BLACK);
 
     /* Position the text in the center of our rectangle. */
-    int textX = this.x + (this.width - fm.stringWidth(osiType)) / 2;
+    int textX = this.x + (this.width - fm.stringWidth(this.osiType.toString())) / 2;
     int textY = this.y + ((this.height - fm.getHeight()) / 2) + fm.getAscent();
 
-    g2.drawString(this.osiType, textX, textY);
+    g2.drawString(this.osiType.toString(), textX, textY);
   }
 
   /**
@@ -118,12 +126,20 @@ public abstract class OSIRectangle extends Rectangle {
     this.inactiveColor = c;
   }
 
+  public void setMouseOverColor(Color c) {
+    this.mouseOverColor = c;
+  }
+
   public Color getActiveColor() {
     return activeColor;
   }
 
   public Color getInactiveColor() {
     return inactiveColor;
+  }
+
+  public Color getMouseOverColor() {
+    return mouseOverColor;
   }
 
   public boolean isActive() {
@@ -140,5 +156,9 @@ public abstract class OSIRectangle extends Rectangle {
 
   public HostType getHostType() {
     return this.hostType;
+  }
+  
+  public OSIType getOSIType() {
+    return this.osiType;
   }
 }

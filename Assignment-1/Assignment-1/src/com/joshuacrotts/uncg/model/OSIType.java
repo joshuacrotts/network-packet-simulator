@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       NetworkData.java
+// FILENAME :       OSIType.java
 //
 // DESCRIPTION :
 //
@@ -23,34 +23,59 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    25 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
-import javax.swing.JOptionPane;
-
 /**
- * @TODO 
- * 
+ * This enum is just to keep track of the different OSI rectangle types.
+ *
  * @author Joshua
  */
-public class NetworkData {
-
-  private final String message;
-
-  public NetworkData(String message) {
-    if (message == null || message.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Error, please enter a message!", "ERROR", JOptionPane.ERROR_MESSAGE);
-      System.exit(1);
+public enum OSIType {
+  TRANSPORT {
+    @Override
+    public String toString() {
+      return "TRANSPORT";
     }
-    this.message = message;
+  },
+  PHYSICAL {
+    @Override
+    public String toString() {
+      return "PHYSICAL";
+    }
+  },
+  DATALINK {
+    @Override
+    public String toString() {
+      return "DATALINK";
+    }
+  },
+  PRESENTATION {
+    @Override
+    public String toString() {
+      return "PRESENTATION";
+    }
+  },
+  SESSION {
+    @Override
+    public String toString() {
+      return "SESSION";
+    }
+  },
+  APPLICATION {
+    @Override
+    public String toString() {
+      return "APPLICATION";
+    }
+  },
+  NETWORK {
+    @Override
+    public String toString() {
+      return "NETWORK";
+    }
   }
-
-  public String getMessage() {
-    return this.message;
-  }
-
 }

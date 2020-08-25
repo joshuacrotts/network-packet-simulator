@@ -23,7 +23,7 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    08 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
@@ -31,6 +31,7 @@
 package com.joshuacrotts.uncg.model;
 
 import com.joshuacrotts.uncg.Simulator;
+import com.joshuacrotts.uncg.StdOps;
 import com.joshuacrotts.uncg.view.ApplicationRectangle;
 import com.joshuacrotts.uncg.view.DataLinkRectangle;
 import com.joshuacrotts.uncg.view.NetworkRectangle;
@@ -63,7 +64,8 @@ public class SourceHost {
     this.dl = new DataLinkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 550);
     this.phys = new PhysicalRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 650);
 
-    simulator.addMouseListener(app);
+    StdOps.addMouseListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
+    StdOps.addMouseMotionListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
   }
 
   /**

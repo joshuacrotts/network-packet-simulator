@@ -27,9 +27,13 @@
  */
 package com.joshuacrotts.uncg;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,8 +52,6 @@ import javax.imageio.ImageIO;
  */
 public abstract class StdOps {
 
-  private static final int SQRT_MAGIC = 0x5f3759df;
-
   /**
    * Returns a random integer between min and max.
    *
@@ -57,7 +59,7 @@ public abstract class StdOps {
    * @param max
    * @return random integer
    */
-  public static int rand(int min, int max) {
+  public static int randomInt(int min, int max) {
     if (min >= max) {
       throw new IllegalArgumentException(" Max must be smaller than min ");
     }
@@ -78,11 +80,11 @@ public abstract class StdOps {
    * In the end, min leq x leq minUpperBound OR maxLowerBound leq x leq max;
    * @return
    */
-  public static double randBounds(double min, double minUpperBound, double maxLowerBound, double max) {
+  public static double randomDoubleBounds(double min, double minUpperBound, double maxLowerBound, double max) {
     double n;
 
     do {
-      n = StdOps.rand(min, max);
+      n = StdOps.randomDouble(min, max);
 
     } while ((n < min || n > minUpperBound) && (n < maxLowerBound || n > max));
 
@@ -96,7 +98,7 @@ public abstract class StdOps {
    * @param max
    * @return
    */
-  public static double rand(double min, double max) {
+  public static double randomDouble(double min, double max) {
     if (min >= max) {
       throw new IllegalArgumentException(" Max must be smaller than min ");
     }
@@ -116,7 +118,7 @@ public abstract class StdOps {
    * @param height - height of rectangle
    * @return
    */
-  public static boolean mouseOver(int mx, int my, int x, int y, int width, int height) {
+  public static boolean isMouseOver(int mx, int my, int x, int y, int width, int height) {
     return ((mx > x) && (mx < x + width)) && ((my > y) && (my < y + height));
   }
 
@@ -126,17 +128,39 @@ public abstract class StdOps {
    * @param num
    * @param min
    * @param max
+   * @return clamped number, or if unaltered, the number itself.
    */
-  public static int clamp(int num, int min, int max) {
+  public static int clampInt(int num, int min, int max) {
     if (num < min) {
-      num = min;
+      return min;
     } else if (num > max) {
-      num = max;
+      return max;
     }
-
     return num;
   }
 
+  /**
+   *
+   * @param c
+   * @param offset
+   * @return
+   */
+  public static Color changeColorBrightness(Color c, int offset) {
+    int r, g, b;
+
+    r = StdOps.clampInt(c.getRed() + offset, 0, 0xff);
+    g = StdOps.clampInt(c.getGreen() + offset, 0, 0xff);
+    b = StdOps.clampInt(c.getBlue() + offset, 0, 0xff);
+
+    return new Color(r, g, b);
+  }
+
+  /**
+   *
+   * @param path
+   * @param size
+   * @return
+   */
   public static Font initFont(String path, float size) {
     Font f = null;
 
@@ -151,6 +175,11 @@ public abstract class StdOps {
     return f;
   }
 
+  /**
+   *
+   * @param path
+   * @return
+   */
   public static BufferedImage loadImage(String path) {
     BufferedImage sprite = null;
     try {
@@ -159,20 +188,6 @@ public abstract class StdOps {
       e.printStackTrace();
     }
     return sprite;
-  }
-
-  /**
-   * Algorithm: http://ilab.usc.edu/wiki/index.php/Fast_Square_Root
-   *
-   * @param x
-   * @return
-   */
-  public static float fastSqrt(float x) {
-    float xhalf = 0.5f * x;
-    float u = x;
-    int i = 0;
-    i = StdOps.SQRT_MAGIC - (i >> 1);  // gives initial guess y0
-    return x * u * (1.5f - xhalf * u * u);// Newton step, repeating increases accuracy
   }
 
   /**
@@ -188,5 +203,31 @@ public abstract class StdOps {
     x = Double.longBitsToDouble(i);
     x *= (1.5d - xhalf * x * x);
     return x;
+  }
+
+  /**
+   * Adds a collection of MouseListener objects to a Swing component. This is 
+   * primarily for batch-adding.
+   * 
+   * @param c Component swing component to add MMLs to.
+   * @param args MouseListener arguments. Any arbitrary number.
+   */
+  public static void addMouseListeners(Component c, MouseListener... args) {
+    for (MouseListener ml : args) {
+      c.addMouseListener(ml);
+    }
+  }
+
+  /**
+   * Adds a collection of MouseMotionListener objects to a Swing component. This is 
+   * primarily for batch-adding.
+   * 
+   * @param c Component swing component to add MMLs to.
+   * @param args MouseMotionListener arguments. Any arbitrary number.
+   */
+  public static void addMouseMotionListeners(Component c, MouseMotionListener... args) {
+    for (MouseMotionListener ml : args) {
+      c.addMouseMotionListener(ml);
+    }
   }
 }
