@@ -57,12 +57,12 @@ public class SourceHost {
   public SourceHost(Simulator simulator) {
 
     this.app = new ApplicationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 50);
-    this.pres = new PresentationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 150);
-    this.session = new SessionRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 250);
-    this.trans = new TransportRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 350);
-    this.ntwk = new NetworkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 450);
-    this.dl = new DataLinkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 550);
-    this.phys = new PhysicalRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 650);
+    this.pres = new PresentationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 110);
+    this.session = new SessionRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 170);
+    this.trans = new TransportRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 230);
+    this.ntwk = new NetworkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 290);
+    this.dl = new DataLinkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 350);
+    this.phys = new PhysicalRectangle(simulator, HostType.SOURCE, H_START_OFFSET, 410);
 
     StdOps.addMouseListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
     StdOps.addMouseMotionListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
