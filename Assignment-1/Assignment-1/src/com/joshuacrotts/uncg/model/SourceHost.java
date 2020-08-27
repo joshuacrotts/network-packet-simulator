@@ -94,4 +94,32 @@ public class SourceHost {
     this.dl.drawRectangle(g2);
     this.phys.drawRectangle(g2);
   }
+
+  public ApplicationRectangle getApp() {
+    return app;
+  }
+
+  public DataLinkRectangle getDl() {
+    return dl;
+  }
+
+  public NetworkRectangle getNtwk() {
+    return ntwk;
+  }
+
+  public PhysicalRectangle getPhys() {
+    return phys;
+  }
+
+  public PresentationRectangle getPres() {
+    return pres;
+  }
+
+  public SessionRectangle getSession() {
+    return session;
+  }
+
+  public TransportRectangle getTrans() {
+    return trans;
+  }
 }

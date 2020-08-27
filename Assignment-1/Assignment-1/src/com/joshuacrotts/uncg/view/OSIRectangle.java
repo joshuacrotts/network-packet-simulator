@@ -49,14 +49,14 @@ public abstract class OSIRectangle extends Rectangle {
 
   /* This will need to be either isRedActive or isBlueActive or something to 
      that effect later on down the road. Perhaps an array? */
-  private boolean isActive = false;
+  private boolean isRedActive, isBlueActive;
 
   /* Colors for the different status flags of the rectangle. Mostly dealing with
      the mouse listeners. */
   private Color activeColor;
   private Color inactiveColor;
   private Color mouseOverColor;
-  
+
   /* Information relating the OSI rectangle to its type, and its host (either
      source or destination. */
   private final OSIType osiType;
@@ -79,7 +79,11 @@ public abstract class OSIRectangle extends Rectangle {
    */
   public void updateOSIRectangle(Ball ball) {
     if (ball.getY() >= this.y) {
-      this.setActive(true);
+      if (ball.getColor() == Color.RED) {
+        this.isRedActive = true;
+      } else if (ball.getColor() == Color.BLUE) {
+        this.isBlueActive = ball.getColor() == Color.BLUE;
+      }
     }
   }
 
@@ -89,7 +93,7 @@ public abstract class OSIRectangle extends Rectangle {
    */
   public void drawOSIRectangle(Graphics2D g2) {
     /* First, fill with the color that it has when either active or inactive. */
-    g2.setColor(this.isActive() ? this.getActiveColor() : this.getInactiveColor());
+    g2.setColor((this.isRedActive() || this.isBlueActive()) ? this.getActiveColor() : this.getInactiveColor());
     g2.fill(this);
 
     /* Now draw the black outline. */
@@ -106,7 +110,7 @@ public abstract class OSIRectangle extends Rectangle {
 
     g2.drawString(this.osiType.toString(), textX, textY);
   }
-
+  
   /**
    *
    */
@@ -142,12 +146,12 @@ public abstract class OSIRectangle extends Rectangle {
     return mouseOverColor;
   }
 
-  public boolean isActive() {
-    return this.isActive;
+  public boolean isRedActive() {
+    return this.isRedActive;
   }
 
-  public void setActive(boolean b) {
-    this.isActive = b;
+  public boolean isBlueActive() {
+    return this.isBlueActive;
   }
 
   public Simulator getSimulator() {
@@ -157,7 +161,7 @@ public abstract class OSIRectangle extends Rectangle {
   public HostType getHostType() {
     return this.hostType;
   }
-  
+
   public OSIType getOSIType() {
     return this.osiType;
   }

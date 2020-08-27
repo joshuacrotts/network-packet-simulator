@@ -1,7 +1,7 @@
 //=============================================================================================//
 // FILENAME :       OSIType.java
 //
-// DESCRIPTION :
+// DESCRIPTION :    Enum to keep track of the different OSI rectangle types
 //
 //
 // NOTES :
@@ -30,11 +30,6 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
-/**
- * This enum is just to keep track of the different OSI rectangle types.
- *
- * @author Joshua
- */
 public enum OSIType {
   TRANSPORT {
     @Override

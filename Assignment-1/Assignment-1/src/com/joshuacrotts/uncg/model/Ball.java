@@ -30,13 +30,14 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
+import com.joshuacrotts.uncg.NetworkData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
 public class Ball {
 
-  private NetworkData networkData;
+  private final NetworkData networkData;
 
   private final Point pos;
   private final Color color;
@@ -93,6 +94,10 @@ public class Ball {
   public NetworkData getNetworkData() {
     return this.networkData;
   }
+  
+  public Color getColor() {
+    return this.color;
+  }
 
   public int getX() {
     return this.pos.x;
@@ -125,5 +130,4 @@ public class Ball {
   public void setVelY(int dy) {
     this.dy = dy;
   }
-
 }

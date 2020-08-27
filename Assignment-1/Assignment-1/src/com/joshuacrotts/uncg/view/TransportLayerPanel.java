@@ -1,9 +1,7 @@
 //=============================================================================================//
-// FILENAME :       HostType.java
+// FILENAME :       TransportLayerPanel.java
 //
-// DESCRIPTION :    This enum is defined to differentiate the OSI rectangles between which
-//                  parent they belong to. Their respective behavior is contingent on whether
-//                  they are part of the SOURCE OSI model or the DESTINATION.
+// DESCRIPTION :
 //
 //
 // NOTES :
@@ -25,24 +23,13 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    27 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.uncg.model;
+package com.joshuacrotts.uncg.view;
 
-public enum HostType {
-  SOURCE {
-    @Override
-    public String toString() {
-      return "SOURCE";
-    }
-  },
-  DESTINATION {
-    @Override
-    public String toString() {
-      return "DESTINATION";
-    }
-  }
+public class TransportLayerPanel {
+  
 }

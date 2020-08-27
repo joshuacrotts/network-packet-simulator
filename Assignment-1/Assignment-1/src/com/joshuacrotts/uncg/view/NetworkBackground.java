@@ -57,7 +57,15 @@ public class NetworkBackground {
       this.source.updateSource();
     }
 
+    if (this.simulator.getBlueBall().getX() < this.simulator.getWidth() / 2) {
+      this.source.updateSource();
+    }
+
     if (this.simulator.getRedBall().getX() >= this.simulator.getWidth() / 2) {
+      this.dest.updateDestination();
+    }
+
+    if (this.simulator.getBlueBall().getX() >= this.simulator.getWidth() / 2) {
       this.dest.updateDestination();
     }
   }
@@ -69,5 +77,13 @@ public class NetworkBackground {
   public void drawBackground(Graphics2D g2) {
     this.source.drawSource(g2);
     this.dest.drawDestination(g2);
+  }
+
+  public SourceHost getSource() {
+    return source;
+  }
+
+  public DestinationHost getDestination() {
+    return dest;
   }
 }

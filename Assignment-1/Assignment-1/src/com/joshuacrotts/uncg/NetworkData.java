@@ -1,9 +1,7 @@
 //=============================================================================================//
-// FILENAME :       HostType.java
+// FILENAME :       NetworkData.java
 //
-// DESCRIPTION :    This enum is defined to differentiate the OSI rectangles between which
-//                  parent they belong to. Their respective behavior is contingent on whether
-//                  they are part of the SOURCE OSI model or the DESTINATION.
+// DESCRIPTION :
 //
 //
 // NOTES :
@@ -30,19 +28,24 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.uncg.model;
+package com.joshuacrotts.uncg;
 
-public enum HostType {
-  SOURCE {
-    @Override
-    public String toString() {
-      return "SOURCE";
+import javax.swing.JOptionPane;
+
+/**
+ * @TODO 
+ * 
+ * @author Joshua
+ */
+public class NetworkData {
+
+  public String message;
+
+  public NetworkData(String message) {
+    if (message == null || message.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Error, please enter a message!", "ERROR", JOptionPane.ERROR_MESSAGE);
+      System.exit(1);
     }
-  },
-  DESTINATION {
-    @Override
-    public String toString() {
-      return "DESTINATION";
-    }
+    this.message = message;
   }
 }

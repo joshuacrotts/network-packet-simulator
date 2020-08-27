@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       NetworkData.java
+// FILENAME :       TransportLayer.java
 //
 // DESCRIPTION :
 //
@@ -23,34 +23,32 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    27 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
-import javax.swing.JOptionPane;
+import com.joshuacrotts.uncg.NetworkData;
+import com.joshuacrotts.uncg.NetworkUtils;
 
-/**
- * @TODO 
- * 
- * @author Joshua
- */
-public class NetworkData {
-
-  private final String message;
-
-  public NetworkData(String message) {
-    if (message == null || message.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Error, please enter a message!", "ERROR", JOptionPane.ERROR_MESSAGE);
-      System.exit(1);
+public class TransportLayer {
+  
+  /**
+   * Each ball has its own respective network data.
+   * @param ball 
+   */
+  public static void transport(Ball ball) {
+    NetworkData data = ball.getNetworkData();
+    
+    /* First, pad the data to make sure it is a multiple of four in length. */
+    String paddedMsg = data.message;
+    while (paddedMsg.length() % 4 != 0 ) {
+      paddedMsg += "0";
     }
-    this.message = message;
+    
+    /* Now, convert the message to hex. */
+    String hexMessage = NetworkUtils.convertASCIIToHex(paddedMsg);
   }
-
-  public String getMessage() {
-    return this.message;
-  }
-
 }

@@ -34,7 +34,6 @@ import com.joshuacrotts.uncg.dijkstra.Dijkstra;
 import com.joshuacrotts.uncg.dijkstra.Vertex;
 import com.joshuacrotts.uncg.model.Ball;
 import com.joshuacrotts.uncg.model.MouseModel;
-import com.joshuacrotts.uncg.model.NetworkData;
 import com.joshuacrotts.uncg.model.PauseButton;
 import com.joshuacrotts.uncg.model.ResumeButton;
 import com.joshuacrotts.uncg.model.StopButton;
@@ -71,6 +70,7 @@ public class Simulator extends JPanel {
   /**
    * Other simulator-related variables and objects.
    */
+  private TCPSteps tcpSteps;
   private Ball redBall;
   private Ball blueBall;
 
@@ -90,10 +90,12 @@ public class Simulator extends JPanel {
   private static final String TITLE = "CSC-677 - Assignment #1";
 
   private static List<Vertex> path;
-  
+
   public Simulator() {
 
-    /** VERY PRELIMINARY TESTING */
+    /**
+     * VERY PRELIMINARY TESTING
+     */
     Dijkstra dijkstra = new Dijkstra();
 
     Vertex v1 = new Vertex("P1", 100, 100);
@@ -157,6 +159,7 @@ public class Simulator extends JPanel {
     super.addMouseMotionListener(mouse);
 
     this.osiModel = new NetworkBackground(this);
+    this.tcpSteps = new TCPSteps(this.osiModel);
 
   }
 
@@ -176,7 +179,7 @@ public class Simulator extends JPanel {
    *
    */
   public void stopSimulation() {
-    if ( ! this.isRunning) {
+    if (!this.isRunning) {
       return;
     }
 
@@ -203,16 +206,18 @@ public class Simulator extends JPanel {
    */
   private void updateLoop() {
     this.timer = new Timer(FRAME_DELAY, (ActionEvent e) -> {
-      if ( ! this.isPaused) {
-        //this.redBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
-        Vertex headTo = Simulator.path.get(0);
-        if (this.redBall.getX() != headTo.getX() || this.redBall.getY() != headTo.getY() ) {
-          this.redBall.moveTo(headTo.getX(), headTo.getY());
-        } else {
-          Simulator.path.remove(0);
-        }
-        //this.blueBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
+      if (!this.isPaused) {
+        this.redBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
+//        Vertex headTo = Simulator.path.get(0);
+//        if (this.redBall.getX() != headTo.getX() || this.redBall.getY() != headTo.getY() ) {
+//          this.redBall.moveTo(headTo.getX(), headTo.getY());
+//        } else {
+//          Simulator.path.remove(0);
+//        }
+        this.blueBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
         this.osiModel.updateBackground();
+        this.tcpSteps.checkTCPSteps(redBall);
+        this.tcpSteps.checkTCPSteps(blueBall);
         repaint();
       }
 
@@ -225,7 +230,7 @@ public class Simulator extends JPanel {
    * Updates the buttons to disable/enable pause and resume buttons.
    */
   private void updateUIComponents() {
-    this.pauseButton.setEnabled( ! this.isPaused);
+    this.pauseButton.setEnabled(!this.isPaused);
     this.resumeButton.setEnabled(this.isPaused);
   }
 
@@ -244,7 +249,7 @@ public class Simulator extends JPanel {
    */
   private void drawBalls(Graphics2D g2) {
     this.redBall.drawBall(g2);
-    //this.blueBall.drawBall(g2);
+    this.blueBall.drawBall(g2);
   }
 
   /**
@@ -253,11 +258,11 @@ public class Simulator extends JPanel {
    */
   private void promptMessageInput() {
     String redMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for red: ", JOptionPane.QUESTION_MESSAGE);
-    //String blueMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for blue: ", JOptionPane.QUESTION_MESSAGE);
+    String blueMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for blue: ", JOptionPane.QUESTION_MESSAGE);
     NetworkData redData = new NetworkData(redMsg);
-    //NetworkData blueData = new NetworkData(blueMsg);
+    NetworkData blueData = new NetworkData(blueMsg);
     this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
-    this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, null);
+    this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, blueData);
   }
 
   public int getSimulatorFrameWidth() {

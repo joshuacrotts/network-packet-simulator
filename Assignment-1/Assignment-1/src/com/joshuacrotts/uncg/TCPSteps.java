@@ -1,9 +1,7 @@
 //=============================================================================================//
-// FILENAME :       HostType.java
+// FILENAME :       TCPSteps.java
 //
-// DESCRIPTION :    This enum is defined to differentiate the OSI rectangles between which
-//                  parent they belong to. Their respective behavior is contingent on whether
-//                  they are part of the SOURCE OSI model or the DESTINATION.
+// DESCRIPTION :
 //
 //
 // NOTES :
@@ -25,24 +23,42 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    27 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.uncg.model;
+package com.joshuacrotts.uncg;
 
-public enum HostType {
-  SOURCE {
-    @Override
-    public String toString() {
-      return "SOURCE";
+import com.joshuacrotts.uncg.model.Ball;
+import com.joshuacrotts.uncg.model.DestinationHost;
+import com.joshuacrotts.uncg.model.SourceHost;
+import com.joshuacrotts.uncg.model.TransportLayer;
+import com.joshuacrotts.uncg.view.NetworkBackground;
+
+public class TCPSteps {
+
+  private final SourceHost source;
+  private final DestinationHost destination;
+
+  /* Variables for determining if we need to keep activating the TCP steps or not. */
+  private boolean hasTransportRed = false;
+  private boolean hasTransportBlue = false;
+
+  public TCPSteps(NetworkBackground networkBackground) {
+    this.source = networkBackground.getSource();
+    this.destination = networkBackground.getDestination();
+  }
+
+  public void checkTCPSteps(Ball ball) {
+    if (this.source.getTrans().isRedActive() && !this.hasTransportRed) {
+      TransportLayer.transport(ball);
+      this.hasTransportRed = true;
     }
-  },
-  DESTINATION {
-    @Override
-    public String toString() {
-      return "DESTINATION";
+
+    if (this.source.getTrans().isBlueActive() && !this.hasTransportBlue) {
+      TransportLayer.transport(ball);
+      this.hasTransportBlue = true;
     }
   }
 }
