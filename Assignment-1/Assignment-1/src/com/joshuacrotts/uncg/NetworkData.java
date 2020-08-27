@@ -1,7 +1,7 @@
 //=============================================================================================//
 // FILENAME :       NetworkData.java
 //
-// DESCRIPTION :
+// DESCRIPTION :    This class will hold the data for a "packet", essentially.
 //
 //
 // NOTES :
@@ -32,11 +32,6 @@ package com.joshuacrotts.uncg;
 
 import javax.swing.JOptionPane;
 
-/**
- * @TODO 
- * 
- * @author Joshua
- */
 public class NetworkData {
 
   public String message;

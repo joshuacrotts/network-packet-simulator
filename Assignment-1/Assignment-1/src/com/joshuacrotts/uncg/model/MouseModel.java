@@ -42,14 +42,6 @@ public class MouseModel implements MouseListener, MouseMotionListener {
   public MouseModel() {
   }
 
-  public int getMouseX() {
-    return this.mouseX;
-  }
-
-  public int getMouseY() {
-    return this.mouseY;
-  }
-
   @Override
   public void mouseClicked(MouseEvent e) {
     this.mouseX = e.getX();
@@ -91,4 +83,15 @@ public class MouseModel implements MouseListener, MouseMotionListener {
     this.mouseX = e.getX();
     this.mouseY = e.getY();
   }
+
+  //====================== ACCESSORS/MUTATORS ============================//
+  
+  public int getMouseX() {
+    return this.mouseX;
+  }
+
+  public int getMouseY() {
+    return this.mouseY;
+  }
+
 }

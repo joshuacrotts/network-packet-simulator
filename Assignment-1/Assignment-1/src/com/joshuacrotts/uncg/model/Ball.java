@@ -91,10 +91,12 @@ public class Ball {
     g2.fillOval(this.getX(), this.getY(), this.BALL_WIDTH, this.BALL_HEIGHT);
   }
 
+  //====================== ACCESSORS/MUTATORS ============================//
+  
   public NetworkData getNetworkData() {
     return this.networkData;
   }
-  
+
   public Color getColor() {
     return this.color;
   }

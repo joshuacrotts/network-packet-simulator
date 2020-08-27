@@ -76,10 +76,18 @@ public class NetworkUtils {
   public static final short IP_IDENTIFICATION = getRandomHexShort(); // 1 word.
   public static final short TTL = 255; // 1 unsigned byte.
 
+  /**
+   *
+   * @return
+   */
   public static short getRandomHexShort() {
     return (short) StdOps.randomInt(0, Short.MAX_VALUE - 1);
   }
 
+  /**
+   *
+   * @return
+   */
   public static int getRandomHexInt() {
     return StdOps.randomInt(0, Integer.MAX_VALUE - 1);
   }

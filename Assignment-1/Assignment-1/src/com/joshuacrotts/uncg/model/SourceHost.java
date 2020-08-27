@@ -95,23 +95,25 @@ public class SourceHost {
     this.phys.drawRectangle(g2);
   }
 
-  public ApplicationRectangle getApp() {
+  //====================== ACCESSORS/MUTATORS ============================//
+  
+  public ApplicationRectangle getApplication() {
     return app;
   }
 
-  public DataLinkRectangle getDl() {
+  public DataLinkRectangle getDataLink() {
     return dl;
   }
 
-  public NetworkRectangle getNtwk() {
+  public NetworkRectangle getNetwork() {
     return ntwk;
   }
 
-  public PhysicalRectangle getPhys() {
+  public PhysicalRectangle getPhysical() {
     return phys;
   }
 
-  public PresentationRectangle getPres() {
+  public PresentationRectangle getPresentation() {
     return pres;
   }
 
@@ -119,7 +121,7 @@ public class SourceHost {
     return session;
   }
 
-  public TransportRectangle getTrans() {
+  public TransportRectangle getTransport() {
     return trans;
   }
 }

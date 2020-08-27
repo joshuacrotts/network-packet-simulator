@@ -46,7 +46,7 @@ public class UIButton extends JButton {
 
   public UIButton(Simulator simulator, String text, String buttonBackgroundFile) {
     super(text);
-    
+
     this.simulator = simulator;
     URL imageURL = getClass().getResource(buttonBackgroundFile);
 
@@ -71,6 +71,8 @@ public class UIButton extends JButton {
     }
   }
 
+  //====================== ACCESSORS/MUTATORS ============================//
+  
   public Simulator getSimulator() {
     return simulator;
   }

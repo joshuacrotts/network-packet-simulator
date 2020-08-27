@@ -50,13 +50,17 @@ public class TCPSteps {
     this.destination = networkBackground.getDestination();
   }
 
+  /**
+   * 
+   * @param ball 
+   */
   public void checkTCPSteps(Ball ball) {
-    if (this.source.getTrans().isRedActive() && !this.hasTransportRed) {
+    if (this.source.getTransport().isRedActive() && !this.hasTransportRed) {
       TransportLayer.transport(ball);
       this.hasTransportRed = true;
     }
 
-    if (this.source.getTrans().isBlueActive() && !this.hasTransportBlue) {
+    if (this.source.getTransport().isBlueActive() && !this.hasTransportBlue) {
       TransportLayer.transport(ball);
       this.hasTransportBlue = true;
     }
