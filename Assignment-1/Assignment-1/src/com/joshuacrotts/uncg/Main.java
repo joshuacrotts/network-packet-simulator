@@ -26,7 +26,7 @@
 // AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
-//
+// COMMENT
 //=============================================================================================//
 package com.joshuacrotts.uncg;
 
