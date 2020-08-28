@@ -68,7 +68,7 @@ public class Ball {
   }
 
   /**
-   * @TODO
+   * Updates the ball position to reflect any changes with velocity.
    */
   public void updateBall() {
     this.setX(this.getX() + this.dx);
@@ -128,10 +128,9 @@ public class Ball {
   }
 
   /**
-   * Draws the trail associated with the ball that is populated
-   * overtime.
-   * 
-   * @param g2 
+   * Draws the trail associated with the ball that is populated overtime.
+   *
+   * @param g2
    */
   private void drawBallTrail(Graphics2D g2) {
     for (int i = 0; i < this.ballTrail.trail.size(); i ++) {

@@ -2,6 +2,7 @@ package com.joshuacrotts.uncg.dijkstra;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -44,6 +45,15 @@ public class Vertex implements Comparable<Vertex> {
 
     Vertex otherVertex = (Vertex) o;
     return this.id.equals(otherVertex.id) && this.x == otherVertex.x && this.y == otherVertex.y;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 59 * hash + Objects.hashCode(this.id);
+    hash = 59 * hash + this.x;
+    hash = 59 * hash + this.y;
+    return hash;
   }
 
   @Override
