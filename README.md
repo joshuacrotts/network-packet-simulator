@@ -4,8 +4,6 @@
   <img width="400" height="225" src="docs/network.png">
 </p>
 
-| Code Quality | Development | File Information | Issues |
-|:--------:|:----:|:------------:|:--------:|
 |[![CodeFactor](https://www.codefactor.io/repository/github/joshuacrotts/CSC-677-NetworkSimulator/badge)](https://www.codefactor.io/repository/github/joshuacrotts/CSC-677-NetworkSimulator) | ![GitHub contributors](https://img.shields.io/github/contributors/JoshuaCrotts/CSC-677-NetworkSimulator) |  ![GitHub repo size](https://img.shields.io/github/repo-size/JoshuaCrotts/CSC-677-NetworkSimulator)  |  [![GitHub issues open](https://img.shields.io/github/issues/JoshuaCrotts/CSC-677-NetworkSimulator)]() 
 |![Lines](https://tokei.rs/b1/github/JoshuaCrotts/CSC-677-NetworkSimulator)|![GitHub commit activity](https://img.shields.io/github/commit-activity/m/JoshuaCrotts/CSC-677-NetworkSimulator) |![Files](https://tokei.rs/b1/github/JoshuaCrotts/CSC-677-NetworkSimulator?category=files)| [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/JoshuaCrotts/CSC-677-NetworkSimulator)]()
 
