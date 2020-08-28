@@ -1,7 +1,7 @@
 <h1 align="center">Network Simulator</h1>
 
 <p align="center">
-  <img width="300" height="180" src="docs/network.PNG">
+  <img width="400" height="225" src="docs/network.png">
 </p>
 
 | Code Quality | Development | File Information | Issues |
