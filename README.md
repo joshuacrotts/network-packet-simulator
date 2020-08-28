@@ -16,7 +16,7 @@ Network Simulator is a three-part project for my Principles of Computer Networks
 There are no dependencies for this project.
 
 ## Rebuilding Network Simulator
-NetBeans 8.2 is used to build this project. If you want to use a different IDE, you may choose to; you will just have to disassociate the NetBeans files. Once the project is complete, it will be made IDE-agnostic. For now, just clone the repository to your computer and open the NetBeans project.
+NetBeans 8.2 is used to build this project. However, in recent updates, the NetBeans files have been removed to make the project IDE-independent. To make this into a project in your IDE, create a new project, then clone this repository into the root of your project with the "." operator (i.e. make sure you clone it **here** and not in a subfolder!).
 
 ## Reporting Bugs
 
