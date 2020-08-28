@@ -230,4 +230,8 @@ public abstract class StdOps {
       c.addMouseMotionListener(ml);
     }
   }
+  
+  public static boolean isDoubleEqual(double n1, double n2, double threshold) {
+    return Math.abs(n1 - n2) <= threshold;
+  }
 }
