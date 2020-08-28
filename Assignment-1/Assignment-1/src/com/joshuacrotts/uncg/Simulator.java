@@ -162,7 +162,7 @@ public class Simulator extends JPanel {
 
     Graphics2D g2 = (Graphics2D) g;
     this.drawBackground(g2);
-    //this.osiModel.drawBackground(g2);
+    this.osiModel.drawBackground(g2);
     this.drawDijkstra(g2);
     this.drawBalls(g2);
   }
