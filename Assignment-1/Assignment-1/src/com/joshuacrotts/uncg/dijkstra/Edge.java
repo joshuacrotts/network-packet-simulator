@@ -10,25 +10,32 @@ package com.joshuacrotts.uncg.dijkstra;
  * @author joshuacrotts
  */
 public class Edge {
-  protected Vertex source;
-  protected Vertex destination;
+
+  public Vertex source;
+  public Vertex destination;
   
-  protected double distance;
-  
-  public Edge(Vertex src, Vertex dest) {
+  public double distance;
+
+  protected Edge(Vertex src, Vertex dest) {
     this.source = src;
     this.destination = dest;
-    
+
     this.distance = Edge.computeDistance(src, dest);
-    System.out.println(this);
+    src.adjacencyList.add(this);
   }
-  
+
+  /**
+   * 
+   * @param src
+   * @param dest
+   * @return 
+   */
   private static double computeDistance(Vertex src, Vertex dest) {
     return Math.sqrt((src.x - dest.x) * (src.x - dest.x) + (src.y - dest.y) * (src.y - dest.y));
   }
-  
+
   @Override
   public String toString() {
-    return "Source: " + source + " ---> Destination: " + destination + " Distance: " + this.distance;
+    return "Destination: " + destination + ", distance: " + distance;
   }
 }

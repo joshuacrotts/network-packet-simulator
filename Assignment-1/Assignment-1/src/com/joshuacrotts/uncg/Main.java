@@ -40,5 +40,4 @@ public class Main {
       simulator.startSimulation();
     });
   }
-
 }

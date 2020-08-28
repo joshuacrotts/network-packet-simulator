@@ -34,6 +34,10 @@ import com.joshuacrotts.uncg.NetworkData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimerTask;
 
 public class Ball {
 
@@ -131,5 +135,24 @@ public class Ball {
 
   public void setVelY(int dy) {
     this.dy = dy;
+  }
+  
+  private class BallTrail extends TimerTask {
+    
+    private List<Ellipse2D.Double> trail;
+    private Ball parentBall;
+    private Graphics2D g2;
+    
+    protected BallTrail(Ball parent, Graphics2D g2) {
+      this.parentBall = parent;
+      this.g2 = g2;
+      this.trail = new ArrayList<Ellipse2D.Double>();
+    }    
+    
+    @Override
+    public void run() {
+      
+    }
+    
   }
 }

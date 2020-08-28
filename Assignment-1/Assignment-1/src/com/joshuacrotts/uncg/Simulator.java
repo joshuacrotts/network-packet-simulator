@@ -31,6 +31,7 @@
 package com.joshuacrotts.uncg;
 
 import com.joshuacrotts.uncg.dijkstra.Dijkstra;
+import com.joshuacrotts.uncg.dijkstra.Edge;
 import com.joshuacrotts.uncg.dijkstra.Vertex;
 import com.joshuacrotts.uncg.model.Ball;
 import com.joshuacrotts.uncg.model.MouseModel;
@@ -39,11 +40,13 @@ import com.joshuacrotts.uncg.model.ResumeButton;
 import com.joshuacrotts.uncg.model.StopButton;
 import com.joshuacrotts.uncg.model.UIButton;
 import com.joshuacrotts.uncg.view.NetworkBackground;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -86,12 +89,15 @@ public class Simulator extends JPanel {
   private static final int FRAME_WIDTH = 1366;
   private static final int FRAME_HEIGHT = 768;
   private static final int FRAME_DELAY = 17; // 17 ms is approximately 60 fps.
-
   private static final String TITLE = "CSC-677 - Assignment #1";
 
-  private static List<Vertex> path;
+  /* Dijkstra testing. */
+  private static List<Vertex> redPath;
+  private static List<Vertex> bluePath;
 
   public Simulator() {
+    this.initDijkstraPaths();
+
     this.pauseButton = new PauseButton(this);
     this.resumeButton = new ResumeButton(this);
     this.stopButton = new StopButton(this);
@@ -155,8 +161,9 @@ public class Simulator extends JPanel {
 
     Graphics2D g2 = (Graphics2D) g;
     this.drawBackground(g2);
-    this.drawBalls(g2);
     this.osiModel.drawBackground(g2);
+    this.drawDijkstra(g2);
+    this.drawBalls(g2);
   }
 
   /**
@@ -165,20 +172,42 @@ public class Simulator extends JPanel {
   private void updateLoop() {
     this.timer = new Timer(FRAME_DELAY, (ActionEvent e) -> {
       if (!this.isPaused) {
-        this.redBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
-        this.blueBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
+
+        //       ALL OF THIS STUFF IS DIJKSTRA TEST STUFF!!!
+        //       BE AWARE THAT IT CURRENTLY CRASHES BECAUSE THE ARRAYLIST
+        //       GOES OUT OF BOUNDS                                        
+        /* Red path dijkstra. */
+        Vertex headTo = Simulator.redPath.get(0);
+        if (this.redBall.getX() != headTo.getX() || this.redBall.getY() != headTo.getY()) {
+          this.redBall.moveTo(headTo.getX(), headTo.getY());
+        } else {
+          Simulator.redPath.remove(0);
+        }
+
+        /* Blue path dijkstra. */
+        headTo = Simulator.bluePath.get(0);
+        if (this.blueBall.getX() != headTo.getX() || this.blueBall.getY() != headTo.getY()) {
+          this.blueBall.moveTo(headTo.getX(), headTo.getY());
+        } else {
+          Simulator.bluePath.remove(0);
+        }
+        // ===== END DIJKSTRA TEST STUFF!!! ====== /
+
+//        this.redBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
+//        this.blueBall.moveTo(this.mouse.getMouseX(), this.mouse.getMouseY());
         this.osiModel.updateBackground();
-        
+
         /* Checks the progress of the TCP algorithm. */
         this.tcpSteps.checkTCPSteps(redBall);
         this.tcpSteps.checkTCPSteps(blueBall);
-        
+
         /* Redraws the JPanel. */
         repaint();
       }
       this.updateUIComponents();
-    });
-    
+    }
+    );
+
     this.timer.start();
   }
 
@@ -210,6 +239,24 @@ public class Simulator extends JPanel {
 
   /**
    *
+   * @param g2
+   */
+  private void drawDijkstra(Graphics2D g2) {
+    Iterator<Vertex> it = Dijkstra.vertices.iterator();
+
+    while (it.hasNext()) {
+      Vertex v = it.next();
+      for (Edge e : v.adjacencyList) {
+        g2.setColor(Color.BLACK);
+        g2.setStroke(new BasicStroke(10));
+        g2.drawLine(e.source.getX() + 10, e.source.getY() + 10, e.destination.getX() + 10, e.destination.getY() + 10);
+        g2.setStroke(new BasicStroke(1));
+      }
+    }
+  }
+
+  /**
+   *
    * @return
    */
   private void promptMessageInput() {
@@ -219,6 +266,67 @@ public class Simulator extends JPanel {
     NetworkData blueData = new NetworkData(blueMsg);
     this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
     this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, blueData);
+  }
+
+  /**
+   *
+   */
+  private void initDijkstraPaths() {
+    /* Instantiates the vertices with a string ID (just for naming), and position. */
+    Vertex A = new Vertex("A", 100, 100);//1
+    Vertex B = new Vertex("B", 100, 600);//2
+    Vertex C = new Vertex("C", 500, 600);//3
+    Vertex D = new Vertex("D", 600, 500);//4
+    Vertex E = new Vertex("E", 600, 700);//5
+    Vertex F = new Vertex("F", 850, 500);//6
+    Vertex G = new Vertex("G", 850, 700);//7
+    Vertex H = new Vertex("H", 1000, 600);//8
+    Vertex I = new Vertex("I", 1300, 600);//19
+    Vertex J = new Vertex("J", 1300, 450);//10
+    Vertex K = new Vertex("K", 1300, 300);//11
+    Vertex L = new Vertex("L", 1300, 100);//12
+
+    /* Adds the edges between the vertices. All this does is assign the adjacency
+       list values. */
+    Dijkstra.addEdge(C, E);
+    Dijkstra.addEdge(A, B);
+    Dijkstra.addEdge(H, L);
+    Dijkstra.addEdge(G, J);
+
+    Dijkstra.addEdge(B, C);
+    Dijkstra.addEdge(C, D);
+    Dijkstra.addEdge(C, E);
+    Dijkstra.addEdge(D, E);
+    Dijkstra.addEdge(D, F);
+    Dijkstra.addEdge(F, E);
+    Dijkstra.addEdge(F, G);
+    Dijkstra.addEdge(E, G);
+    Dijkstra.addEdge(F, H);
+    Dijkstra.addEdge(G, H);
+    Dijkstra.addEdge(H, I);
+    Dijkstra.addEdge(I, J);
+    Dijkstra.addEdge(J, K);
+    Dijkstra.addEdge(K, L);
+
+    Dijkstra d = new Dijkstra();
+
+    d.dijkstra(A);
+
+    /* Prints the adjacency lists of each node. */
+//    System.out.println(A.adjacencyList);
+//    System.out.println(B.adjacencyList);
+//    System.out.println(C.adjacencyList);
+//    System.out.println(D.adjacencyList);
+//    System.out.println(E.adjacencyList);
+//    System.out.println(F.adjacencyList);
+//    System.out.println(G.adjacencyList);
+//    System.out.println(H.adjacencyList);
+//    System.out.println(I.adjacencyList);
+//    System.out.println(J.adjacencyList);
+//    System.out.println(K.adjacencyList);
+//    System.out.println(L.adjacencyList);
+    Simulator.redPath = d.getDijkstraPath(L);
+    Simulator.bluePath = d.getDijkstraPath(L);
   }
 
   //====================== ACCESSORS/MUTATORS ============================//
