@@ -41,9 +41,11 @@ public class NetworkUtils {
   public static final int BLUE_SEQ_NO = getRandomHexInt();
   public static final int RED_ACK_NO = getRandomHexInt(); // Should this be related to SEQ?
   public static final int BLUE_ACK_NO = getRandomHexInt();
+  public static int RED_CHECKSUM = 0;
+  public static int BLUE_CHECKSUM = 0;
 
   /* Flags set for reserved section of TCP header (2 bytes). */
-  private static final int HLEN = 12 << 12;
+  private static final int HLEN = 0b000001100 << 12;
   private static final int RESERVED = 0 << 6;
   private static final int URG_BIT = 0 << 5;
   private static final int ACK_BIT = 0 << 4;
@@ -52,7 +54,7 @@ public class NetworkUtils {
   private static final int RST_BIT = 0 << 1;
   private static final int FIN_BIT = 0;
 
-  public static final short FLAGS = (short) (HLEN | RESERVED | URG_BIT | ACK_BIT
+  public static final int FLAGS = (HLEN | RESERVED | URG_BIT | ACK_BIT
           | PSH_BIT | PST_BIT | RST_BIT | FIN_BIT);
 
   public static final short WIN_SIZE = 0xff;
@@ -91,6 +93,48 @@ public class NetworkUtils {
   public static int getRandomHexInt() {
     return StdOps.randomInt(0, Integer.MAX_VALUE - 1);
   }
+  
+  public static int xorHexString(String hexOne, String hexTwo) {
+    if (hexOne.length() != hexTwo.length()) {
+      return -1;
+    }
+    
+    int checksum = 0;
+    
+    for (int i = 0; i < hexOne.length(); i++) {
+      int n1 = Integer.parseInt("" + hexOne.charAt(i), 16);
+      int n2 = Integer.parseInt("" + hexTwo.charAt(i), 16);
+      
+      checksum += n1 ^ n2;
+    }
+    
+    return checksum;
+  }
+
+  /**
+   * Computes the checksum of a HEX string. The resulting checksum 
+   * is returned as an integer truncated to 16 bits.
+   * 
+   * @param hexString
+   * @return 
+   */
+  public static int checksumHexString(String hexString) {
+    if (hexString.length() < 2) {
+      throw new IllegalArgumentException("Your hex string should be at least one byte long!");
+    }
+
+    int checksum = 0;
+
+    for (int i = 0; i < hexString.length(); i += 2) {
+      // Look two bytes ahead at a time.
+      int b1 = Integer.parseInt("" + hexString.charAt(i), 16);
+      int b2 = Integer.parseInt("" + hexString.charAt(i + 1), 16);
+
+      checksum += b1 + b2;
+    }
+
+    return ~checksum & 0xffff;
+  }
 
   /**
    * Converts an ASCII string into its corresponding hex value.
@@ -108,5 +152,43 @@ public class NetworkUtils {
     }
 
     return hex.toString();
+  }
+
+  /**
+   * Converts an ASCII string into its corresponding binary value.
+   *
+   * @param ascii String of ascii characters.
+   * @return new String with binary codes of chars.
+   */
+  public static String convertASCIIToBinary(String ascii) {
+    StringBuilder hex = new StringBuilder();
+
+    for (int i = 0; i < ascii.length(); i++) {
+      int code = (int) ascii.charAt(i);
+      String hexValue = Integer.toBinaryString(code);
+      hex.append(hexValue);
+    }
+
+    return hex.toString();
+  }
+
+  /**
+   * Converts a binary String into a byte array representation.
+   *
+   * @param binary
+   * @return
+   */
+  public static byte[] convertBinaryStringToByteArray(String binary) {
+    byte[] b = new byte[binary.length()];
+
+    for (int i = 0; i < binary.length(); i++) {
+      b[i] = Byte.parseByte("" + binary.charAt(i));
+    }
+
+    return b;
+  }
+  
+  public static String convertToBinaryStr(int n, int len) {
+    return String.format("%" + len + "s", Integer.toBinaryString(n)).replaceAll(" ", "0");
   }
 }

@@ -30,6 +30,56 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.view;
 
+import com.joshuacrotts.uncg.NetworkUtils;
+import com.joshuacrotts.uncg.model.Ball;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
 public class TransportLayerPanel {
-  
+
+  public static void openTransportPanel(Ball ball) {
+    if (ball.getColor() == Color.RED) {
+      String msg = "PSEUDOHEADER:"
+              + "\n\nSource IP: " + Integer.toHexString(NetworkUtils.SOURCE_IP)
+              + "\nDestination IP: " + Integer.toHexString(NetworkUtils.DESTINATION_IP)
+              + "\nAll Zeroes: " + "0000"
+              + "\nProtocol: " + Integer.toHexString(NetworkUtils.PROTOCOL)
+              + "\nTCP Length (Hex): " + Integer.toHexString(ball.getNetworkData().tcpLength)
+              + "\n\n"
+              + "HEADER:"
+              + "\nSource Port: " + Integer.toHexString(NetworkUtils.SOURCE_PORT)
+              + "\nDestination Port: " + Integer.toHexString(NetworkUtils.DESTINATION_PORT)
+              + "\nSequence Number: " + Integer.toHexString(NetworkUtils.RED_SEQ_NO)
+              + "\nAcknowledgement Number: " + Integer.toHexString(NetworkUtils.RED_ACK_NO)
+              + "\nFlags: " + Integer.toHexString(NetworkUtils.FLAGS)
+              + "\nWindow Size (Hex): " + Integer.toHexString(NetworkUtils.WIN_SIZE)
+              + "\nChecksum: " + Integer.toHexString(NetworkUtils.RED_CHECKSUM)
+              + "\nUrgent Ptr: " + Integer.toHexString(NetworkUtils.URG_PTR)
+              + "\n\nDATA:"
+              + "\n" + ball.getNetworkData().message;
+
+      JOptionPane.showMessageDialog(null, msg, "Red Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+      String msg = "PSEUDOHEADER: "
+              + "\n\nSource IP: " + Integer.toHexString(NetworkUtils.SOURCE_IP)
+              + "\nDestination IP: " + Integer.toHexString(NetworkUtils.DESTINATION_IP)
+              + "\nAll Zeroes: " + "0000"
+              + "\nProtocol: " + Integer.toHexString(NetworkUtils.PROTOCOL)
+              + "\nTCP Length (Hex): " + Integer.toHexString(ball.getNetworkData().tcpLength)
+              + "\n\n"
+              + "HEADER:"
+              + "\nSource Port: " + Integer.toHexString(NetworkUtils.SOURCE_PORT)
+              + "\nDestination Port: " + Integer.toHexString(NetworkUtils.DESTINATION_PORT)
+              + "\nSequence Number: " + Integer.toHexString(NetworkUtils.BLUE_SEQ_NO)
+              + "\nAcknowledgement Number: " + Integer.toHexString(NetworkUtils.BLUE_ACK_NO)
+              + "\nFlags: " + Integer.toHexString(NetworkUtils.FLAGS)
+              + "\nWindow Size (Hex): " + Integer.toHexString(NetworkUtils.WIN_SIZE)
+              + "\nChecksum: " + Integer.toHexString(NetworkUtils.BLUE_CHECKSUM)
+              + "\nUrgent Ptr: " + Integer.toHexString(NetworkUtils.URG_PTR)
+              + "\n\nDATA:"
+              + "\n" + ball.getNetworkData().message;
+      
+      JOptionPane.showMessageDialog(null, msg, "Blue Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
+    }
+  }
 }

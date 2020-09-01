@@ -331,64 +331,26 @@ public class Simulator extends JPanel {
      * Instantiates the vertices with a string ID (just for naming), and
      * position.
      */
-    Vertex A = new Vertex("A", 100, 100);//1
-    Vertex AA = new Vertex("AA", 150, 400);//1A
-
-    Vertex B = new Vertex("B", 100, 600);//2
-    Vertex BB = new Vertex("BB", 500, 200);//1B
-    Vertex CC = new Vertex("CC", 1100, 300);//1C
-    Vertex C = new Vertex("C", 500, 600);//3
-    Vertex D = new Vertex("D", 600, 500);//4
-    Vertex E = new Vertex("E", 600, 700);//5
-    Vertex F = new Vertex("F", 850, 500);//6
-    Vertex G = new Vertex("G", 850, 700);//7
-    Vertex H = new Vertex("H", 1000, 600);//8
-    Vertex I = new Vertex("I", 1300, 600);//19
-    Vertex J = new Vertex("J", 1300, 450);//10
-    Vertex K = new Vertex("K", 1300, 300);//11
-    Vertex L = new Vertex("L", 1300, 100);//12
-
+    Vertex start = new Vertex("S", 100, 100); // 1
+    Vertex H1 = new Vertex("H1", 100, 600);//1
+    Vertex R1 = new Vertex("R1", 250, 600);//2
+    Vertex R2 = new Vertex("R2", 1116, 600);//3
+    Vertex H2 = new Vertex("H2", 1266, 600);//4
+    Vertex end = new Vertex("F", 1266, 100);//5
     /*
      * Adds the edges between the vertices. All this does is assign the
      * adjacency list values.
      */
-    Dijkstra.addEdge(C, E);
-    Dijkstra.addEdge(A, B);
-    Dijkstra.addEdge(C, AA);
-    Dijkstra.addEdge(B, AA);
-    Dijkstra.addEdge(AA, BB);
-    Dijkstra.addEdge(AA, CC);
-    Dijkstra.addEdge(H, L);
-    Dijkstra.addEdge(D, AA);
-    Dijkstra.addEdge(AA, C);
-    Dijkstra.addEdge(G, J);
-    Dijkstra.addEdge(D, E);
-    Dijkstra.addEdge(E, BB);
-    Dijkstra.addEdge(BB, H);
-    Dijkstra.addEdge(J, CC);
-    Dijkstra.addEdge(CC, K);
-    Dijkstra.addEdge(CC, L);
-    Dijkstra.addEdge(BB, CC);
-    Dijkstra.addEdge(H, CC);
-    Dijkstra.addEdge(B, C);
-    Dijkstra.addEdge(C, D);
-    Dijkstra.addEdge(C, E);
-    Dijkstra.addEdge(D, E);
-    Dijkstra.addEdge(D, F);
-    Dijkstra.addEdge(B, D);
-    Dijkstra.addEdge(F, E);
-    Dijkstra.addEdge(F, G);
-    Dijkstra.addEdge(E, G);
-    Dijkstra.addEdge(F, H);
-    Dijkstra.addEdge(G, H);
-    Dijkstra.addEdge(H, I);
-    Dijkstra.addEdge(I, J);
-    Dijkstra.addEdge(J, K);
-    Dijkstra.addEdge(K, L);
+    
+    Dijkstra.addEdge(start, H1);
+    Dijkstra.addEdge(H1, R1);
+    Dijkstra.addEdge(R1, R2);
+    Dijkstra.addEdge(R2, H2);
+    Dijkstra.addEdge(H2, end);
 
     Dijkstra d = new Dijkstra();
 
-    d.dijkstra(A);
+    d.dijkstra(start);
 
     /*
      * Prints the adjacency lists of each node.
@@ -405,8 +367,8 @@ public class Simulator extends JPanel {
 //    System.out.println(J.adjacencyList);
 //    System.out.println(K.adjacencyList);
 //    System.out.println(L.adjacencyList);
-    Simulator.redPath = d.getDijkstraPath(L);
-    Simulator.bluePath = d.getDijkstraPath(L);
+    Simulator.redPath = d.getDijkstraPath(end);
+    Simulator.bluePath = d.getDijkstraPath(end);
   }
 
   /**

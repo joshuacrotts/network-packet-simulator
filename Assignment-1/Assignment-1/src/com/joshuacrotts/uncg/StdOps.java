@@ -85,7 +85,6 @@ public abstract class StdOps {
 
     do {
       n = StdOps.randomDouble(min, max);
-
     } while ((n < min || n > minUpperBound) && (n < maxLowerBound || n > max));
 
     return n;

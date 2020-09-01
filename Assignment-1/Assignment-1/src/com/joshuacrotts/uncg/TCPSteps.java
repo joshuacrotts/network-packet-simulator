@@ -35,6 +35,7 @@ import com.joshuacrotts.uncg.model.DestinationHost;
 import com.joshuacrotts.uncg.model.SourceHost;
 import com.joshuacrotts.uncg.model.TransportLayer;
 import com.joshuacrotts.uncg.view.NetworkBackground;
+import java.awt.Color;
 
 public class TCPSteps {
 
@@ -51,16 +52,14 @@ public class TCPSteps {
   }
 
   /**
-   * 
-   * @param ball 
+   *
+   * @param ball
    */
   public void checkTCPSteps(Ball ball) {
-    if (this.source.getTransport().isRedActive() && !this.hasTransportRed) {
+    if (this.source.getTransport().isRedActive() && !this.hasTransportRed & ball.getColor() == Color.RED) {
       TransportLayer.transport(ball);
       this.hasTransportRed = true;
-    }
-
-    if (this.source.getTransport().isBlueActive() && !this.hasTransportBlue) {
+    } else if (this.source.getTransport().isBlueActive() && !this.hasTransportBlue && ball.getColor() == Color.BLUE) {
       TransportLayer.transport(ball);
       this.hasTransportBlue = true;
     }

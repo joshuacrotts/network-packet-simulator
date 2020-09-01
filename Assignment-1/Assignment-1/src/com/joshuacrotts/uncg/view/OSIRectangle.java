@@ -78,11 +78,21 @@ public abstract class OSIRectangle extends Rectangle {
    * @param ball
    */
   public void updateOSIRectangle(Ball ball) {
-    if (ball.getY() >= this.y) {
-      if (ball.getColor() == Color.RED) {
-        this.isRedActive = true;
-      } else if (ball.getColor() == Color.BLUE) {
-        this.isBlueActive = ball.getColor() == Color.BLUE;
+    if (this.hostType == HostType.SOURCE) {
+      if (ball.getY() >= this.y) {
+        if (ball.getColor() == Color.RED) {
+          this.isRedActive = true;
+        } else if (ball.getColor() == Color.BLUE) {
+          this.isBlueActive = ball.getColor() == Color.BLUE;
+        }
+      }
+    } else {
+      if (ball.getY() <= this.y + RECT_HEIGHT) {
+        if (ball.getColor() == Color.RED) {
+          this.isRedActive = true;
+        } else if (ball.getColor() == Color.BLUE) {
+          this.isBlueActive = ball.getColor() == Color.BLUE;
+        }
       }
     }
   }
@@ -110,7 +120,7 @@ public abstract class OSIRectangle extends Rectangle {
 
     g2.drawString(this.osiType.toString(), textX, textY);
   }
-  
+
   /**
    *
    */

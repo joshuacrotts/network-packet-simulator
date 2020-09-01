@@ -35,6 +35,8 @@ import javax.swing.JOptionPane;
 public class NetworkData {
 
   public String message;
+  public String frame;
+  public int tcpLength;
 
   public NetworkData(String message) {
     if (message == null || message.isEmpty()) {
