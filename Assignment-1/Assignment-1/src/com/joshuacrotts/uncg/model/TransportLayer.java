@@ -44,12 +44,12 @@ public class TransportLayer {
   public static void transport(Ball ball) {
     NetworkData data = ball.getNetworkData();
 
-    /* First, convert the data into binary format. */
-    String binaryMsg = NetworkUtils.convertASCIIToBinary(data.message);
-
-    /* Now, pad the data to make sure it is a multiple of four in length. */
-    String paddedMsg = binaryMsg;
-    while (paddedMsg.length() % 16 != 0) {
+    /* First, convert the data into hex format. */
+    String hexMsg = NetworkUtils.convertASCIIToHex(data.message);
+    
+    /* Now, pad the data to make sure it is a multiple of four (16 bits) in length. */
+    String paddedMsg = hexMsg;
+    while (paddedMsg.length() % 4 != 0) {
       paddedMsg += "0";
     }
 
@@ -58,7 +58,7 @@ public class TransportLayer {
     String frame = "";
 
     // Forty bytes is the size of the TCP header with pseudoheader.
-    int tcpLen = 18 + (paddedMsg.length() >> 2);
+    int tcpLen = 20 + (paddedMsg.length() >> 2);
     pseudoHeader = buildPseudoHeader(NetworkUtils.SOURCE_IP, NetworkUtils.DESTINATION_IP, NetworkUtils.PROTOCOL, tcpLen);
     
     int sqNo = ball.getColor() == Color.RED ? NetworkUtils.RED_SEQ_NO : NetworkUtils.BLUE_SEQ_NO;
@@ -68,7 +68,7 @@ public class TransportLayer {
     tcpHeader = buildHeader(NetworkUtils.SOURCE_PORT, NetworkUtils.DESTINATION_PORT, 
             sqNo, ackNo, NetworkUtils.FLAGS, NetworkUtils.WIN_SIZE, -1, NetworkUtils.URG_PTR);
     frame = pseudoHeader + tcpHeader + paddedMsg;
-
+    
     int checksum = NetworkUtils.checksumHexString(frame);
 
     // Now calculate the REAL header.
@@ -97,11 +97,11 @@ public class TransportLayer {
    * @return 
    */
   private static String buildPseudoHeader(int srcIP, int destIP, int protocol, int tcpLen) {
-    return NetworkUtils.convertToBinaryStr(srcIP, 32)
-            + NetworkUtils.convertToBinaryStr(destIP, 32)
-            + "00000000"
-            + NetworkUtils.convertToBinaryStr(protocol, 8)
-            + NetworkUtils.convertToBinaryStr(tcpLen, 10);
+    return NetworkUtils.convertToHexStr(srcIP, 8)
+            + NetworkUtils.convertToHexStr(destIP, 8)
+            + "00" // Zeroes for this section.
+            + NetworkUtils.convertToHexStr(protocol, 2)
+            + NetworkUtils.convertToHexStr(tcpLen, 4);
   }
 
   /**
@@ -117,13 +117,13 @@ public class TransportLayer {
    * @return 
    */
   private static String buildHeader(int srcPort, int destPort, int seq, int ack, int flags, int winSize, int checksum, int urgPtr) {
-    return NetworkUtils.convertToBinaryStr(srcPort, 16)
-            + NetworkUtils.convertToBinaryStr(destPort, 16)
-            + NetworkUtils.convertToBinaryStr(seq, 32)
-            + NetworkUtils.convertToBinaryStr(ack, 32)
-            + NetworkUtils.convertToBinaryStr(flags, 16)
-            + NetworkUtils.convertToBinaryStr(winSize, 16) 
-            + NetworkUtils.convertToBinaryStr(checksum == -1 ? 0 : checksum, 16)
-            + NetworkUtils.convertToBinaryStr(urgPtr, 16);
+    return NetworkUtils.convertToHexStr(srcPort, 4)
+            + NetworkUtils.convertToHexStr(destPort, 4)
+            + NetworkUtils.convertToHexStr(seq, 8)
+            + NetworkUtils.convertToHexStr(ack, 8)
+            + NetworkUtils.convertToHexStr(flags, 4)
+            + NetworkUtils.convertToHexStr(winSize, 4) 
+            + ((checksum == -1) ? "" : NetworkUtils.convertToHexStr(checksum, 4))
+            + NetworkUtils.convertToHexStr(urgPtr, 4);
   }
 }
