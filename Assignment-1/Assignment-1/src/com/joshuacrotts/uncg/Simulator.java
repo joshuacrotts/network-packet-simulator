@@ -37,6 +37,7 @@ import com.joshuacrotts.uncg.model.Ball;
 import com.joshuacrotts.uncg.model.MouseModel;
 import com.joshuacrotts.uncg.model.PauseButton;
 import com.joshuacrotts.uncg.model.ResumeButton;
+import com.joshuacrotts.uncg.model.Router;
 import com.joshuacrotts.uncg.model.StopButton;
 import com.joshuacrotts.uncg.model.UIButton;
 import com.joshuacrotts.uncg.view.NetworkBackground;
@@ -46,6 +47,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -95,20 +98,27 @@ public class Simulator extends JPanel {
    */
   private static Stack<Vertex> redPath;
   private static Stack<Vertex> bluePath;
+  private final List<Router> routers;
 
   public Simulator() {
+    // Creates the routers and initializes Dijkstra's path.
+    this.routers = new LinkedList<>();
     this.initDijkstraPaths();
 
+    // Creates the three status buttons.
     this.pauseButton = new PauseButton(this);
     this.resumeButton = new ResumeButton(this);
     this.stopButton = new StopButton(this);
 
+    // Adds the three buttons to the parent panel.
     super.add(this.pauseButton);
     super.add(this.resumeButton);
     super.add(this.stopButton);
 
+    // Opens the dialog box.
     this.promptMessageInput();
 
+    // Constructs the JFrame with the associated properties.
     this.parentFrame = new JFrame(TITLE);
     this.parentFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
     this.parentFrame.setMaximumSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -119,13 +129,14 @@ public class Simulator extends JPanel {
     this.parentFrame.pack();
     this.parentFrame.setLocationRelativeTo(null);
     this.parentFrame.setVisible(true);
+    
+    // Adds the Mouse to the panel.
     this.mouse = new MouseModel();
-    super.addMouseListener(mouse);
-    super.addMouseMotionListener(mouse);
+    super.addMouseListener(this.mouse);
+    super.addMouseMotionListener(this.mouse);
 
     this.osiModel = new NetworkBackground(this);
     this.tcpSteps = new TCPSteps(this.osiModel);
-
   }
 
   /**
@@ -164,6 +175,7 @@ public class Simulator extends JPanel {
     this.drawBackground(g2);
     this.osiModel.drawBackground(g2);
     this.drawDijkstra(g2);
+    this.drawRouters(g2);
     this.drawBalls(g2);
   }
 
@@ -184,8 +196,8 @@ public class Simulator extends JPanel {
         /*
          * Checks the progress of the TCP algorithm.
          */
-        this.tcpSteps.checkTCPSteps(redBall);
-        this.tcpSteps.checkTCPSteps(blueBall);
+        this.tcpSteps.checkTCPSteps(this.redBall);
+        this.tcpSteps.checkTCPSteps(this.blueBall);
 
         /*
          * Redraws the JPanel.
@@ -324,6 +336,15 @@ public class Simulator extends JPanel {
   }
 
   /**
+   * @param g2 
+   */
+  private void drawRouters(Graphics2D g2) {
+    this.routers.forEach((r) -> {
+      r.drawRouter(g2);
+    });
+  }
+  
+  /**
    *
    */
   private void initDijkstraPaths() {
@@ -341,7 +362,6 @@ public class Simulator extends JPanel {
      * Adds the edges between the vertices. All this does is assign the
      * adjacency list values.
      */
-    
     Dijkstra.addEdge(start, H1);
     Dijkstra.addEdge(H1, R1);
     Dijkstra.addEdge(R1, R2);

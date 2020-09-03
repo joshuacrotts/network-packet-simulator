@@ -2,7 +2,7 @@ package com.joshuacrotts.uncg;
 
 import com.joshuacrotts.uncg.dijkstra.Dijkstra;
 import com.joshuacrotts.uncg.dijkstra.Vertex;
-import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -61,10 +61,10 @@ public class DijkstraTest {
 //    System.out.println(J.adjacencyList);
 //    System.out.println(K.adjacencyList);
 //    System.out.println(L.adjacencyList);
-    List<Vertex> p = d.getDijkstraPath(L);
-
-    for (Vertex v : p) {
-      System.out.println(v);
+    Stack<Vertex> p = d.getDijkstraPath(L);
+    
+    while(!p.isEmpty()) {
+      System.out.println(p.pop());
     }
   }
 }
