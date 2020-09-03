@@ -129,7 +129,7 @@ public class Simulator extends JPanel {
     this.parentFrame.pack();
     this.parentFrame.setLocationRelativeTo(null);
     this.parentFrame.setVisible(true);
-    
+
     // Adds the Mouse to the panel.
     this.mouse = new MouseModel();
     super.addMouseListener(this.mouse);
@@ -336,14 +336,14 @@ public class Simulator extends JPanel {
   }
 
   /**
-   * @param g2 
+   * @param g2
    */
   private void drawRouters(Graphics2D g2) {
     this.routers.forEach((r) -> {
       r.drawRouter(g2);
     });
   }
-  
+
   /**
    *
    */
@@ -358,6 +358,10 @@ public class Simulator extends JPanel {
     Vertex R2 = new Vertex("R2", 1116, 600);//3
     Vertex H2 = new Vertex("H2", 1266, 600);//4
     Vertex end = new Vertex("F", 1266, 100);//5
+
+    this.routers.add(new Router(R1, this));
+    this.routers.add(new Router(R2, this));
+
     /*
      * Adds the edges between the vertices. All this does is assign the
      * adjacency list values.
