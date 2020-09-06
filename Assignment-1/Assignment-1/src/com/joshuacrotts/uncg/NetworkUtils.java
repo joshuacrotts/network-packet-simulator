@@ -242,7 +242,7 @@ public class NetworkUtils {
    * @return
    */
   public static String convertToHexStr(int n, int pad) {
-    return String.format("%" + pad + "s", Integer.toHexString(n)).replaceAll(" ", "0");
+    return String.format("%" + pad + "s", Integer.toHexString(n)).replaceAll(" ", "0").toUpperCase();
   }
 
   /**
@@ -258,7 +258,7 @@ public class NetworkUtils {
       padding.append("0");
     }
 
-    return padding.append(s).toString();
+    return padding.append(s).toString().toUpperCase();
   }
   
   /**
