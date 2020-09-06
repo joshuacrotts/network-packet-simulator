@@ -30,9 +30,11 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
+import com.joshuacrotts.uncg.NetworkUtils;
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.StdOps;
 import com.joshuacrotts.uncg.dijkstra.Vertex;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -43,11 +45,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
-/**
- *
- * @author joshuacrotts
- */
 public class Router implements MouseListener {
 
   // The parent simulator is passed so we can add the MouseListener to the panel.
@@ -60,6 +60,8 @@ public class Router implements MouseListener {
   // Dimension information.
   private static final int ROUTER_WIDTH = 80;
   private static final int ROUTER_HEIGHT = 45;
+
+  private boolean active;
 
   public Router(Vertex parent, Simulator simulator) {
     this.parentVertex = parent;
@@ -76,11 +78,30 @@ public class Router implements MouseListener {
   }
 
   /**
+   * 
+   */
+  public void updateRouter() {
+    // Check to see if we're close to the router (coordinates).
+    double blueX = this.simulator.getBlueBall().getX();
+    double blueY = this.simulator.getBlueBall().getY();
+    double rX = this.parentVertex.getX();
+    double rY = this.parentVertex.getY();
+    int threshold = 5;
+    
+    boolean isXClose = StdOps.isDoubleEqual(blueX, rX, threshold);
+    boolean isYClose = StdOps.isDoubleEqual(blueY, rY, threshold);
+    
+    if (!this.active && isXClose && isYClose) {
+      this.active = true;
+    }
+  }
+
+  /**
    *
    * @param g2
    */
   public void drawRouter(Graphics2D g2) {
-    g2.drawImage(this.routerImage, 
+    g2.drawImage(this.routerImage,
             this.parentVertex.getX() - ROUTER_WIDTH / 2,
             this.parentVertex.getY(), ROUTER_WIDTH,
             ROUTER_HEIGHT, null);
@@ -92,7 +113,13 @@ public class Router implements MouseListener {
             this.parentVertex.getX() - ROUTER_WIDTH / 2,
             this.parentVertex.getY(), ROUTER_WIDTH, ROUTER_HEIGHT)) {
       this.simulator.setPaused(true);
-      JOptionPane.showMessageDialog(this.simulator, "Router " + this.parentVertex.getID());
+
+      if (this.active) {
+        String data = this.simulator.getBlueBall().getNetworkData().frame;
+        openRouterJOptionPane(data);
+      } else {
+        JOptionPane.showMessageDialog(this.simulator, "Router " + this.parentVertex.getID());
+      }
     }
   }
 
@@ -110,5 +137,19 @@ public class Router implements MouseListener {
 
   @Override
   public void mouseExited(MouseEvent _e) {
+  }
+
+  /**
+   * 
+   * @param data 
+   */
+  private void openRouterJOptionPane(String data) {
+    JTextArea textArea = new JTextArea(NetworkUtils.convertHexStrToBinaryStr(data));
+    JScrollPane scrollPane = new JScrollPane(textArea);
+    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+    textArea.setWrapStyleWord(true);
+    scrollPane.setPreferredSize(new Dimension(250, 20));
+    JOptionPane.showMessageDialog(this.simulator, scrollPane, "Blue Ball Data: ", JOptionPane.DEFAULT_OPTION);
   }
 }

@@ -58,7 +58,6 @@ public class TransportRectangle extends OSIRectangle implements MouseListener, M
 
   @Override
   public void update() {
-    super.updateOSIRectangle(super.getSimulator().getRedBall());
     super.updateOSIRectangle(super.getSimulator().getBlueBall());
   }
 
@@ -75,12 +74,6 @@ public class TransportRectangle extends OSIRectangle implements MouseListener, M
       super.getSimulator().setPaused(true);
 
       String host = super.getHostType().toString();
-
-      if (super.isRedActive()) {
-        TransportLayerPanel.openTransportPanel(super.getSimulator().getRedBall());
-      } else {
-        JOptionPane.showMessageDialog(super.getSimulator(), "Red Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".", "Red Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
-      }
 
       if (super.isBlueActive()) {
         TransportLayerPanel.openTransportPanel(super.getSimulator().getBlueBall());

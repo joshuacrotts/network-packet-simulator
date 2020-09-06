@@ -251,7 +251,7 @@ public class NetworkUtils {
    * @param paddingCount
    * @return
    */
-  public static String toHexStringPadded(int x, int paddingCount) {
+  public static String toHexStrPadded(int x, int paddingCount) {
     String s = Integer.toHexString(x);
     StringBuilder padding = new StringBuilder();
     for (int i = s.length(); i != paddingCount; i++) {
@@ -259,5 +259,21 @@ public class NetworkUtils {
     }
 
     return padding.append(s).toString();
+  }
+  
+  /**
+   * 
+   * @param hex
+   * @return 
+   */
+  public static String convertHexStrToBinaryStr(String hex) {
+    StringBuilder binaryStr = new StringBuilder();
+    
+    for (int i = 0; i < hex.length(); i++) {
+      int hx = Integer.parseInt("" + hex.charAt(i), 16);
+      binaryStr.append(convertToBinaryStr(hx, 4));
+    }
+    
+    return binaryStr.toString();
   }
 }

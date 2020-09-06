@@ -53,16 +53,8 @@ public class NetworkBackground {
    *
    */
   public void updateBackground() {
-    if (this.simulator.getRedBall().getX() < this.simulator.getWidth() / 2) {
-      this.source.updateSource();
-    }
-
     if (this.simulator.getBlueBall().getX() < this.simulator.getWidth() / 2) {
       this.source.updateSource();
-    }
-
-    if (this.simulator.getRedBall().getX() >= this.simulator.getWidth() / 2) {
-      this.dest.updateDestination();
     }
 
     if (this.simulator.getBlueBall().getX() >= this.simulator.getWidth() / 2) {

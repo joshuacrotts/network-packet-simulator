@@ -89,7 +89,7 @@ public abstract class OSIRectangle extends Rectangle {
     } else {
       if (ball.getY() <= this.y + RECT_HEIGHT) {
         if (ball.getColor() == Color.RED) {
-          this.isRedActive = true;
+          //this.isRedActive = true;
         } else if (ball.getColor() == Color.BLUE) {
           this.isBlueActive = ball.getColor() == Color.BLUE;
         }

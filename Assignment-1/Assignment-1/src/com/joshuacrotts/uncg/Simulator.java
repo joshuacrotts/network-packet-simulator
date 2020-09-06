@@ -155,7 +155,7 @@ public class Simulator extends JPanel {
    *
    */
   public void stopSimulation() {
-    if ( ! this.isRunning) {
+    if (!this.isRunning) {
       return;
     }
 
@@ -184,8 +184,7 @@ public class Simulator extends JPanel {
    */
   private void updateLoop() {
     this.timer = new Timer(FRAME_DELAY, (ActionEvent e) -> {
-      if ( ! this.isPaused) {
-        pathFindRedBall();
+      if (!this.isPaused) {
         pathFindBlueBall();
 
         /*
@@ -194,9 +193,14 @@ public class Simulator extends JPanel {
         this.osiModel.updateBackground();
 
         /*
+         * Updates the routers, if they exist.
+         */
+        this.updateRouters();
+
+        /*
          * Checks the progress of the TCP algorithm.
          */
-        this.tcpSteps.checkTCPSteps(this.redBall);
+        //this.tcpSteps.checkTCPSteps(this.redBall);
         this.tcpSteps.checkTCPSteps(this.blueBall);
 
         /*
@@ -215,7 +219,7 @@ public class Simulator extends JPanel {
    * Updates the buttons to disable/enable pause and resume buttons.
    */
   private void updateUIComponents() {
-    this.pauseButton.setEnabled( ! this.isPaused);
+    this.pauseButton.setEnabled(!this.isPaused);
     this.resumeButton.setEnabled(this.isPaused);
   }
 
@@ -227,8 +231,8 @@ public class Simulator extends JPanel {
      * Blue path dijkstra.
      */
     Vertex headTo = Simulator.redPath.peek();
-    if ( ! StdOps.isDoubleEqual(headTo.getX(), this.redBall.getX(), 2)
-            ||  ! StdOps.isDoubleEqual(headTo.getY(), this.redBall.getY(), 2)) {
+    if (!StdOps.isDoubleEqual(headTo.getX(), this.redBall.getX(), 2)
+            || !StdOps.isDoubleEqual(headTo.getY(), this.redBall.getY(), 2)) {
       this.redBall.preciseMove(headTo.getX(), headTo.getY());
     } else {
       Simulator.redPath.pop();
@@ -242,12 +246,28 @@ public class Simulator extends JPanel {
     /*
      * Blue path dijkstra.
      */
+    if (Simulator.bluePath.isEmpty()) {
+      return;
+    }
+    
     Vertex headTo = Simulator.bluePath.peek();
-    if ( ! StdOps.isDoubleEqual(headTo.getX(), this.blueBall.getX(), 2)
-            ||  ! StdOps.isDoubleEqual(headTo.getY(), this.blueBall.getY(), 2)) {
+    if (!StdOps.isDoubleEqual(headTo.getX(), this.blueBall.getX(), 2)
+            || !StdOps.isDoubleEqual(headTo.getY(), this.blueBall.getY(), 2)) {
       this.blueBall.preciseMove(headTo.getX(), headTo.getY());
     } else {
       Simulator.bluePath.pop();
+    }
+  }
+
+  /**
+   * 
+   */
+  private void updateRouters() {
+    Iterator<Router> it = this.routers.iterator();
+
+    while (it.hasNext()) {
+      Router r = it.next();
+      r.updateRouter();
     }
   }
 
@@ -265,7 +285,7 @@ public class Simulator extends JPanel {
    * @param g2
    */
   private void drawBalls(Graphics2D g2) {
-    this.redBall.drawBall(g2);
+    //this.redBall.drawBall(g2);
     this.blueBall.drawBall(g2);
   }
 
@@ -306,8 +326,8 @@ public class Simulator extends JPanel {
          */
         g2.setColor(Color.MAGENTA);
         g2.drawString(Integer.toString((int) e.distance),
-                (int) ( ( e.source.getX() + e.destination.getX() ) / 2 ),
-                (int) ( ( e.source.getY() + e.destination.getY() ) / 2 ));
+                (int) ((e.source.getX() + e.destination.getX()) / 2),
+                (int) ((e.source.getY() + e.destination.getY()) / 2));
       }
     }
   }
@@ -352,12 +372,12 @@ public class Simulator extends JPanel {
      * Instantiates the vertices with a string ID (just for naming), and
      * position.
      */
-    Vertex start = new Vertex("S", 100, 100); // 1
+    Vertex start = new Vertex("S", 100, 50); // 1
     Vertex H1 = new Vertex("H1", 100, 600);//1
     Vertex R1 = new Vertex("R1", 250, 600);//2
     Vertex R2 = new Vertex("R2", 1116, 600);//3
     Vertex H2 = new Vertex("H2", 1266, 600);//4
-    Vertex end = new Vertex("F", 1266, 100);//5
+    Vertex end = new Vertex("F", 1266, 50);//5
 
     this.routers.add(new Router(R1, this));
     this.routers.add(new Router(R2, this));
@@ -376,22 +396,7 @@ public class Simulator extends JPanel {
 
     d.dijkstra(start);
 
-    /*
-     * Prints the adjacency lists of each node.
-     */
-//    System.out.println(A.adjacencyList);
-//    System.out.println(B.adjacencyList);
-//    System.out.println(C.adjacencyList);
-//    System.out.println(D.adjacencyList);
-//    System.out.println(E.adjacencyList);
-//    System.out.println(F.adjacencyList);
-//    System.out.println(G.adjacencyList);
-//    System.out.println(H.adjacencyList);
-//    System.out.println(I.adjacencyList);
-//    System.out.println(J.adjacencyList);
-//    System.out.println(K.adjacencyList);
-//    System.out.println(L.adjacencyList);
-    Simulator.redPath = d.getDijkstraPath(end);
+    //Simulator.redPath = d.getDijkstraPath(end);
     Simulator.bluePath = d.getDijkstraPath(end);
   }
 
@@ -400,11 +405,11 @@ public class Simulator extends JPanel {
    * @return
    */
   private void promptMessageInput() {
-    String redMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for red: ", JOptionPane.QUESTION_MESSAGE);
+    //String redMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for red: ", JOptionPane.QUESTION_MESSAGE);
     String blueMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for blue: ", JOptionPane.QUESTION_MESSAGE);
-    NetworkData redData = new NetworkData(redMsg);
+    //NetworkData redData = new NetworkData(redMsg);
     NetworkData blueData = new NetworkData(blueMsg);
-    this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
+    //this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
     this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, blueData);
   }
 

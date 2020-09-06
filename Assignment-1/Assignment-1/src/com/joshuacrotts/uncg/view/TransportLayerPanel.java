@@ -38,41 +38,48 @@ import javax.swing.JOptionPane;
 
 public class TransportLayerPanel {
 
+  /**
+   * 
+   * @param ball 
+   */
   public static void openTransportPanel(Ball ball) {
     String msg = "PSEUDOHEADER: "
-            + "\n\nSource IP: " + NetworkUtils.toHexStringPadded(SOURCE_IP, 8)
-            + "\nDestination IP: " + NetworkUtils.toHexStringPadded(NetworkUtils.DESTINATION_IP, 8)
+            + "\n\nSource IP: " + NetworkUtils.toHexStrPadded(SOURCE_IP, 8)
+            + "\nDestination IP: " + NetworkUtils.toHexStrPadded(NetworkUtils.DESTINATION_IP, 8)
             + "\nAll Zeroes: " + "00"
-            + "\nProtocol: " + NetworkUtils.toHexStringPadded(NetworkUtils.PROTOCOL, 2)
-            + "\nTCP Length (Hex): " + NetworkUtils.toHexStringPadded(ball.getNetworkData().tcpLength, 4)
+            + "\nProtocol: " + NetworkUtils.toHexStrPadded(NetworkUtils.PROTOCOL, 2)
+            + "\nTCP Length (Hex): " + NetworkUtils.toHexStrPadded(ball.getNetworkData().tcpLength, 4)
             + "\n\n"
             + "HEADER:"
-            + "\nSource Port: " + NetworkUtils.toHexStringPadded(NetworkUtils.SOURCE_PORT, 4)
-            + "\nDestination Port: " + NetworkUtils.toHexStringPadded(NetworkUtils.DESTINATION_PORT, 4);
+            + "\nSource Port: " + NetworkUtils.toHexStrPadded(NetworkUtils.SOURCE_PORT, 4)
+            + "\nDestination Port: " + NetworkUtils.toHexStrPadded(NetworkUtils.DESTINATION_PORT, 4);
 
     // Append the sequence and acknowledgement number.
     if (ball.getColor() == Color.RED) {
-      msg += "\nSequence Number: " + NetworkUtils.toHexStringPadded(NetworkUtils.RED_SEQ_NO, 8)
-              + "\nAcknowledgement Number: " + NetworkUtils.toHexStringPadded(NetworkUtils.RED_ACK_NO, 8);
+      msg += "\nSequence Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.RED_SEQ_NO, 8)
+              + "\nAcknowledgement Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.RED_ACK_NO, 8);
     } else {
-      msg += "\nSequence Number: " + NetworkUtils.toHexStringPadded(NetworkUtils.BLUE_SEQ_NO, 8)
-              + "\nAcknowledgement Number: " + NetworkUtils.toHexStringPadded(NetworkUtils.BLUE_ACK_NO, 8);
+      msg += "\nSequence Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.BLUE_SEQ_NO, 8)
+              + "\nAcknowledgement Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.BLUE_ACK_NO, 8);
     }
 
-    msg += "\nFlags: " + NetworkUtils.toHexStringPadded(NetworkUtils.FLAGS, 4)
-            + "\nWindow Size (Hex): " + NetworkUtils.toHexStringPadded(NetworkUtils.WIN_SIZE, 4);
+    msg += "\nFlags: " + NetworkUtils.toHexStrPadded(NetworkUtils.FLAGS, 4)
+            + "\nWindow Size (Hex): " + NetworkUtils.toHexStrPadded(NetworkUtils.WIN_SIZE, 4);
 
     // Append the checksum.
     if (ball.getColor() == Color.RED) {
-      msg += "\nChecksum: " + NetworkUtils.toHexStringPadded(NetworkUtils.RED_CHECKSUM, 4);
+      msg += "\nChecksum: " + NetworkUtils.toHexStrPadded(NetworkUtils.RED_CHECKSUM, 4);
     } else {
-      msg += "\nChecksum: " + NetworkUtils.toHexStringPadded(NetworkUtils.BLUE_CHECKSUM, 4);
+      msg += "\nChecksum: " + NetworkUtils.toHexStrPadded(NetworkUtils.BLUE_CHECKSUM, 4);
     }
 
-    msg += "\nUrgent Ptr: " + NetworkUtils.toHexStringPadded(NetworkUtils.URG_PTR, 4)
+    msg += "\nUrgent Ptr: " + NetworkUtils.toHexStrPadded(NetworkUtils.URG_PTR, 4)
             + "\n\nDATA:"
             + "\n" + ball.getNetworkData().message;
+    
+    // Get the color for outputting to the title.
+    String c = (ball.getColor() == Color.RED) ? "Red" : ((ball.getColor() == Color.BLUE) ? "Blue" : "NULL");
 
-    JOptionPane.showMessageDialog(null, msg, "Red Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(null, msg, c + " Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
   }
 }
