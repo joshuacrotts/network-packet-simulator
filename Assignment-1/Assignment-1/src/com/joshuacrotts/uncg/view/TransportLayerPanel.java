@@ -31,55 +31,153 @@
 package com.joshuacrotts.uncg.view;
 
 import com.joshuacrotts.uncg.NetworkUtils;
-import static com.joshuacrotts.uncg.NetworkUtils.SOURCE_IP;
 import com.joshuacrotts.uncg.model.Ball;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 public class TransportLayerPanel {
 
   /**
-   * 
-   * @param ball 
+   *
+   * @param ball
    */
   public static void openTransportPanel(Ball ball) {
-    String msg = "PSEUDOHEADER: "
-            + "\n\nSource IP: " + NetworkUtils.toHexStrPadded(SOURCE_IP, 8)
-            + "\nDestination IP: " + NetworkUtils.toHexStrPadded(NetworkUtils.DESTINATION_IP, 8)
-            + "\nAll Zeroes: " + "00"
-            + "\nProtocol: " + NetworkUtils.toHexStrPadded(NetworkUtils.PROTOCOL, 2)
-            + "\nTCP Length (Hex): " + NetworkUtils.toHexStrPadded(ball.getNetworkData().tcpLength, 4)
-            + "\n\n"
-            + "HEADER:"
-            + "\nSource Port: " + NetworkUtils.toHexStrPadded(NetworkUtils.SOURCE_PORT, 4)
-            + "\nDestination Port: " + NetworkUtils.toHexStrPadded(NetworkUtils.DESTINATION_PORT, 4);
-
-    // Append the sequence and acknowledgement number.
-    if (ball.getColor() == Color.RED) {
-      msg += "\nSequence Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.RED_SEQ_NO, 8)
-              + "\nAcknowledgement Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.RED_ACK_NO, 8);
-    } else {
-      msg += "\nSequence Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.BLUE_SEQ_NO, 8)
-              + "\nAcknowledgement Number: " + NetworkUtils.toHexStrPadded(NetworkUtils.BLUE_ACK_NO, 8);
-    }
-
-    msg += "\nFlags: " + NetworkUtils.toHexStrPadded(NetworkUtils.FLAGS, 4)
-            + "\nWindow Size (Hex): " + NetworkUtils.toHexStrPadded(NetworkUtils.WIN_SIZE, 4);
-
-    // Append the checksum.
-    if (ball.getColor() == Color.RED) {
-      msg += "\nChecksum: " + NetworkUtils.toHexStrPadded(NetworkUtils.RED_CHECKSUM, 4);
-    } else {
-      msg += "\nChecksum: " + NetworkUtils.toHexStrPadded(NetworkUtils.BLUE_CHECKSUM, 4);
-    }
-
-    msg += "\nUrgent Ptr: " + NetworkUtils.toHexStrPadded(NetworkUtils.URG_PTR, 4)
-            + "\n\nDATA:"
-            + "\n" + ball.getNetworkData().message;
-    
     // Get the color for outputting to the title.
     String c = (ball.getColor() == Color.RED) ? "Red" : ((ball.getColor() == Color.BLUE) ? "Blue" : "NULL");
 
-    JOptionPane.showMessageDialog(null, msg, c + " Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showConfirmDialog(null, createPane(ball), c + " Ball Transport Layer", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
+    //JOptionPane.showMessageDialog(null, msg, c + " Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  public static JScrollPane createPane(Ball ball) {
+    JPanel parentPanel = new JPanel();
+    parentPanel.setMaximumSize(new Dimension(300, 300));
+    parentPanel.setLayout(new GridBagLayout());
+
+    GridBagConstraints gbc = new GridBagConstraints();
+    int row = 0;
+
+    /* Pseudoheader. */
+    JLabel pseudoHeaderLabel = new JLabel("Pseudoheader Section:");
+    gbc.gridx = 0;
+    gbc.gridy = row;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.ipady = 25;
+    parentPanel.add(pseudoHeaderLabel, gbc);
+
+    // Source IP.
+    row++;
+    addNetworkViewComponent("Source IP", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(NetworkUtils.SOURCE_IP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Destination IP.
+    row++;
+    addNetworkViewComponent("Destination IP", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(NetworkUtils.DESTINATION_IP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // All Zeroes.
+    row++;
+    addNetworkViewComponent("All Zeroes", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent("00", 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Protocol.
+    row++;
+    addNetworkViewComponent("Protocol", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.PROTOCOL, 2), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    row++;
+    JLabel headerLabel = new JLabel("Header Section:");
+    gbc.gridx = 0;
+    gbc.gridy = row;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.ipady = 25;
+    parentPanel.add(headerLabel, gbc);
+
+    /* Header. */
+    // Source port.
+    row++;
+    addNetworkViewComponent("Source Port", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.SOURCE_PORT, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Destination port.
+    row++;
+    addNetworkViewComponent("Destination Port", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.DESTINATION_PORT, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Sequence and ack. numbers.
+    int seq = ball.getColor() == Color.RED ? NetworkUtils.RED_SEQ_NO : NetworkUtils.BLUE_SEQ_NO;
+    int ack = ball.getColor() == Color.RED ? NetworkUtils.RED_ACK_NO : NetworkUtils.BLUE_ACK_NO;
+    row++;
+    addNetworkViewComponent("Sequence Number", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(seq, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    row++;
+    addNetworkViewComponent("Acknowledgement Number", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(ack, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Flags.
+    row++;
+    addNetworkViewComponent("Flags", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.FLAGS, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Window Size.
+    row++;
+    addNetworkViewComponent("Window Size", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.WIN_SIZE, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Checksum.
+    int checksum = ball.getColor() == Color.RED ? NetworkUtils.RED_CHECKSUM : NetworkUtils.BLUE_CHECKSUM;
+    row++;
+    addNetworkViewComponent("Checksum", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(checksum, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Urgent pointer.
+    row++;
+    addNetworkViewComponent("Urgent Pointer", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.URG_PTR, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    row++;
+    JLabel dataLabel = new JLabel("Data Section:");
+    gbc.gridx = 0;
+    gbc.gridy = row;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.ipady = 25;
+    parentPanel.add(dataLabel, gbc);
+    
+    /* Data. */
+    row++;
+    addNetworkViewComponent("Data", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(ball.getNetworkData().message, 1, row, GridBagConstraints.EAST, parentPanel);
+
+    JScrollPane p = new JScrollPane(parentPanel);
+    return p;
+  }
+
+  /**
+   *
+   * @param text
+   * @param gridx
+   * @param gridy
+   * @param anchor
+   * @param panel
+   */
+  private static void addNetworkViewComponent(String text, int gridx, int gridy, int anchor, JPanel panel) {
+    JLabel label = new JLabel(text);
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.anchor = anchor;
+    gbc.weightx = 0.5;
+    gbc.gridx = gridx;
+    gbc.gridy = gridy;
+    panel.add(label, gbc);
   }
 }

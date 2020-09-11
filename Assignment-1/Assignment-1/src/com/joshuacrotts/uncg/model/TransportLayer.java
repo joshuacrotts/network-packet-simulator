@@ -96,9 +96,9 @@ public class TransportLayer {
    * @param tcpLen
    * @return 
    */
-  private static String buildPseudoHeader(int srcIP, int destIP, int protocol, int tcpLen) {
-    return NetworkUtils.convertToHexStr(srcIP, 8)
-            + NetworkUtils.convertToHexStr(destIP, 8)
+  private static String buildPseudoHeader(long srcIP, long destIP, int protocol, int tcpLen) {
+    return NetworkUtils.convertToHexStrLong(srcIP, 8)
+            + NetworkUtils.convertToHexStrLong(destIP, 8)
             + "00" // Zeroes for this section.
             + NetworkUtils.convertToHexStr(protocol, 2)
             + NetworkUtils.convertToHexStr(tcpLen, 4);
