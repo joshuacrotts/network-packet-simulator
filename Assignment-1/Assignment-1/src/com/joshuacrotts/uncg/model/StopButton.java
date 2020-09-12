@@ -38,7 +38,7 @@ import java.awt.event.ActionListener;
 public class StopButton extends UIButton implements ActionListener {
 
   public StopButton(Simulator simulator) {
-    super(simulator, "STOP", "/stopButton.png");
+    super(simulator, "STOP", "/res/stopButton.png");
 
     super.addActionListener(this);
   }

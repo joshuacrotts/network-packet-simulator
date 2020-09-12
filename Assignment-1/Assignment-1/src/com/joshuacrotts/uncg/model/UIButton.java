@@ -32,7 +32,11 @@ package com.joshuacrotts.uncg.model;
 
 import com.joshuacrotts.uncg.Simulator;
 import java.awt.Dimension;
-import java.net.URL;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,11 +52,17 @@ public class UIButton extends JButton {
     super(text);
 
     this.simulator = simulator;
-    URL imageURL = getClass().getResource(buttonBackgroundFile);
+    InputStream imageStream = getClass().getResourceAsStream(buttonBackgroundFile);
 
-    if (imageURL != null) {
+    if (imageStream != null) {
       /* Assigns the new button texture as a background. */
-      super.setIcon(new ImageIcon("res" + buttonBackgroundFile));
+      try {
+        super.setIcon(new ImageIcon(ImageIO.read(imageStream)));
+      } catch (IOException ex) {
+        Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
+        System.exit(1);
+      }
+
       super.setHorizontalTextPosition(JButton.CENTER);
       super.setVerticalTextPosition(JButton.CENTER);
       super.setPreferredSize(new Dimension(MAX_WIDTH, MAX_HEIGHT));
@@ -72,7 +82,6 @@ public class UIButton extends JButton {
   }
 
   //====================== ACCESSORS/MUTATORS ============================//
-  
   public Simulator getSimulator() {
     return simulator;
   }
