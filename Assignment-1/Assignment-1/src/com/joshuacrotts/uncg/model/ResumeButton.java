@@ -38,7 +38,7 @@ import java.awt.event.ActionListener;
 public class ResumeButton extends UIButton implements ActionListener {
 
   public ResumeButton(Simulator simulator) {
-    super(simulator, "RESUME", "/res/resumeButton.png");
+    super(simulator, "RESUME", "/resumeButton.png");
     
     super.addActionListener(this);
   }

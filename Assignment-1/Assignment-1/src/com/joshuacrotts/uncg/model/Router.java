@@ -68,7 +68,7 @@ public class Router implements MouseListener {
     this.simulator = simulator;
 
     try {
-      this.routerImage = ImageIO.read(Router.class.getResourceAsStream("/res/router.png"));
+      this.routerImage = ImageIO.read(Router.class.getResourceAsStream("/router.png"));
     } catch (IOException ex) {
       Logger.getLogger(Router.class.getName()).log(Level.SEVERE, null, ex);
       System.exit(1);

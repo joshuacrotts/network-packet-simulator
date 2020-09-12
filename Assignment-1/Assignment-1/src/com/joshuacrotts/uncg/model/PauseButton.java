@@ -38,7 +38,7 @@ import java.awt.event.ActionListener;
 public class PauseButton extends UIButton implements ActionListener {
 
   public PauseButton(Simulator simulator) {
-    super(simulator, "PAUSE", "/res/pauseButton.png");
+    super(simulator, "PAUSE", "/pauseButton.png");
 
     super.addActionListener(this);
   }
