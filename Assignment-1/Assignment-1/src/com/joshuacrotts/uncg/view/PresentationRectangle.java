@@ -74,8 +74,8 @@ public class PresentationRectangle extends OSIRectangle implements MouseListener
 
       String host = super.getHostType().toString();
 
-//      String redMsg = super.isRedActive() ? super.getSimulator().getRedBall().getNetworkData().message : "Red Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".";
-//      JOptionPane.showMessageDialog(super.getSimulator(), redMsg, "Red Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
+      String redMsg = super.isRedActive() ? super.getSimulator().getRedBall().getNetworkData().message : "Red Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".";
+      JOptionPane.showMessageDialog(super.getSimulator(), redMsg, "Red Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
 
       String blueMsg = super.isBlueActive() ? super.getSimulator().getBlueBall().getNetworkData().message : "Blue Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".";
       JOptionPane.showMessageDialog(super.getSimulator(), blueMsg, "Blue Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
