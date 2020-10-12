@@ -56,7 +56,7 @@ public class NetworkRectangle extends OSIRectangle implements MouseListener, Mou
 
   @Override
   public void update() {
-    //super.updateOSIRectangle(super.getSimulator().getRedBall());
+    super.updateOSIRectangle(super.getSimulator().getRedBall());
     super.updateOSIRectangle(super.getSimulator().getBlueBall());
   }
 

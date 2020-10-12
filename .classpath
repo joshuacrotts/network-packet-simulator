@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Assignment-1/Assignment-1/src"/>
+	<classpathentry kind="lib" path="Assignment-1/Assignment-1/dist/NetworkSimulatorAssignmentOne.jar"/>
+	<classpathentry kind="output" path="Assignment-1/Assignment-1/build/classes"/>
+</classpath>

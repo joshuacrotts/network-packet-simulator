@@ -185,6 +185,7 @@ public class Simulator extends JPanel {
   private void updateLoop() {
     this.timer = new Timer(FRAME_DELAY, (ActionEvent e) -> {
       if (!this.isPaused) {
+        pathFindRedBall();
         pathFindBlueBall();
 
         /*
@@ -200,7 +201,7 @@ public class Simulator extends JPanel {
         /*
          * Checks the progress of the TCP algorithm.
          */
-        //this.tcpSteps.checkTCPSteps(this.redBall);
+        this.tcpSteps.checkTCPSteps(this.redBall);
         this.tcpSteps.checkTCPSteps(this.blueBall);
 
         /*
@@ -228,8 +229,12 @@ public class Simulator extends JPanel {
    */
   private void pathFindRedBall() {
     /*
-     * Blue path dijkstra.
+     * Red path dijkstra.
      */
+    if (Simulator.redPath.isEmpty()) {
+      return;
+    }
+    
     Vertex headTo = Simulator.redPath.peek();
     if (!StdOps.isDoubleEqual(headTo.getX(), this.redBall.getX(), 2)
             || !StdOps.isDoubleEqual(headTo.getY(), this.redBall.getY(), 2)) {
@@ -285,7 +290,7 @@ public class Simulator extends JPanel {
    * @param g2
    */
   private void drawBalls(Graphics2D g2) {
-    //this.redBall.drawBall(g2);
+    this.redBall.drawBall(g2);
     this.blueBall.drawBall(g2);
   }
 
@@ -373,14 +378,18 @@ public class Simulator extends JPanel {
      * position.
      */
     Vertex start = new Vertex("S", 100, 50); // 1
-    Vertex H1 = new Vertex("H1", 100, 600);//1
-    Vertex R1 = new Vertex("R1", 250, 600);//2
-    Vertex R2 = new Vertex("R2", 1116, 600);//3
-    Vertex H2 = new Vertex("H2", 1266, 600);//4
-    Vertex end = new Vertex("F", 1266, 50);//5
+    Vertex R1 = new Vertex("R1", 250, 700);//2
+    Vertex R2 = new Vertex("R2", 1116, 700);//3
+    Vertex R3 = new Vertex("R3", 650, 500);//3
+    Vertex H1 = new Vertex("H1", 100, 700);//1
+    Vertex H2 = new Vertex("H2", 1266, 700);//
+    Vertex H3 = new Vertex("H3", 800, 500);//14
+    Vertex endDest = new Vertex("F", 1266, 50);//5
+    Vertex endMiddleDest = new Vertex("F", 800, 50);//5
 
     this.routers.add(new Router(R1, this));
     this.routers.add(new Router(R2, this));
+    this.routers.add(new Router(R3, this));
 
     /*
      * Adds the edges between the vertices. All this does is assign the
@@ -390,14 +399,17 @@ public class Simulator extends JPanel {
     Dijkstra.addEdge(H1, R1);
     Dijkstra.addEdge(R1, R2);
     Dijkstra.addEdge(R2, H2);
-    Dijkstra.addEdge(H2, end);
+    Dijkstra.addEdge(R1, R3);
+    Dijkstra.addEdge(R3, H3);
+    Dijkstra.addEdge(H3, endMiddleDest);
+    Dijkstra.addEdge(H2, endDest);
 
     Dijkstra d = new Dijkstra();
 
     d.dijkstra(start);
 
-    //Simulator.redPath = d.getDijkstraPath(end);
-    Simulator.bluePath = d.getDijkstraPath(end);
+    Simulator.redPath = d.getDijkstraPath(endMiddleDest);
+    Simulator.bluePath = d.getDijkstraPath(endDest);
   }
 
   /**
@@ -405,11 +417,11 @@ public class Simulator extends JPanel {
    * @return
    */
   private void promptMessageInput() {
-    //String redMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for red: ", JOptionPane.QUESTION_MESSAGE);
+    String redMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for red: ", JOptionPane.QUESTION_MESSAGE);
     String blueMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for blue: ", JOptionPane.QUESTION_MESSAGE);
-    //NetworkData redData = new NetworkData(redMsg);
+    NetworkData redData = new NetworkData(redMsg);
     NetworkData blueData = new NetworkData(blueMsg);
-    //this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
+    this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
     this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, blueData);
   }
 

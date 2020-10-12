@@ -149,7 +149,7 @@ public class Router implements MouseListener {
     scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
     textArea.setWrapStyleWord(true);
-    scrollPane.setPreferredSize(new Dimension(250, 20));
+    scrollPane.setPreferredSize(new Dimension(250, 40));
     JOptionPane.showMessageDialog(this.simulator, scrollPane, "Blue Ball Data: ", JOptionPane.DEFAULT_OPTION);
   }
 }

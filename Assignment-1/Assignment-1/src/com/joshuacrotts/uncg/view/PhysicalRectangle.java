@@ -55,6 +55,7 @@ public class PhysicalRectangle extends OSIRectangle implements MouseListener, Mo
 
   @Override
   public void update() {
+    super.updateOSIRectangle(super.getSimulator().getRedBall());
     super.updateOSIRectangle(super.getSimulator().getBlueBall());
   }
 

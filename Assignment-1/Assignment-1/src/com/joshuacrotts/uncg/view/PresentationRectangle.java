@@ -56,6 +56,7 @@ public class PresentationRectangle extends OSIRectangle implements MouseListener
 
   @Override
   public void update() {
+    super.updateOSIRectangle(super.getSimulator().getRedBall());
     super.updateOSIRectangle(super.getSimulator().getBlueBall());
   }
 

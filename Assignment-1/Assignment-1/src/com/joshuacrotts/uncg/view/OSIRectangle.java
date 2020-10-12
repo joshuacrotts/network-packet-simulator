@@ -86,11 +86,15 @@ public abstract class OSIRectangle extends Rectangle {
           this.isBlueActive = ball.getColor() == Color.BLUE;
         }
       }
-    } else {
+    } else if (this.hostType == HostType.MIDDLE_DESTINATION){
       if (ball.getY() <= this.y + RECT_HEIGHT) {
         if (ball.getColor() == Color.RED) {
-          //this.isRedActive = true;
-        } else if (ball.getColor() == Color.BLUE) {
+          this.isRedActive = true;
+        }
+      }
+    } else {
+      if (ball.getY() <= this.y + RECT_HEIGHT) {
+        if (ball.getColor() == Color.BLUE) {
           this.isBlueActive = ball.getColor() == Color.BLUE;
         }
       }

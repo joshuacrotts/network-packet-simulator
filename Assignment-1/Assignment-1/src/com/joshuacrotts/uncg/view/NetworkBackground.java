@@ -30,22 +30,26 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.view;
 
+import java.awt.Graphics2D;
+
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.model.DestinationHost;
+import com.joshuacrotts.uncg.model.MiddleDestinationHost;
 import com.joshuacrotts.uncg.model.SourceHost;
-import java.awt.Graphics2D;
 
 public class NetworkBackground {
 
   private final Simulator simulator;
 
   private final SourceHost source;
+  private final MiddleDestinationHost middleDest;
   private final DestinationHost dest;
 
   public NetworkBackground(Simulator simulator) {
     this.simulator = simulator;
 
     this.source = new SourceHost(simulator);
+    this.middleDest = new MiddleDestinationHost(simulator);
     this.dest = new DestinationHost(simulator);
   }
 
@@ -57,8 +61,12 @@ public class NetworkBackground {
       this.source.updateSource();
     }
 
-    if (this.simulator.getBlueBall().getX() >= this.simulator.getWidth() / 2) {
+    if (this.simulator.getBlueBall().getX() >= this.simulator.getWidth() / 1.2) {
       this.dest.updateDestination();
+    }
+    
+    if (this.simulator.getRedBall().getX() >= this.simulator.getWidth() / 3) {
+      this.middleDest.updateDestination();
     }
   }
 
@@ -68,7 +76,12 @@ public class NetworkBackground {
    */
   public void drawBackground(Graphics2D g2) {
     this.source.drawSource(g2);
+    this.middleDest.drawDestination(g2);
     this.dest.drawDestination(g2);
+  }
+  
+  public MiddleDestinationHost getMiddleDestination() {
+    return middleDest;
   }
 
   public SourceHost getSource() {

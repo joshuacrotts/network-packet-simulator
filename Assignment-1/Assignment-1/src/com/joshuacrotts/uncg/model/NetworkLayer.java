@@ -1,9 +1,7 @@
 //=============================================================================================//
-// FILENAME :       HostType.java
+// FILENAME :       NetworkLayer.java
 //
-// DESCRIPTION :    This enum is defined to differentiate the OSI rectangles between which
-//                  parent they belong to. Their respective behavior is contingent on whether
-//                  they are part of the SOURCE OSI model or the DESTINATION.
+// DESCRIPTION :
 //
 //
 // NOTES :
@@ -25,30 +23,35 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    12 Oct. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
-public enum HostType {
-  SOURCE {
-    @Override
-    public String toString() {
-      return "SOURCE";
+import com.joshuacrotts.uncg.NetworkData;
+import com.joshuacrotts.uncg.NetworkUtils;
+import java.awt.Color;
+
+public class NetworkLayer {
+
+  /**
+   * Each ball has its own respective network data.
+   *
+   * @param ball
+   */
+  public static void network(Ball ball) {
+    NetworkData data = ball.getNetworkData();
+
+    /* First, convert the data into hex format. */
+    String hexMsg = NetworkUtils.convertASCIIToHex(data.message);
+    
+    /* Now, pad the data to make sure it is a multiple of four (16 bits) in length. */
+    String paddedMsg = hexMsg;
+    while (paddedMsg.length() % 4 != 0) {
+      paddedMsg += "0";
     }
-  },
-  MIDDLE_DESTINATION {
-    @Override
-    public String toString() {
-      return "MIDDLE DESTINATION";
-    }
-  },
-  DESTINATION {
-    @Override
-    public String toString() {
-      return "DESTINATION";
-    }
+    
   }
 }
