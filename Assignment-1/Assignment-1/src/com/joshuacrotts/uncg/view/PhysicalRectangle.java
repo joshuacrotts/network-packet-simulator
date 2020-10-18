@@ -55,6 +55,7 @@ public class PhysicalRectangle extends OSIRectangle implements MouseListener, Mo
 
   @Override
   public void update() {
+    super.updateOSIRectangle(super.getSimulator().getRedBall());
     super.updateOSIRectangle(super.getSimulator().getBlueBall());
   }
 
@@ -72,6 +73,9 @@ public class PhysicalRectangle extends OSIRectangle implements MouseListener, Mo
 
       String host = super.getHostType().toString();
 
+      String redMsg = super.isBlueActive() ? super.getSimulator().getRedBall().getNetworkData().message : "Red Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".";
+      JOptionPane.showMessageDialog(super.getSimulator(), redMsg, "Red Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
+      
       String blueMsg = super.isBlueActive() ? super.getSimulator().getBlueBall().getNetworkData().message : "Blue Ball has not reached " + this.getOSIType().toString() + " Layer yet for " + host + ".";
       JOptionPane.showMessageDialog(super.getSimulator(), blueMsg, "Blue Data at " + this.getOSIType().toString() + " Layer for " + host, JOptionPane.INFORMATION_MESSAGE);
     }

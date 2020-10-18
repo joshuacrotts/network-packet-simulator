@@ -44,8 +44,8 @@ import java.awt.Graphics2D;
 
 public class DestinationHost {
 
-  private final int H_START_OFFSET = 300;
-  private final int Y_START_OFFSET = 50;
+  private final int H_START_OFFSET = 150;
+  private final int Y_START_OFFSET = 125;
 
   private final ApplicationRectangle app;
   private final DataLinkRectangle dl;
@@ -59,13 +59,13 @@ public class DestinationHost {
 
     int H_POS = simulator.getSimulatorFrameWidth() - H_START_OFFSET - OSIRectangle.RECT_WIDTH;
 
-    this.app = new ApplicationRectangle(simulator, HostType.DESTINATION, H_POS, 50);
-    this.pres = new PresentationRectangle(simulator, HostType.DESTINATION, H_POS, 110);
-    this.session = new SessionRectangle(simulator, HostType.DESTINATION, H_POS, 170);
-    this.trans = new TransportRectangle(simulator, HostType.DESTINATION, H_POS, 230);
-    this.ntwk = new NetworkRectangle(simulator, HostType.DESTINATION, H_POS, 290);
-    this.dl = new DataLinkRectangle(simulator, HostType.DESTINATION, H_POS, 350);
-    this.phys = new PhysicalRectangle(simulator, HostType.DESTINATION, H_POS, 410);
+    this.app = new ApplicationRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 50);
+    this.pres = new PresentationRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 110);
+    this.session = new SessionRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 170);
+    this.trans = new TransportRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 230);
+    this.ntwk = new NetworkRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 290);
+    this.dl = new DataLinkRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 350);
+    this.phys = new PhysicalRectangle(simulator, HostType.DESTINATION, H_POS, Y_START_OFFSET + 410);
 
     StdOps.addMouseListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
     StdOps.addMouseMotionListeners(simulator, app, pres, session, trans, ntwk, dl, phys);

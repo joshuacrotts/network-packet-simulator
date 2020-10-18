@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       SourceHost.java
+// FILENAME :       DestinationHost.java
 //
 // DESCRIPTION :
 //
@@ -30,21 +30,23 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
+import java.awt.Graphics2D;
+
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.StdOps;
 import com.joshuacrotts.uncg.view.ApplicationRectangle;
 import com.joshuacrotts.uncg.view.DataLinkRectangle;
 import com.joshuacrotts.uncg.view.NetworkRectangle;
+import com.joshuacrotts.uncg.view.OSIRectangle;
 import com.joshuacrotts.uncg.view.PhysicalRectangle;
 import com.joshuacrotts.uncg.view.PresentationRectangle;
 import com.joshuacrotts.uncg.view.SessionRectangle;
 import com.joshuacrotts.uncg.view.TransportRectangle;
-import java.awt.Graphics2D;
 
-public class SourceHost {
+public class MiddleDestinationHost {
 
-  private final int H_START_OFFSET = 150;
-  private final int Y_START_OFFSET = 125;
+  private final int H_START_OFFSET = 600;
+  private final int Y_START_OFFSET = 20;
 
   private final ApplicationRectangle app;
   private final DataLinkRectangle dl;
@@ -54,15 +56,17 @@ public class SourceHost {
   private final SessionRectangle session;
   private final TransportRectangle trans;
 
-  public SourceHost(Simulator simulator) {
+  public MiddleDestinationHost(Simulator simulator) {
 
-    this.app = new ApplicationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 50);
-    this.pres = new PresentationRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 110);
-    this.session = new SessionRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 170);
-    this.trans = new TransportRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 230);
-    this.ntwk = new NetworkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 290);
-    this.dl = new DataLinkRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 350);
-    this.phys = new PhysicalRectangle(simulator, HostType.SOURCE, H_START_OFFSET, Y_START_OFFSET + 410);
+    int H_POS = simulator.getSimulatorFrameWidth() - H_START_OFFSET - OSIRectangle.RECT_WIDTH;
+
+    this.app = new ApplicationRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 50);
+    this.pres = new PresentationRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 110);
+    this.session = new SessionRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 170);
+    this.trans = new TransportRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 230);
+    this.ntwk = new NetworkRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 290);
+    this.dl = new DataLinkRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 350);
+    this.phys = new PhysicalRectangle(simulator, HostType.MIDDLE_DESTINATION, H_POS, Y_START_OFFSET + 410);
 
     StdOps.addMouseListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
     StdOps.addMouseMotionListeners(simulator, app, pres, session, trans, ntwk, dl, phys);
@@ -71,7 +75,7 @@ public class SourceHost {
   /**
    *
    */
-  public void updateSource() {
+  public void updateDestination() {
     this.app.update();
     this.pres.update();
     this.session.update();
@@ -85,7 +89,7 @@ public class SourceHost {
    *
    * @param g2
    */
-  public void drawSource(Graphics2D g2) {
+  public void drawDestination(Graphics2D g2) {
     this.app.drawRectangle(g2);
     this.pres.drawRectangle(g2);
     this.session.drawRectangle(g2);
@@ -93,35 +97,5 @@ public class SourceHost {
     this.ntwk.drawRectangle(g2);
     this.dl.drawRectangle(g2);
     this.phys.drawRectangle(g2);
-  }
-
-  //====================== ACCESSORS/MUTATORS ============================//
-  
-  public ApplicationRectangle getApplication() {
-    return app;
-  }
-
-  public DataLinkRectangle getDataLink() {
-    return dl;
-  }
-
-  public NetworkRectangle getNetwork() {
-    return ntwk;
-  }
-
-  public PhysicalRectangle getPhysical() {
-    return phys;
-  }
-
-  public PresentationRectangle getPresentation() {
-    return pres;
-  }
-
-  public SessionRectangle getSession() {
-    return session;
-  }
-
-  public TransportRectangle getTransport() {
-    return trans;
   }
 }

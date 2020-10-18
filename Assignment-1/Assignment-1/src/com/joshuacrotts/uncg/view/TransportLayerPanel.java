@@ -53,7 +53,6 @@ public class TransportLayerPanel {
     String c = (ball.getColor() == Color.RED) ? "Red" : ((ball.getColor() == Color.BLUE) ? "Blue" : "NULL");
 
     JOptionPane.showConfirmDialog(null, createPane(ball), c + " Ball Transport Layer", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
-    //JOptionPane.showMessageDialog(null, msg, c + " Ball Transport Layer", JOptionPane.INFORMATION_MESSAGE);
   }
 
   public static JScrollPane createPane(Ball ball) {
