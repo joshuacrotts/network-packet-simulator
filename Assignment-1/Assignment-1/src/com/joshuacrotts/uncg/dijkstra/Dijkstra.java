@@ -74,6 +74,18 @@ public class Dijkstra {
    * @param src
    * @param dest 
    */
+  public static void addEdge(Vertex src, Vertex dest, double distance) {
+    Dijkstra.vertices.add(src);
+    Dijkstra.vertices.add(dest);
+
+    Edge e = new Edge(src, dest, distance);
+  }
+  
+  /**
+   * 
+   * @param src
+   * @param dest 
+   */
   public static void addEdge(Vertex src, Vertex dest) {
     Dijkstra.vertices.add(src);
     Dijkstra.vertices.add(dest);
