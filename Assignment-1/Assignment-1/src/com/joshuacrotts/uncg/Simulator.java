@@ -378,11 +378,11 @@ public class Simulator extends JPanel {
      * position.
      */
     Vertex start = new Vertex("S", 100, 50); // 1
-    Vertex R1 = new Vertex("R1", 250, 700);//2
-    Vertex R2 = new Vertex("R2", 1116, 700);//3
+    Vertex R1 = new Vertex("R1", 250, 650);//2
+    Vertex R2 = new Vertex("R2", 1116, 650);//3
     Vertex R3 = new Vertex("R3", 650, 500);//3
-    Vertex H1 = new Vertex("H1", 100, 700);//1
-    Vertex H2 = new Vertex("H2", 1266, 700);//
+    Vertex H1 = new Vertex("H1", 100, 650);//1
+    Vertex H2 = new Vertex("H2", 1266, 650);//
     Vertex H3 = new Vertex("H3", 800, 500);//14
     Vertex endDest = new Vertex("F", 1266, 50);//5
     Vertex endMiddleDest = new Vertex("F", 800, 50);//5

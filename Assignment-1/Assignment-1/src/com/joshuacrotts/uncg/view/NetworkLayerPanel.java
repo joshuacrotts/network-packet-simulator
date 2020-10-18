@@ -30,17 +30,18 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.view;
 
-import com.joshuacrotts.uncg.NetworkUtils;
-import com.joshuacrotts.uncg.model.Ball;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+
+import com.joshuacrotts.uncg.NetworkUtils;
+import com.joshuacrotts.uncg.model.Ball;
 
 public class NetworkLayerPanel {
 
@@ -62,7 +63,79 @@ public class NetworkLayerPanel {
 
     GridBagConstraints gbc = new GridBagConstraints();
     int row = 0;
+    
+    /* Pseudoheader. */
+    JLabel ipHeaderLabel = new JLabel("IP Header Section:");
+    gbc.gridx = 0;
+    gbc.gridy = row;
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.ipady = 25;
+    parentPanel.add(ipHeaderLabel, gbc);
 
+    // Version.
+    row++;
+    addNetworkViewComponent("Version", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.VERSION, 1), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // IHL.
+    row++;
+    addNetworkViewComponent("IHL", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.IHL, 1), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // TOS.
+    row++;
+    addNetworkViewComponent("Type of Service", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent("00", 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // Total Length of IP datagram.
+    int len = ball.getColor() == Color.RED ? NetworkUtils.RED_IP_LENGTH : NetworkUtils.BLUE_IP_LENGTH;
+    row++;
+    addNetworkViewComponent("Total Length", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(len, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // IP Identification.
+    row++;
+    addNetworkViewComponent("IP Identification", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.IP_IDENTIFICATION, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // Fragment Offset.
+    row++;
+    addNetworkViewComponent("Fragment", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.FRAGMENT, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // TTL.
+    row++;
+    addNetworkViewComponent("TTL", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.TTL, 2), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // Protocol.
+    row++;
+    addNetworkViewComponent("Protocol", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.PROTOCOL, 2), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    // Checksum.
+    int checksum = ball.getColor() == Color.RED ? NetworkUtils.RED_IP_CHECKSUM : NetworkUtils.BLUE_TRANSPORT_CHECKSUM;
+    row++;
+    addNetworkViewComponent("Checksum", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPadded(checksum, 4), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Source IP.
+    row++;
+    addNetworkViewComponent("Source IP", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(NetworkUtils.SOURCE_IP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+
+    // Destination IP.
+    long destIP = ball.getColor() == Color.RED ? NetworkUtils.MIDDLE_DESTINATION_IP : NetworkUtils.DESTINATION_IP;
+    row++;
+    addNetworkViewComponent("Destination IP", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(destIP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+    
+    /* Data. */
+    row++;
+    addNetworkViewComponent("Data", 0, row, GridBagConstraints.WEST, parentPanel);
+    addNetworkViewComponent(ball.getNetworkData().message, 1, row, GridBagConstraints.EAST, parentPanel);
+    
     JScrollPane p = new JScrollPane(parentPanel);
     return p;
   }

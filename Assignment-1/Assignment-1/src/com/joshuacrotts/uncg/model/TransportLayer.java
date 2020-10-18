@@ -59,7 +59,8 @@ public class TransportLayer {
 
     // Forty bytes is the size of the TCP header with pseudoheader.
     int tcpLen = 20 + (paddedMsg.length() >> 2);
-    pseudoHeader = buildPseudoHeader(NetworkUtils.SOURCE_IP, NetworkUtils.DESTINATION_IP, NetworkUtils.PROTOCOL, tcpLen);
+    long destIP = ball.getColor() == Color.RED ? NetworkUtils.MIDDLE_DESTINATION_IP : NetworkUtils.DESTINATION_IP;
+    pseudoHeader = buildPseudoHeader(NetworkUtils.SOURCE_IP, destIP, NetworkUtils.PROTOCOL, tcpLen);
     
     int sqNo = ball.getColor() == Color.RED ? NetworkUtils.RED_SEQ_NO : NetworkUtils.BLUE_SEQ_NO;
     int ackNo = ball.getColor() == Color.RED ? NetworkUtils.RED_ACK_NO : NetworkUtils.BLUE_ACK_NO;
@@ -79,13 +80,12 @@ public class TransportLayer {
     frame = tcpHeader + paddedMsg;
         
     if (ball.getColor() == Color.RED) {
-      NetworkUtils.RED_CHECKSUM = checksum;
+      NetworkUtils.RED_TRANSPORT_CHECKSUM = checksum;
     } else {
-      NetworkUtils.BLUE_CHECKSUM = checksum;
+      NetworkUtils.BLUE_TRANSPORT_CHECKSUM = checksum;
     }
     
     ball.getNetworkData().frame = frame;
-    ball.getNetworkData().tcpLength = tcpLen;
   }
 
   /**

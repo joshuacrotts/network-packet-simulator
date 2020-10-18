@@ -69,24 +69,24 @@ public class NetworkUtils {
   /**
    * * TCP Header data. **
    */
-  public static final short SOURCE_PORT = getRandomHexShort();
+  public static final short SOURCE_PORT = 0x01bb;//getRandomHexShort();
+  public static final short MIDDLE_DESTINATION_PORT = getRandomHexShort();
   public static final short DESTINATION_PORT = getRandomHexShort();
   public static final int RED_SEQ_NO = getRandomHexInt();
   public static final int BLUE_SEQ_NO = getRandomHexInt();
   public static final int RED_ACK_NO = getRandomHexInt(); // Should this be related to SEQ?
   public static final int BLUE_ACK_NO = getRandomHexInt();
-  public static int RED_CHECKSUM = 0;
-  public static int BLUE_CHECKSUM = 0;
+  public static int RED_TRANSPORT_CHECKSUM = 0;
+  public static int BLUE_TRANSPORT_CHECKSUM = 0;
+  
+  /**
+   * * IP Header data. **
+   */
+  public static int RED_IP_CHECKSUM = 0;
+  public static int BLUE_IP_CHECKSUM = 0;
+  public static int RED_IP_LENGTH = 0;
+  public static int BLUE_IP_LENGTH = 0;
 
-  /* Flags set for reserved section of TCP header (2 bytes). */
-//  private static final int HLEN = 0b000001100 << 12;
-//  private static final int RESERVED = 0 << 6;
-//  private static final int URG_BIT = 0 << 5;
-//  private static final int ACK_BIT = 0 << 4;
-//  private static final int PSH_BIT = 0 << 3;
-//  private static final int PST_BIT = 0 << 2;
-//  private static final int RST_BIT = 0 << 1;
-//  private static final int FIN_BIT = 0;
   public static final int FLAGS = 0x5010;
 
   public static final short WIN_SIZE = 0x0160;
@@ -96,6 +96,7 @@ public class NetworkUtils {
    * * PSEUDO TCP Header Data. **
    */
   public static final long SOURCE_IP = getRandomValidIP(); // 1 dword.
+  public static final long MIDDLE_DESTINATION_IP = getRandomValidIP(); // 1 dword.
   public static final long DESTINATION_IP = getRandomValidIP(); // 1 dword.
   public static final short PROTOCOL = 0x0006; // 1 unsigned byte.
   /**
@@ -105,7 +106,8 @@ public class NetworkUtils {
   public static final byte IHL = 0x05; // Min is 20 bytes, 5 DWORDS, 1 nibble.
   public static final byte SERVICE_TYPE = 0; // 1 byte.
   public static final short IP_IDENTIFICATION = getRandomHexShort(); // 1 word.
-  public static final short TTL = 255; // 1 unsigned byte.
+  public static final short FRAGMENT = 0x4000; // 1 word.
+  public static final short TTL = 80; // 1 unsigned byte.
 
   /**
    *

@@ -78,9 +78,10 @@ public class TransportLayerPanel {
     addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(NetworkUtils.SOURCE_IP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
 
     // Destination IP.
+    long destIP = ball.getColor() == Color.RED ? NetworkUtils.MIDDLE_DESTINATION_IP : NetworkUtils.DESTINATION_IP;
     row++;
     addNetworkViewComponent("Destination IP", 0, row, GridBagConstraints.WEST, parentPanel);
-    addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(NetworkUtils.DESTINATION_IP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
+    addNetworkViewComponent(NetworkUtils.toHexStrPaddedLong(destIP, 8), 1, row, GridBagConstraints.EAST, parentPanel);
 
     // All Zeroes.
     row++;
@@ -134,7 +135,7 @@ public class TransportLayerPanel {
     addNetworkViewComponent(NetworkUtils.toHexStrPadded(NetworkUtils.WIN_SIZE, 4), 1, row, GridBagConstraints.EAST, parentPanel);
 
     // Checksum.
-    int checksum = ball.getColor() == Color.RED ? NetworkUtils.RED_CHECKSUM : NetworkUtils.BLUE_CHECKSUM;
+    int checksum = ball.getColor() == Color.RED ? NetworkUtils.RED_TRANSPORT_CHECKSUM : NetworkUtils.BLUE_TRANSPORT_CHECKSUM;
     row++;
     addNetworkViewComponent("Checksum", 0, row, GridBagConstraints.WEST, parentPanel);
     addNetworkViewComponent(NetworkUtils.toHexStrPadded(checksum, 4), 1, row, GridBagConstraints.EAST, parentPanel);

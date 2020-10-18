@@ -43,15 +43,73 @@ public class NetworkLayer {
    */
   public static void network(Ball ball) {
     NetworkData data = ball.getNetworkData();
-
-    /* First, convert the data into hex format. */
-    String hexMsg = NetworkUtils.convertASCIIToHex(data.message);
     
-    /* Now, pad the data to make sure it is a multiple of four (16 bits) in length. */
-    String paddedMsg = hexMsg;
+    String paddedMsg = data.frame;
     while (paddedMsg.length() % 4 != 0) {
       paddedMsg += "0";
     }
+    
+    String ipHeader = "";
+    String frame = "";
+        
+    int networkLength = 20 + (paddedMsg.length() >> 1);
+    // Since the destination is different we have to get the correct one.
+    long destIP = ball.getColor() == Color.RED ? NetworkUtils.MIDDLE_DESTINATION_IP : NetworkUtils.DESTINATION_IP;
+    
+    // Calculate the ip header without the checksum.
+    ipHeader = buildHeader(NetworkUtils.VERSION, NetworkUtils.IHL, 0, networkLength, 
+                           NetworkUtils.IP_IDENTIFICATION, NetworkUtils.FRAGMENT, 
+                           NetworkUtils.TTL, NetworkUtils.PROTOCOL, 0, 
+                           NetworkUtils.SOURCE_IP, destIP);
+    
+    int checksum = NetworkUtils.checksumHexString(ipHeader);
+    
+    // Now compute the REAL ip header.
+    ipHeader = buildHeader(NetworkUtils.VERSION, NetworkUtils.IHL, 0, networkLength, 
+        NetworkUtils.IP_IDENTIFICATION, NetworkUtils.FRAGMENT, 
+        NetworkUtils.TTL, NetworkUtils.PROTOCOL, checksum, 
+        NetworkUtils.SOURCE_IP, destIP);
+    
+    if (ball.getColor() == Color.RED) {
+      NetworkUtils.RED_IP_CHECKSUM = checksum;
+      NetworkUtils.RED_IP_LENGTH = networkLength;
+    } else {
+      NetworkUtils.BLUE_IP_CHECKSUM = checksum;
+      NetworkUtils.BLUE_IP_LENGTH = networkLength;
+    }
+    
+    ball.getNetworkData().frame = frame;
+  }
+  
+  /**
+   * 
+   * @param version
+   * @param ihl
+   * @param tos
+   * @param networkLength
+   * @param ipIdentification
+   * @param fragment
+   * @param ttl
+   * @param protocol
+   * @param checksum
+   * @param srcIP
+   * @param destIP
+   * @return
+   */
+  private static String buildHeader (int version, int ihl, int tos, int networkLength, 
+                                     int ipIdentification, int fragment, int ttl, int protocol,
+                                     int checksum, long srcIP, long destIP) {
+    
+    return NetworkUtils.convertToHexStr(version, 1) 
+        + NetworkUtils.convertToHexStr(ihl, 1)
+        + NetworkUtils.convertToHexStr(tos, 2) 
+        + NetworkUtils.convertToHexStr(ipIdentification, 4)
+        + NetworkUtils.convertToHexStr(fragment, 4)
+        + NetworkUtils.convertToHexStr(ttl, 2)
+        + NetworkUtils.convertToHexStr(protocol, 2)
+        + NetworkUtils.convertToHexStr(checksum, 4)
+        + NetworkUtils.convertToHexStrLong(srcIP, 8)
+        + NetworkUtils.convertToHexStrLong(destIP, 8);
     
   }
 }

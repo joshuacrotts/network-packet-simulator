@@ -32,6 +32,7 @@ package com.joshuacrotts.uncg;
 
 import com.joshuacrotts.uncg.model.Ball;
 import com.joshuacrotts.uncg.model.DestinationHost;
+import com.joshuacrotts.uncg.model.NetworkLayer;
 import com.joshuacrotts.uncg.model.SourceHost;
 import com.joshuacrotts.uncg.model.TransportLayer;
 import com.joshuacrotts.uncg.view.NetworkBackground;
@@ -45,6 +46,8 @@ public class TCPSteps {
   /* Variables for determining if we need to keep activating the TCP steps or not. */
   private boolean hasTransportRed = false;
   private boolean hasTransportBlue = false;
+  private boolean hasNetworkRed = false;
+  private boolean hasNetworkBlue = false;
 
   public TCPSteps(NetworkBackground networkBackground) {
     this.source = networkBackground.getSource();
@@ -56,12 +59,20 @@ public class TCPSteps {
    * @param ball
    */
   public void checkTCPSteps(Ball ball) {
-    if (this.source.getTransport().isRedActive() && !this.hasTransportRed & ball.getColor() == Color.RED) {
+    if (this.source.getTransport().isRedActive() && !this.hasTransportRed && ball.getColor() == Color.RED) {
       TransportLayer.transport(ball);
       this.hasTransportRed = true;
     } else if (this.source.getTransport().isBlueActive() && !this.hasTransportBlue && ball.getColor() == Color.BLUE) {
       TransportLayer.transport(ball);
       this.hasTransportBlue = true;
+    }
+    
+    if (this.source.getNetwork().isRedActive() && !this.hasNetworkRed && ball.getColor() == Color.RED) {
+      NetworkLayer.network(ball);
+      this.hasNetworkRed = true;
+    } else if (this.source.getNetwork().isBlueActive() && !this.hasNetworkBlue && ball.getColor() == Color.BLUE) {
+      NetworkLayer.network(ball);
+      this.hasNetworkBlue = true;
     }
   }
 }
