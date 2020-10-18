@@ -23,6 +23,13 @@ public class Edge {
     this.distance = Edge.computeDistance(src, dest);
     src.adjacencyList.add(this);
   }
+  
+  protected Edge(Vertex src, Vertex dest, double distance) {
+    this.source = src; 
+    this.destination = dest;
+    this.distance = distance;
+    src.adjacencyList.add(this);
+  }
 
   /**
    * 
