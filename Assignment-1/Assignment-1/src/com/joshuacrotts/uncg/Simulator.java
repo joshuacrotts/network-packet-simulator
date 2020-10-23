@@ -330,7 +330,7 @@ public class Simulator extends JPanel {
          * Draws the edge weight.
          */
         g2.setColor(Color.MAGENTA);
-        g2.drawString(Integer.toString((int) e.distance),
+        g2.drawString(String.format("%.1f", e.distance),
                 (int) ((e.source.getX() + e.destination.getX()) / 2),
                 (int) ((e.source.getY() + e.destination.getY()) / 2));
       }
