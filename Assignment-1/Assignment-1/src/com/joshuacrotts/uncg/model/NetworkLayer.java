@@ -78,6 +78,8 @@ public class NetworkLayer {
       NetworkUtils.BLUE_IP_LENGTH = networkLength;
     }
     
+    frame = ipHeader + paddedMsg;
+    
     ball.getNetworkData().frame = frame;
   }
   

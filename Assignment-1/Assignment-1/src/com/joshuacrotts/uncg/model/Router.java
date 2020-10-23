@@ -137,6 +137,7 @@ public class Router implements MouseListener {
       if (this.isRedActive || this.isBlueActive) {
         if (this.isRedActive) {
           String data = this.simulator.getRedBall().getNetworkData().frame;
+          System.out.println("Data: " + data);
           openRouterJOptionPane("Red", data);
         }
         
@@ -176,7 +177,7 @@ public class Router implements MouseListener {
     scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
     textArea.setWrapStyleWord(true);
-    scrollPane.setPreferredSize(new Dimension(250, 40));
+    scrollPane.setPreferredSize(new Dimension(250, 100));
     JOptionPane.showMessageDialog(this.simulator, scrollPane, ballColor + " Ball Data: ", JOptionPane.DEFAULT_OPTION);
   }
 }
