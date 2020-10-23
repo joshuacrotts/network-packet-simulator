@@ -74,11 +74,14 @@ public class Dijkstra {
    * @param src
    * @param dest 
    */
-  public static void addEdge(Vertex src, Vertex dest, double distance) {
+  public static void addEdge(Vertex src, Vertex dest, double distance, boolean isUndirected) {
     Dijkstra.vertices.add(src);
     Dijkstra.vertices.add(dest);
 
     Edge e = new Edge(src, dest, distance);
+    if (isUndirected) {
+      e = new Edge(dest, src, distance);
+    }
   }
   
   /**
