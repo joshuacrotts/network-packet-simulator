@@ -80,7 +80,7 @@ public class Dijkstra {
 
     Edge e = new Edge(src, dest, distance);
     if (isUndirected) {
-      e = new Edge(dest, src, distance);
+      Dijkstra.addEdge(dest, src, distance, false);
     }
   }
   
@@ -89,10 +89,14 @@ public class Dijkstra {
    * @param src
    * @param dest 
    */
-  public static void addEdge(Vertex src, Vertex dest) {
+  public static void addEdge(Vertex src, Vertex dest, boolean isUndirected) {
     Dijkstra.vertices.add(src);
     Dijkstra.vertices.add(dest);
 
     Edge e = new Edge(src, dest);
+    
+    if (isUndirected) {
+      Dijkstra.addEdge(dest, src, false);
+    }
   }
 }

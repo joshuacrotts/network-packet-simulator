@@ -395,14 +395,14 @@ public class Simulator extends JPanel {
      * Adds the edges between the vertices. All this does is assign the
      * adjacency list values.
      */
-    Dijkstra.addEdge(start, H1);
-    Dijkstra.addEdge(H1, R1);
-    Dijkstra.addEdge(R1, R2);
-    Dijkstra.addEdge(R2, H2);
-    Dijkstra.addEdge(R1, R3);
-    Dijkstra.addEdge(R3, H3);
-    Dijkstra.addEdge(H3, endMiddleDest);
-    Dijkstra.addEdge(H2, endDest);
+    Dijkstra.addEdge(start, H1, false);
+    Dijkstra.addEdge(H1, R1, false);
+    Dijkstra.addEdge(R1, R2, false);
+    Dijkstra.addEdge(R2, H2, false);
+    Dijkstra.addEdge(R1, R3, false);
+    Dijkstra.addEdge(R3, H3, false);
+    Dijkstra.addEdge(H3, endMiddleDest, false);
+    Dijkstra.addEdge(H2, endDest, false);
 
     Dijkstra d = new Dijkstra();
 

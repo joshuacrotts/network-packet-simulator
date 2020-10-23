@@ -28,21 +28,20 @@ public class DijkstraTest {
 
     /* Adds the edges between the vertices. All this does is assign the adjacency
        list values. */
-    Dijkstra.addEdge(C, E);
-    Dijkstra.addEdge(A, B);
-    Dijkstra.addEdge(B, C);
-    Dijkstra.addEdge(C, D);
-    Dijkstra.addEdge(C, E);
-    Dijkstra.addEdge(D, E);
-    Dijkstra.addEdge(D, F);
-    Dijkstra.addEdge(F, E);
-    Dijkstra.addEdge(E, G);
-    Dijkstra.addEdge(F, H);
-    Dijkstra.addEdge(G, H);
-    Dijkstra.addEdge(H, I);
-    Dijkstra.addEdge(I, J);
-    Dijkstra.addEdge(J, K);
-    Dijkstra.addEdge(K, L);
+    Dijkstra.addEdge(C, E, true);
+    Dijkstra.addEdge(A, B, true);
+    Dijkstra.addEdge(B, C, true);
+    Dijkstra.addEdge(C, D, true);
+    Dijkstra.addEdge(D, E, true);
+    Dijkstra.addEdge(D, F, true);
+    Dijkstra.addEdge(F, E, true);
+    Dijkstra.addEdge(E, G, true);
+    Dijkstra.addEdge(F, H, true);
+    Dijkstra.addEdge(G, H, true);
+    Dijkstra.addEdge(H, I, true);
+    Dijkstra.addEdge(I, J, true);
+    Dijkstra.addEdge(J, K, true);
+    Dijkstra.addEdge(K, L, true);
 
     Dijkstra d = new Dijkstra();
 
