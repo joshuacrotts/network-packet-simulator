@@ -30,7 +30,6 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -49,6 +48,7 @@ import com.joshuacrotts.uncg.NetworkUtils;
 import com.joshuacrotts.uncg.Simulator;
 import com.joshuacrotts.uncg.StdOps;
 import com.joshuacrotts.uncg.dijkstra.Vertex;
+import com.joshuacrotts.uncg.view.SineWavePanel;
 
 public class Router implements MouseListener {
 
@@ -172,12 +172,10 @@ public class Router implements MouseListener {
    * @param data 
    */
   private void openRouterJOptionPane(String ballColor, String data) {
-    JTextArea textArea = new JTextArea(NetworkUtils.convertHexStrToBinaryStr(data));
-    JScrollPane scrollPane = new JScrollPane(textArea);
-    scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-    textArea.setWrapStyleWord(true);
-    scrollPane.setPreferredSize(new Dimension(250, 100));
-    JOptionPane.showMessageDialog(this.simulator, scrollPane, ballColor + " Ball Data: ", JOptionPane.DEFAULT_OPTION);
+    JScrollPane scroll = new JScrollPane(new SineWavePanel(NetworkUtils.convertHexStrToBinaryStr(data)));
+    scroll.setPreferredSize(new Dimension(800, 180));
+    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+    scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+    JOptionPane.showMessageDialog(this.simulator, scroll, ballColor + " Ball Data: ", JOptionPane.DEFAULT_OPTION);
   }
 }

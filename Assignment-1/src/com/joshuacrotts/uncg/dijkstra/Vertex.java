@@ -17,8 +17,8 @@ public class Vertex implements Comparable<Vertex> {
   protected boolean visited;
   protected double distanceFromSource = Double.MAX_VALUE;
   protected Vertex previousVertex;
-  
-  public  List<Edge> adjacencyList;
+
+  public List<Edge> adjacencyList;
 
   public Vertex(String id, int x, int y) {
     this.id = id;

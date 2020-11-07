@@ -378,37 +378,43 @@ public class Simulator extends JPanel {
      * position.
      */
     Vertex start = new Vertex("S", 100, 50); // 1
-    Vertex R1 = new Vertex("R1", 250, 650);//2
-    Vertex R2 = new Vertex("R2", 1116, 650);//3
-    Vertex R3 = new Vertex("R3", 650, 500);//3
+    Vertex R1 = new Vertex("R1", 350, 650);//2
+    Vertex R2 = new Vertex("R2", 350, 50);//3
+    Vertex R3 = new Vertex("R3", 1016, 50);//3
+    Vertex R4 = new Vertex("R4", 1016, 650);//3
+    Vertex R5 = new Vertex("R5", 683, 325);//3
     Vertex H1 = new Vertex("H1", 100, 650);//1
     Vertex H2 = new Vertex("H2", 1266, 650);//
-    Vertex H3 = new Vertex("H3", 800, 500);//14
     Vertex endDest = new Vertex("F", 1266, 50);//5
-    Vertex endMiddleDest = new Vertex("F", 800, 50);//5
 
     this.routers.add(new Router(R1, this));
     this.routers.add(new Router(R2, this));
     this.routers.add(new Router(R3, this));
+    this.routers.add(new Router(R4, this));
+    this.routers.add(new Router(R5, this));
 
     /*
      * Adds the edges between the vertices. All this does is assign the
      * adjacency list values.
      */
-    Dijkstra.addEdge(start, H1, false);
-    Dijkstra.addEdge(H1, R1, false);
-    Dijkstra.addEdge(R1, R2, false);
-    Dijkstra.addEdge(R2, H2, false);
-    Dijkstra.addEdge(R1, R3, false);
-    Dijkstra.addEdge(R3, H3, false);
-    Dijkstra.addEdge(H3, endMiddleDest, false);
-    Dijkstra.addEdge(H2, endDest, false);
+    Dijkstra.addEdge(start, H1, 0, true);
+    Dijkstra.addEdge(H1, R1, 5, true);
+    Dijkstra.addEdge(R1, R2, 3, true);
+    Dijkstra.addEdge(R1, R5, 1, true);
+    Dijkstra.addEdge(R1, R4, 15, true);
+    Dijkstra.addEdge(R2, R3, 4, true);
+    Dijkstra.addEdge(R2, R5, 1, true);
+    Dijkstra.addEdge(R3, R5, 8, true);
+    Dijkstra.addEdge(R3, R4, 7, true);
+    Dijkstra.addEdge(R5, R4, 25, true);
+    Dijkstra.addEdge(R4, H2, 3, true);
+    Dijkstra.addEdge(H2, endDest, 0, true);
 
     Dijkstra d = new Dijkstra();
 
     d.dijkstra(start);
 
-    Simulator.redPath = d.getDijkstraPath(endMiddleDest);
+    Simulator.redPath = d.getDijkstraPath(endDest);
     Simulator.bluePath = d.getDijkstraPath(endDest);
   }
 

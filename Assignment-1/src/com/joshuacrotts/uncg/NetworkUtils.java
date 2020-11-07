@@ -35,37 +35,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class NetworkUtils {
 
-//  public static final int SOURCE_PORT = 0x01bb;
-//  public static final int DESTINATION_PORT = 0xd49d;
-//  public static final int RED_SEQ_NO = 0x563959de;
-//  public static final int BLUE_SEQ_NO = 0xab2cc4bd;
-//  public static final int RED_ACK_NO = 0xd7532d3e; // Should this be related to SEQ?
-//  public static final int BLUE_ACK_NO = 0x7e935338;
-//  public static int RED_CHECKSUM = 0;
-//  public static int BLUE_CHECKSUM = 0;
-
-  /* Flags set for reserved section of TCP header (2 bytes). */
-//  private static final int HLEN = 0b000001100 << 12;
-//  private static final int RESERVED = 0 << 6;
-//  private static final int URG_BIT = 0 << 5;
-//  private static final int ACK_BIT = 0 << 4;
-//  private static final int PSH_BIT = 0 << 3;
-//  private static final int PST_BIT = 0 << 2;
-//  private static final int RST_BIT = 0 << 1;
-//  private static final int FIN_BIT = 0;
-//
-//  public static final int FLAGS = 0x5010;
-//
-//  public static final short WIN_SIZE = 0x0160;
-//  public static final short URG_PTR = 0;
-//
-//  /**
-//   * * PSEUDO TCP Header Data. **
-//   */
-//  /* Fix these as they do not follow RTC protocols (invalid address possibility. */
-//  public static final int SOURCE_IP = 0xc0a8016a; // 1 dword.
-//  public static final int DESTINATION_IP = 0x980D1117; // 1 dword.
-//  public static final short PROTOCOL = 0x0006; // 1 unsigned byte.
   /**
    * * TCP Header data. **
    */
@@ -125,6 +94,10 @@ public class NetworkUtils {
     return StdOps.randomInt(0, Integer.MAX_VALUE - 1);
   }
   
+  /**
+   * 
+   * @return
+   */
   public static long getRandomHexLong() {
     return ThreadLocalRandom.current().nextLong();
   }

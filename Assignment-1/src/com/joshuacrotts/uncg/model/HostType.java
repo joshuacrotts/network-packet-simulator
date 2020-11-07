@@ -39,12 +39,6 @@ public enum HostType {
       return "SOURCE";
     }
   },
-  MIDDLE_DESTINATION {
-    @Override
-    public String toString() {
-      return "MIDDLE DESTINATION";
-    }
-  },
   DESTINATION {
     @Override
     public String toString() {
