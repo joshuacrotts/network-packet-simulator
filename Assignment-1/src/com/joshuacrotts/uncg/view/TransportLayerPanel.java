@@ -55,6 +55,11 @@ public class TransportLayerPanel {
     JOptionPane.showConfirmDialog(null, createPane(ball), c + " Ball Transport Layer", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE);
   }
 
+  /**
+   * 
+   * @param ball
+   * @return
+   */
   public static JScrollPane createPane(Ball ball) {
     JPanel parentPanel = new JPanel();
     parentPanel.setMaximumSize(new Dimension(300, 300));

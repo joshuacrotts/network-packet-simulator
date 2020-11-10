@@ -30,17 +30,6 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg;
 
-import com.joshuacrotts.uncg.dijkstra.Dijkstra;
-import com.joshuacrotts.uncg.dijkstra.Edge;
-import com.joshuacrotts.uncg.dijkstra.Vertex;
-import com.joshuacrotts.uncg.model.Ball;
-import com.joshuacrotts.uncg.model.MouseModel;
-import com.joshuacrotts.uncg.model.PauseButton;
-import com.joshuacrotts.uncg.model.ResumeButton;
-import com.joshuacrotts.uncg.model.Router;
-import com.joshuacrotts.uncg.model.StopButton;
-import com.joshuacrotts.uncg.model.UIButton;
-import com.joshuacrotts.uncg.view.NetworkBackground;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -50,10 +39,24 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import com.joshuacrotts.uncg.dijkstra.Dijkstra;
+import com.joshuacrotts.uncg.dijkstra.Edge;
+import com.joshuacrotts.uncg.dijkstra.Vertex;
+import com.joshuacrotts.uncg.model.Ball;
+import com.joshuacrotts.uncg.model.HelpButton;
+import com.joshuacrotts.uncg.model.MouseModel;
+import com.joshuacrotts.uncg.model.PauseButton;
+import com.joshuacrotts.uncg.model.ResumeButton;
+import com.joshuacrotts.uncg.model.Router;
+import com.joshuacrotts.uncg.model.StopButton;
+import com.joshuacrotts.uncg.model.UIButton;
+import com.joshuacrotts.uncg.view.NetworkBackground;
 
 public class Simulator extends JPanel {
 
@@ -70,6 +73,7 @@ public class Simulator extends JPanel {
   private final UIButton pauseButton;
   private final UIButton resumeButton;
   private final UIButton stopButton;
+  private final UIButton helpButton;
   private final NetworkBackground osiModel;
 
   /**
@@ -109,10 +113,12 @@ public class Simulator extends JPanel {
     this.pauseButton = new PauseButton(this);
     this.resumeButton = new ResumeButton(this);
     this.stopButton = new StopButton(this);
+    this.helpButton = new HelpButton(this);
 
     // Adds the three buttons to the parent panel.
     super.add(this.pauseButton);
     super.add(this.resumeButton);
+    super.add(this.helpButton);
     super.add(this.stopButton);
 
     // Opens the dialog box.

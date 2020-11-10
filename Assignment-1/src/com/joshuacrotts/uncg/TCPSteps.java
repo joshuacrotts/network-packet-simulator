@@ -30,13 +30,15 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg;
 
+import java.awt.Color;
+
 import com.joshuacrotts.uncg.model.Ball;
+import com.joshuacrotts.uncg.model.DataLinkLayer;
 import com.joshuacrotts.uncg.model.DestinationHost;
 import com.joshuacrotts.uncg.model.NetworkLayer;
 import com.joshuacrotts.uncg.model.SourceHost;
 import com.joshuacrotts.uncg.model.TransportLayer;
 import com.joshuacrotts.uncg.view.NetworkBackground;
-import java.awt.Color;
 
 public class TCPSteps {
 
@@ -48,6 +50,8 @@ public class TCPSteps {
   private boolean hasTransportBlue = false;
   private boolean hasNetworkRed = false;
   private boolean hasNetworkBlue = false;
+  private boolean hasDataLinkRed = false;
+  private boolean hasDataLinkBlue = false;
 
   public TCPSteps(NetworkBackground networkBackground) {
     this.source = networkBackground.getSource();
@@ -73,6 +77,14 @@ public class TCPSteps {
     } else if (this.source.getNetwork().isBlueActive() && !this.hasNetworkBlue && ball.getColor() == Color.BLUE) {
       NetworkLayer.network(ball);
       this.hasNetworkBlue = true;
+    }
+    
+    if (this.source.getDataLink().isRedActive() && !this.hasDataLinkRed && ball.getColor() == Color.RED) {
+      DataLinkLayer.datalink(ball);
+      this.hasDataLinkRed = true;
+    } else if (this.source.getDataLink().isBlueActive() && !this.hasDataLinkBlue && ball.getColor() == Color.BLUE) {
+      DataLinkLayer.datalink(ball);
+      this.hasDataLinkBlue = true;
     }
   }
 }

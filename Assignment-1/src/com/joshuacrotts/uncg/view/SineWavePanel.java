@@ -13,14 +13,14 @@ public class SineWavePanel extends JPanel {
   /* */
   public static final int WIDTH = 800;
   public static final int HEIGHT = 180;
-  
+
   /* */
   private final Color BIT_ONE_COLOR = Color.red;
   private final Color BIT_ZERO_COLOR = Color.blue;
-  
+
   /* */
   private String strSineWaveDrawBits = "";
-  
+
   /* */
   private final int START_SINE_X = 0;
   private final int START_SINE_Y = 70;
@@ -71,15 +71,14 @@ public class SineWavePanel extends JPanel {
         g.drawString("0", sineX + 25, sineY - 50);
         g.drawPolyline(p.xpoints, p.ypoints, p.npoints);
       }
-      
+
       sineX += 50;
       thresholdX += 50;
     }
   }
-  
+
   @Override
   public Dimension getPreferredSize() {
     return new Dimension(Math.max(WIDTH, this.strSineWaveDrawBits.length() * 50), 180);
   }
-
 }

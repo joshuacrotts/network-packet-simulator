@@ -38,7 +38,7 @@ public class NetworkUtils {
   /**
    * * TCP Header data. **
    */
-  public static final short SOURCE_PORT = 0x01bb;//getRandomHexShort();
+  public static final short SOURCE_PORT = 0x01bb;// getRandomHexShort();
   public static final short MIDDLE_DESTINATION_PORT = getRandomHexShort();
   public static final short DESTINATION_PORT = getRandomHexShort();
   public static final int RED_SEQ_NO = getRandomHexInt();
@@ -47,7 +47,7 @@ public class NetworkUtils {
   public static final int BLUE_ACK_NO = getRandomHexInt();
   public static int RED_TRANSPORT_CHECKSUM = 0;
   public static int BLUE_TRANSPORT_CHECKSUM = 0;
-  
+
   /**
    * * IP Header data. **
    */
@@ -55,9 +55,7 @@ public class NetworkUtils {
   public static int BLUE_IP_CHECKSUM = 0;
   public static int RED_IP_LENGTH = 0;
   public static int BLUE_IP_LENGTH = 0;
-
   public static final int FLAGS = 0x5010;
-
   public static final short WIN_SIZE = 0x0160;
   public static final short URG_PTR = 0;
 
@@ -68,6 +66,7 @@ public class NetworkUtils {
   public static final long MIDDLE_DESTINATION_IP = getRandomValidIP(); // 1 dword.
   public static final long DESTINATION_IP = getRandomValidIP(); // 1 dword.
   public static final short PROTOCOL = 0x0006; // 1 unsigned byte.
+  
   /**
    * IP Datagram data.
    */
@@ -77,6 +76,15 @@ public class NetworkUtils {
   public static final short IP_IDENTIFICATION = getRandomHexShort(); // 1 word.
   public static final short FRAGMENT = 0x4000; // 1 word.
   public static final short TTL = 80; // 1 unsigned byte.
+
+  /**
+   * Ethernet (datalink) data.
+   */
+  public static final long PREAMBLE = 48038396025285290l;
+  public static final long SFD = 0b10101011;
+  public static final long DESTINATION_MAC = 0x8010207A3F3El;
+  public static final long SOURCE_MAC = 0x8010206A3A4Dl;
+  public static final int ETHERNET_TYPE = 0x0800;
 
   /**
    *
@@ -93,7 +101,7 @@ public class NetworkUtils {
   public static int getRandomHexInt() {
     return StdOps.randomInt(0, Integer.MAX_VALUE - 1);
   }
-  
+
   /**
    * 
    * @return
@@ -126,8 +134,8 @@ public class NetworkUtils {
   }
 
   /**
-   * Computes the checksum of a HEX string. The resulting checksum is returned
-   * as an integer truncated to 16 bits.
+   * Computes the checksum of a HEX string. The resulting checksum is returned as
+   * an integer truncated to 16 bits.
    *
    * @param hexString
    * @return
@@ -220,8 +228,28 @@ public class NetworkUtils {
    * @param pad
    * @return
    */
+  public static String convertToBinaryStr(long n, int pad) {
+    return String.format("%" + pad + "s", Long.toBinaryString(n)).replaceAll(" ", "0");
+  }
+
+  /**
+   *
+   * @param n
+   * @param pad
+   * @return
+   */
   public static String convertToHexStr(int n, int pad) {
     return String.format("%" + pad + "s", Integer.toHexString(n)).replaceAll(" ", "0").toUpperCase();
+  }
+
+  /**
+   *
+   * @param n
+   * @param pad
+   * @return
+   */
+  public static String convertToHexStr(long n, int pad) {
+    return String.format("%" + pad + "s", Long.toHexString(n)).replaceAll(" ", "0").toUpperCase();
   }
 
   /**
@@ -249,6 +277,22 @@ public class NetworkUtils {
 
     return padding.append(s).toString().toUpperCase();
   }
+  
+  /**
+  *
+  * @param x
+  * @param paddingCount
+  * @return
+  */
+ public static String toHexStrPadded(long x, int paddingCount) {
+   String s = Long.toHexString(x);
+   StringBuilder padding = new StringBuilder();
+   for (int i = s.length(); i != paddingCount; i++) {
+     padding.append("0");
+   }
+
+   return padding.append(s).toString().toUpperCase();
+ }
 
   /**
    *
@@ -281,13 +325,51 @@ public class NetworkUtils {
 
     return binaryStr.toString();
   }
+  
+  /**
+   * 
+   * @param mac
+   * @return
+   */
+  public static String convertMacToHexStr(long mac) {
+    StringBuilder macStr = new StringBuilder();
+    // I could use a for loop... but nah.
+    macStr.append(Long.toHexString(mac >> 40 & 0xff));
+    macStr.append(":");
+    macStr.append(Long.toHexString(mac >> 32 & 0xff));
+    macStr.append(":");
+    macStr.append(Long.toHexString(mac >> 24 & 0xff));
+    macStr.append(":");
+    macStr.append(Long.toHexString(mac >> 16 & 0xff));
+    macStr.append(":");
+    macStr.append(Long.toHexString(mac >> 8 & 0xff));
+    macStr.append(":");
+    macStr.append(Long.toHexString(mac & 0xff));
+    
+    return macStr.toString();
+  }
+  
+  /**
+   * 
+   * @return
+   */
+  private static long getRandomMac() {
+    long mac = 0;
+    int nibbleCount = 12;
+    for (int i = 0; i < nibbleCount; i++) {
+      int nibble = StdOps.randomInt(0, 15) & 0xf;
+      mac |= (nibble << (i * 4));
+      System.out.println(mac);
+    }
+    
+    return mac;
+  }
 
   /**
    *
    * @return
    */
   public static long getRandomValidIP() {
-
     ArrayList<Long> invalidIPs = getInvalidIPs();
 
     while (true) {
@@ -315,7 +397,7 @@ public class NetworkUtils {
    * @return
    */
   private static long generateIP(int b1, int b2, int b3, int b4) {
-    return ((long)b1) << 24 | b2 << 16 | b3 << 8 | b4;
+    return ((long) b1) << 24 | b2 << 16 | b3 << 8 | b4;
   }
 
   /**

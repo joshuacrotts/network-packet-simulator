@@ -230,6 +230,13 @@ public abstract class StdOps {
     }
   }
   
+  /**
+   * 
+   * @param n1
+   * @param n2
+   * @param threshold
+   * @return
+   */
   public static boolean isDoubleEqual(double n1, double n2, double threshold) {
     return Math.abs(n1 - n2) <= threshold;
   }

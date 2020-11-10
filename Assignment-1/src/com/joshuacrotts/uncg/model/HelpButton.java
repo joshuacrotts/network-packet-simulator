@@ -1,7 +1,7 @@
 //=============================================================================================//
-// FILENAME :       NetworkData.java
+// FILENAME :       PauseButton.java
 //
-// DESCRIPTION :    This class will hold the data for a "packet", essentially.
+// DESCRIPTION :
 //
 //
 // NOTES :
@@ -28,21 +28,32 @@
 // SEMESTER :   FALL 2020
 //
 //=============================================================================================//
-package com.joshuacrotts.uncg;
+package com.joshuacrotts.uncg.model;
+
+import com.joshuacrotts.uncg.Simulator;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-public class NetworkData {
+public class HelpButton extends UIButton implements ActionListener {
 
-  public String message;
-  public String ipDatagram;
-  public String frame;
+  public HelpButton(Simulator simulator) {
+    super(simulator, "HELP", "/helpButton.png");
 
-  public NetworkData(String message) {
-    if (message == null || message.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Error, please enter a message!", "ERROR", JOptionPane.ERROR_MESSAGE);
-      System.exit(1);
-    }
-    this.message = message;
+    super.addActionListener(this);
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent ex) {
+    this.getSimulator().setPaused(true);
+    String helpMessage = "To use this simulator, right-click on an OSI model to view the contents of that layer.\n\nIf the packet (ball) has not reached that layer, it will display a message saying so.\n\nRouters display the sinusoidal wave of the datagram. Just right-click on those once the packet has passed through it.\n\nPausing the simulation will halt all packets. Stopping the simulation quits the program altogether.";
+    JOptionPane.showMessageDialog(this.getSimulator(), helpMessage);
+  }
+
+  @Override
+  public void paintComponent(Graphics g) {
+    super.paintComponent(g);
   }
 }
