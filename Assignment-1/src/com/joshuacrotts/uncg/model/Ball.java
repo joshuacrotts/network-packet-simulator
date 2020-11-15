@@ -30,7 +30,6 @@
 //=============================================================================================//
 package com.joshuacrotts.uncg.model;
 
-import com.joshuacrotts.uncg.NetworkData;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -40,27 +39,42 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.joshuacrotts.uncg.NetworkData;
+import com.joshuacrotts.uncg.Simulator;
+
 public class Ball {
 
+  /*
+   * Information related to the ball dimensions, status, and movement. 
+   */
+  private static final int DEFAULT_CHASE_VELOCITY = 1;
+  private static final int BALL_WIDTH = 20;
+  private static final int BALL_HEIGHT = 20;
+  private static final int TRAIL_TIMER = 200; // 200 MS
+  
+  /** Instance of simulator object. */
+  private final Simulator simulator;
+  
+  /** Network data associated with this ball. */
   private final NetworkData networkData;
 
+  /*
+   * Object variables. 
+   */
   private final Point2D.Double pos;
   private final Color color;
   private final Timer trailTimer;
   private final BallTrail ballTrail;
 
-  private static final int DEFAULT_CHASE_VELOCITY = 1;
-  private static final int BALL_WIDTH = 20;
-  private static final int BALL_HEIGHT = 20;
-  private static final int TRAIL_TIMER = 200; // 200 MS
-
+  /* Position variables. */
   private double dx, dy;
 
-  public Ball(int x, int y, int dx, int dy, Color color, NetworkData networkData) {
-    this.color = color;
+  public Ball(Simulator simulator, int x, int y, int dx, int dy, Color color, NetworkData networkData) {
+    this.simulator = simulator;
     this.pos = new Point2D.Double(x, y);
     this.dx = dx;
     this.dy = dy;
+    this.color = color;
     this.networkData = networkData;
     this.trailTimer = new Timer();
     this.ballTrail = new BallTrail(this);
@@ -123,8 +137,11 @@ public class Ball {
   public void drawBall(Graphics2D g2) {
     g2.setColor(this.color);
     g2.fillOval((int) this.getX(), (int) this.getY(),
-            this.BALL_WIDTH, this.BALL_HEIGHT);
-
+            Ball.BALL_WIDTH, Ball.BALL_HEIGHT);
+    
+    if (this.simulator.isDrawingTrails()) {
+      this.drawBallTrail(g2);
+    }
   }
 
   /**
@@ -134,7 +151,7 @@ public class Ball {
    */
   private void drawBallTrail(Graphics2D g2) {
     for (int i = 0; i < this.ballTrail.trail.size(); i ++) {
-      g2.draw(this.ballTrail.trail.get(i));
+      g2.fill(this.ballTrail.trail.get(i));
     }
   }
 
@@ -179,8 +196,18 @@ public class Ball {
     this.dy = dy;
   }
 
+  /**
+   * Creates a small trail behind the ball as it moves. This is generally used
+   * to measure the path that the ball takes. A "trail" is a collection of Ellipse2D
+   * points (circles) 
+   * @author Joshua
+   *
+   */
   private class BallTrail extends TimerTask {
 
+    /** Radius of trails. */
+    private static final int RADIUS = 5;
+    
     private List<Ellipse2D.Double> trail;
     private Ball parentBall;
 
@@ -191,9 +218,9 @@ public class Ball {
 
     @Override
     public void run() {
-      this.trail.add(new Ellipse2D.Double(parentBall.getX() + parentBall.BALL_WIDTH / 2,
-              parentBall.getY() + parentBall.BALL_HEIGHT / 2,
-              3, 3));
+      this.trail.add(new Ellipse2D.Double(parentBall.getX() + Ball.BALL_WIDTH / 2,
+              parentBall.getY() + Ball.BALL_HEIGHT / 2,
+              RADIUS, RADIUS));
     }
 
     public List<Ellipse2D.Double> getTrail() {

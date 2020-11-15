@@ -114,11 +114,11 @@ public class DataLinkLayerPanel {
     gbc.ipady = 25;
     parentPanel.add(headerLabel, gbc);
     
-    // SFD.
+    // Data.
     row++;
     addDataLinkViewComponent("Data", 0, row, GridBagConstraints.WEST, parentPanel);
     addDataLinkViewComponent(ball.getNetworkData().ipDatagram, 1, row, GridBagConstraints.EAST, parentPanel);
-    
+   
     JScrollPane p = new JScrollPane(parentPanel);
     return p;
   }

@@ -49,6 +49,7 @@ import com.joshuacrotts.uncg.dijkstra.Dijkstra;
 import com.joshuacrotts.uncg.dijkstra.Edge;
 import com.joshuacrotts.uncg.dijkstra.Vertex;
 import com.joshuacrotts.uncg.model.Ball;
+import com.joshuacrotts.uncg.model.DrawTrailButton;
 import com.joshuacrotts.uncg.model.HelpButton;
 import com.joshuacrotts.uncg.model.MouseModel;
 import com.joshuacrotts.uncg.model.PauseButton;
@@ -72,6 +73,7 @@ public class Simulator extends JPanel {
    */
   private final UIButton pauseButton;
   private final UIButton resumeButton;
+  private final UIButton drawTrailsButton;
   private final UIButton stopButton;
   private final UIButton helpButton;
   private final NetworkBackground osiModel;
@@ -88,6 +90,7 @@ public class Simulator extends JPanel {
    */
   private boolean isRunning = false;
   private boolean isPaused = false;
+  private boolean isDrawingTrails = false;
 
   /**
    * Miscellaneous sizing and positioning variables.
@@ -112,12 +115,14 @@ public class Simulator extends JPanel {
     // Creates the three status buttons.
     this.pauseButton = new PauseButton(this);
     this.resumeButton = new ResumeButton(this);
+    this.drawTrailsButton = new DrawTrailButton(this);
     this.stopButton = new StopButton(this);
     this.helpButton = new HelpButton(this);
 
     // Adds the three buttons to the parent panel.
     super.add(this.pauseButton);
     super.add(this.resumeButton);
+    super.add(this.drawTrailsButton);
     super.add(this.helpButton);
     super.add(this.stopButton);
 
@@ -433,8 +438,8 @@ public class Simulator extends JPanel {
     String blueMsg = JOptionPane.showInputDialog(this.parentFrame, "", "Enter a message for blue: ", JOptionPane.QUESTION_MESSAGE);
     NetworkData redData = new NetworkData(redMsg);
     NetworkData blueData = new NetworkData(blueMsg);
-    this.redBall = new Ball(20, 20, 2, 0, Color.RED, redData);
-    this.blueBall = new Ball(60, 60, 2, 0, Color.BLUE, blueData);
+    this.redBall = new Ball(this, 20, 20, 2, 0, Color.RED, redData);
+    this.blueBall = new Ball(this, 60, 60, 2, 0, Color.BLUE, blueData);
   }
 
   //====================== ACCESSORS/MUTATORS ============================//
@@ -460,6 +465,14 @@ public class Simulator extends JPanel {
 
   public void setPaused(boolean isPaused) {
     this.isPaused = isPaused;
+  }
+  
+  public boolean isDrawingTrails() {
+    return this.isDrawingTrails;
+  }
+  
+  public void setDrawingTrails(boolean isDrawingTrails) {
+    this.isDrawingTrails = isDrawingTrails;
   }
 
   public Ball getRedBall() {

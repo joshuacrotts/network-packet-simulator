@@ -1,5 +1,5 @@
 //=============================================================================================//
-// FILENAME :       HelpButton.java
+// FILENAME :       DrawTrailButton.java
 //
 // DESCRIPTION :
 //
@@ -23,7 +23,7 @@
 //        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //        SOFTWARE.
 //
-// AUTHOR   :   Joshua Crotts        START DATE :    23 Aug. 2020
+// AUTHOR   :   Joshua Crotts        START DATE :    15 Nov. 2020
 // CLASS    :   CSC - 677 
 // SEMESTER :   FALL 2020
 //
@@ -35,21 +35,17 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JOptionPane;
+public class DrawTrailButton extends UIButton implements ActionListener {
 
-public class HelpButton extends UIButton implements ActionListener {
-
-  public HelpButton(Simulator simulator) {
-    super(simulator, "HELP", "/helpButton.png");
-
+  public DrawTrailButton(Simulator simulator) {
+    super(simulator, "TOGGLE TRAILS", "/drawTrailButton.png");
+    
     super.addActionListener(this);
   }
 
   @Override
   public void actionPerformed(ActionEvent ex) {
-    this.getSimulator().setPaused(true);
-    String helpMessage = "To use this simulator, right-click on an OSI model to view the contents of that layer.\n\nIf the packet (ball) has not reached that layer, it will display a message saying so.\n\nRouters display the sinusoidal wave of the datagram. Just right-click on those once the packet has passed through it.\n\nTo see which path a ball has taken, press the \"TOGGLE TRAILS\" button. This will turn activate a trail behind the packet. Click it again to disable.\n\nPausing the simulation will halt all packets. Stopping the simulation quits the program altogether.";
-    JOptionPane.showMessageDialog(this.getSimulator(), helpMessage);
+    this.getSimulator().setDrawingTrails(!this.getSimulator().isDrawingTrails());
   }
 
   @Override

@@ -359,7 +359,6 @@ public class NetworkUtils {
     for (int i = 0; i < nibbleCount; i++) {
       int nibble = StdOps.randomInt(0, 15) & 0xf;
       mac |= (nibble << (i * 4));
-      System.out.println(mac);
     }
     
     return mac;
