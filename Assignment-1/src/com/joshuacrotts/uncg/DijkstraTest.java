@@ -43,6 +43,8 @@ public class DijkstraTest {
 
   public static void main(String[] args) {
 
+    Dijkstra d = new Dijkstra();
+    
     /* Instantiates the vertices with a string ID (just for naming), and position. */
     Vertex A = new Vertex("A", 100, 100);//1
     Vertex B = new Vertex("B", 100, 400);//2
@@ -59,22 +61,21 @@ public class DijkstraTest {
 
     /* Adds the edges between the vertices. All this does is assign the adjacency
        list values. */
-    Dijkstra.addEdge(C, E, true);
-    Dijkstra.addEdge(A, B, true);
-    Dijkstra.addEdge(B, C, true);
-    Dijkstra.addEdge(C, D, true);
-    Dijkstra.addEdge(D, E, true);
-    Dijkstra.addEdge(D, F, true);
-    Dijkstra.addEdge(F, E, true);
-    Dijkstra.addEdge(E, G, true);
-    Dijkstra.addEdge(F, H, true);
-    Dijkstra.addEdge(G, H, true);
-    Dijkstra.addEdge(H, I, true);
-    Dijkstra.addEdge(I, J, true);
-    Dijkstra.addEdge(J, K, true);
-    Dijkstra.addEdge(K, L, true);
+    d.addEdge(C, E, true);
+    d.addEdge(A, B, true);
+    d.addEdge(B, C, true);
+    d.addEdge(C, D, true);
+    d.addEdge(D, E, true);
+    d.addEdge(D, F, true);
+    d.addEdge(F, E, true);
+    d.addEdge(E, G, true);
+    d.addEdge(F, H, true);
+    d.addEdge(G, H, true);
+    d.addEdge(H, I, true);
+    d.addEdge(I, J, true);
+    d.addEdge(J, K, true);
+    d.addEdge(K, L, true);
 
-    Dijkstra d = new Dijkstra();
 
     d.dijkstra(A);
 

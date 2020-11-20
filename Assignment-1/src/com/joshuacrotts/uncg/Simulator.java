@@ -81,6 +81,8 @@ public class Simulator extends JPanel {
   /**
    * Other simulator-related variables and objects.
    */
+  private Dijkstra redPathDijkstra;
+  private Dijkstra bluePathDijkstra;
   private TCPSteps tcpSteps;
   private Ball redBall;
   private Ball blueBall;
@@ -110,7 +112,7 @@ public class Simulator extends JPanel {
   public Simulator() {
     // Creates the routers and initializes Dijkstra's path.
     this.routers = new LinkedList<>();
-    this.initDijkstraPaths();
+   
 
     // Creates the three status buttons.
     this.pauseButton = new PauseButton(this);
@@ -145,6 +147,11 @@ public class Simulator extends JPanel {
     this.mouse = new MouseModel();
     super.addMouseListener(this.mouse);
     super.addMouseMotionListener(this.mouse);
+    
+    // Initialize the dijkstra objects.
+    this.redPathDijkstra = new Dijkstra();
+    this.bluePathDijkstra = new Dijkstra();
+    this.initDijkstraPaths();
 
     this.osiModel = new NetworkBackground(this);
     this.tcpSteps = new TCPSteps(this.osiModel);
@@ -319,7 +326,7 @@ public class Simulator extends JPanel {
    */
   private void drawDijkstraEdges(Graphics2D g2) {
     int EDGE_OFFSET = 10;
-    Iterator<Vertex> it = Dijkstra.vertices.iterator();
+    Iterator<Vertex> it = this.redPathDijkstra.getVertices().iterator();
 
     /*
      * Iterate through the vertices and draw the associated edges.
@@ -352,23 +359,8 @@ public class Simulator extends JPanel {
    *
    */
   private void drawDijkstraVertices(Graphics2D g2) {
-    int EDGE_OFFSET = 10;
-    int V_TEXT_OFFSET = 2;
-    int V_SIZE = 10;
-    /*
-     * Go through one more time and draw the vertices themselves (we need to do
-     * it separately so the edge lines don't overlap them.
-     */
-    Iterator<Vertex> it = Dijkstra.vertices.iterator();
-    while (it.hasNext()) {
-      Vertex v = it.next();
-      /*
-       * Draws the vertex itself and its name.
-       */
-      g2.setColor(Color.RED);
-      g2.fillOval(v.getX() + EDGE_OFFSET / 2, v.getY() + EDGE_OFFSET / 2, V_SIZE, V_SIZE);
-      g2.drawString(v.getID(), v.getX(), v.getY() - V_TEXT_OFFSET);
-    }
+    this.drawDijkstraPath(g2, this.redPathDijkstra, Color.RED);
+    this.drawDijkstraPath(g2, this.bluePathDijkstra, Color.BLUE);
   }
 
   /**
@@ -384,49 +376,122 @@ public class Simulator extends JPanel {
    *
    */
   private void initDijkstraPaths() {
-    /*
-     * Instantiates the vertices with a string ID (just for naming), and
-     * position.
-     */
-    Vertex start = new Vertex("S", 100, 50); // 1
-    Vertex R1 = new Vertex("R1", 350, 650);//2
-    Vertex R2 = new Vertex("R2", 350, 50);//3
-    Vertex R3 = new Vertex("R3", 1016, 50);//3
-    Vertex R4 = new Vertex("R4", 1016, 650);//3
-    Vertex R5 = new Vertex("R5", 683, 325);//3
-    Vertex H1 = new Vertex("H1", 100, 650);//1
-    Vertex H2 = new Vertex("H2", 1266, 650);//
-    Vertex endDest = new Vertex("F", 1266, 50);//5
+    this.initializeRedDijkstra();
+    this.initializeBlueDijkstra();
+  }
+  
+  /**
+   * 
+   */
+  private void initializeRedDijkstra() {
+    /* Start by instantiating the red vertices. */
+    Vertex R_start = new Vertex("S", 100, 50); // 1
+    Vertex R_R1 = new Vertex("R1", 350, 650);//2
+    Vertex R_R2 = new Vertex("R2", 350, 50);//3
+    Vertex R_R3 = new Vertex("R3", 1016, 50);//3
+    Vertex R_R4 = new Vertex("R4", 1016, 650);//3
+    Vertex R_R5 = new Vertex("R5", 683, 325);//3
+    Vertex R_H1 = new Vertex("H1", 100, 650);//1
+    Vertex R_H2 = new Vertex("H2", 1266, 650);//
+    Vertex R_endDest = new Vertex("F", 1266, 50);//5
 
-    this.routers.add(new Router(R1, this));
-    this.routers.add(new Router(R2, this));
-    this.routers.add(new Router(R3, this));
-    this.routers.add(new Router(R4, this));
-    this.routers.add(new Router(R5, this));
+    /* Add the router image. */
+    this.routers.add(new Router(R_R1, this));
+    this.routers.add(new Router(R_R2, this));
+    this.routers.add(new Router(R_R3, this));
+    this.routers.add(new Router(R_R4, this));
+    this.routers.add(new Router(R_R5, this));
 
-    /*
-     * Adds the edges between the vertices. All this does is assign the
-     * adjacency list values.
-     */
-    Dijkstra.addEdge(start, H1, 0, true);
-    Dijkstra.addEdge(H1, R1, 5, true);
-    Dijkstra.addEdge(R1, R2, 3, true);
-    Dijkstra.addEdge(R1, R5, 1, true);
-    Dijkstra.addEdge(R1, R4, 15, true);
-    Dijkstra.addEdge(R2, R3, 4, true);
-    Dijkstra.addEdge(R2, R5, 1, true);
-    Dijkstra.addEdge(R3, R5, 8, true);
-    Dijkstra.addEdge(R3, R4, 7, true);
-    Dijkstra.addEdge(R5, R4, 25, true);
-    Dijkstra.addEdge(R4, H2, 3, true);
-    Dijkstra.addEdge(H2, endDest, 0, true);
+    /* Adds the edges between the vertices. */
+    this.redPathDijkstra.addEdge(R_start, R_H1, 0, true);
+    this.redPathDijkstra.addEdge(R_H1, R_R1, 5, true);
+    this.redPathDijkstra.addEdge(R_R1, R_R2, 3, true);
+    this.redPathDijkstra.addEdge(R_R1, R_R5, 1, true);
+    this.redPathDijkstra.addEdge(R_R1, R_R4, 15, true);
+    this.redPathDijkstra.addEdge(R_R2, R_R3, 4, true);
+    this.redPathDijkstra.addEdge(R_R2, R_R5, 1, true);
+    this.redPathDijkstra.addEdge(R_R3, R_R5, 8, true);
+    this.redPathDijkstra.addEdge(R_R3, R_R4, 7, true);
+    this.redPathDijkstra.addEdge(R_R5, R_R4, 25, true);
+    this.redPathDijkstra.addEdge(R_R4, R_H2, 3, true);
+    this.redPathDijkstra.addEdge(R_H2, R_endDest, 0, true);
+    
+    this.redPathDijkstra.dijkstra(R_start);
+    Simulator.redPath = this.redPathDijkstra.getDijkstraPath(R_endDest);
+  }
+  
+  /**
+   * 
+   */
+  private void initializeBlueDijkstra() {
+    /* Initialize the blue vertices. */
+    Vertex B_start = new Vertex("S", 100, 50); // 1
+    Vertex B_R1 = new Vertex("R1", 350, 650);//2
+    Vertex B_R2 = new Vertex("R2", 350, 50);//3
+    Vertex B_R3 = new Vertex("R3", 1016, 50);//3
+    Vertex B_R4 = new Vertex("R4", 1016, 650);//3
+    Vertex B_R5 = new Vertex("R5", 683, 325);//3
+    Vertex B_H1 = new Vertex("H1", 100, 650);//1
+    Vertex B_H2 = new Vertex("H2", 1266, 650);//
+    Vertex B_endDest = new Vertex("F", 1266, 50);//5
 
-    Dijkstra d = new Dijkstra();
+    /* Initializes the blue edges. */
+    this.bluePathDijkstra.addEdge(B_start, B_H1, 0, true);
+    this.bluePathDijkstra.addEdge(B_H1, B_R1, 5, true);
+    this.bluePathDijkstra.addEdge(B_R1, B_R2, 3, true);
+    this.bluePathDijkstra.addEdge(B_R1, B_R5, 30, true);
+    this.bluePathDijkstra.addEdge(B_R1, B_R4, 25, true);
+    this.bluePathDijkstra.addEdge(B_R2, B_R3, 18, true);
+    this.bluePathDijkstra.addEdge(B_R2, B_R5, 5, true);
+    this.bluePathDijkstra.addEdge(B_R3, B_R5, 12, true);
+    this.bluePathDijkstra.addEdge(B_R3, B_R4, 3, true);
+    this.bluePathDijkstra.addEdge(B_R5, B_R4, 14, true);
+    this.bluePathDijkstra.addEdge(B_R4, B_H2, 3, true);
+    this.bluePathDijkstra.addEdge(B_H2, B_endDest, 0, true);
 
-    d.dijkstra(start);
+    this.bluePathDijkstra.dijkstra(B_start);
+    Simulator.bluePath = this.bluePathDijkstra.getDijkstraPath(B_endDest);
+  }
+  
+  /**
+   * 
+   * @param g2
+   * @param d
+   * @param weightColor
+   */
+  private void drawDijkstraPath(Graphics2D g2, Dijkstra d, Color weightColor) {
+    int EDGE_OFFSET = 10;
+    int V_TEXT_Y_OFFSET = 0;
+    
+    Iterator<Vertex> it;
+    if (weightColor == Color.RED) {
+      it = this.redPathDijkstra.getVertices().iterator();
+    } else if (weightColor == Color.BLUE) {
+      it = this.bluePathDijkstra.getVertices().iterator();
+      V_TEXT_Y_OFFSET = 20; // Slightly lower offset for blue edges.
+    } else {
+      throw new IllegalArgumentException("Only colors available are RED and BLUE.");
+    }
 
-    Simulator.redPath = d.getDijkstraPath(endDest);
-    Simulator.bluePath = d.getDijkstraPath(endDest);
+    /* Iterate through the vertices and draw the associated edges. */
+    while (it.hasNext()) {
+      Vertex v = it.next();
+      for (Edge e : v.adjacencyList) {
+
+        /* Draws an edge itself. */
+        g2.setColor(Color.BLACK);
+        g2.drawLine(e.source.getX() + EDGE_OFFSET,
+                e.source.getY() + EDGE_OFFSET,
+                e.destination.getX() + EDGE_OFFSET,
+                e.destination.getY() + EDGE_OFFSET);
+
+        /* Draws the edge weight. */
+        g2.setColor(weightColor);
+        g2.drawString(String.format("%.1f", e.distance),
+                (int) ((e.source.getX() + e.destination.getX()) / 2),
+                (int) ((e.source.getY() + e.destination.getY()) / 2 + V_TEXT_Y_OFFSET));
+      }
+    }
   }
 
   /**

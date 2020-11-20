@@ -11,7 +11,8 @@ import java.util.Stack;
  */
 public class Dijkstra {
 
-  public static final Set<Vertex> vertices = new HashSet<>();
+  /** Set of vertices for this instance/graph of Dijkstra. */
+  public final Set<Vertex> vertices = new HashSet<>();
 
   /**
    *
@@ -74,13 +75,13 @@ public class Dijkstra {
    * @param src
    * @param dest 
    */
-  public static void addEdge(Vertex src, Vertex dest, double distance, boolean isUndirected) {
-    Dijkstra.vertices.add(src);
-    Dijkstra.vertices.add(dest);
+  public void addEdge(Vertex src, Vertex dest, double distance, boolean isUndirected) {
+    this.vertices.add(src);
+    this.vertices.add(dest);
 
     Edge e = new Edge(src, dest, distance);
     if (isUndirected) {
-      Dijkstra.addEdge(dest, src, distance, false);
+      this.addEdge(dest, src, distance, false);
     }
   }
   
@@ -89,14 +90,30 @@ public class Dijkstra {
    * @param src
    * @param dest 
    */
-  public static void addEdge(Vertex src, Vertex dest, boolean isUndirected) {
-    Dijkstra.vertices.add(src);
-    Dijkstra.vertices.add(dest);
+  public void addEdge(Vertex src, Vertex dest, boolean isUndirected) {
+    this.vertices.add(src);
+    this.vertices.add(dest);
 
     Edge e = new Edge(src, dest);
     
     if (isUndirected) {
-      Dijkstra.addEdge(dest, src, false);
+      this.addEdge(dest, src, false);
     }
+  }
+  
+  /**
+   * 
+   */
+  public void clearEdges() {
+    for (Vertex v : this.vertices) {
+      v.adjacencyList.clear();
+      v.distanceFromSource = 0;
+    }
+    
+    this.vertices.clear();
+  }
+  
+  public Set<Vertex> getVertices() {
+    return this.vertices;
   }
 }

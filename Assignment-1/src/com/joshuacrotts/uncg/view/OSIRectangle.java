@@ -47,18 +47,24 @@ public abstract class OSIRectangle extends Rectangle {
   public static final int RECT_HEIGHT = 50;
   protected static final int COLOR_BRIGHTNESS_OFFSET = -20;
 
-  /* This will need to be either isRedActive or isBlueActive or something to 
-     that effect later on down the road. Perhaps an array? */
+  /*
+   * This will need to be either isRedActive or isBlueActive or something to that
+   * effect later on down the road. Perhaps an array?
+   */
   private boolean isRedActive, isBlueActive;
 
-  /* Colors for the different status flags of the rectangle. Mostly dealing with
-     the mouse listeners. */
+  /*
+   * Colors for the different status flags of the rectangle. Mostly dealing with
+   * the mouse listeners.
+   */
   private Color activeColor;
   private Color inactiveColor;
   private Color mouseOverColor;
 
-  /* Information relating the OSI rectangle to its type, and its host (either
-     source or destination. */
+  /*
+   * Information relating the OSI rectangle to its type, and its host (either
+   * source or destination.
+   */
   private final OSIType osiType;
   private final HostType hostType;
 
@@ -72,8 +78,8 @@ public abstract class OSIRectangle extends Rectangle {
   }
 
   /**
-   * Right now, this just sets the osi rectangle to be active if the y
-   * coordinate is lower than the y coordinate of the rectangle.
+   * Right now, this just sets the osi rectangle to be active if the y coordinate
+   * is lower than the y coordinate of the rectangle.
    *
    * @param ball
    */
@@ -87,11 +93,10 @@ public abstract class OSIRectangle extends Rectangle {
         }
       }
     } else {
-      if (ball.getY() <= this.y + RECT_HEIGHT) {
-        if (ball.getY() <= this.y + RECT_HEIGHT) {
-          if (ball.getColor() == Color.RED) {
-            this.isRedActive = true;
-          }
+      /* Make sure that the ball is "close enough" to the edge of the screen before activating dest. */
+      if (ball.getY() <= this.y + RECT_HEIGHT && ball.getX() >= this.simulator.getWidth() - RECT_WIDTH) {
+        if (ball.getColor() == Color.RED) {
+          this.isRedActive = true;
         }
         if (ball.getColor() == Color.BLUE) {
           this.isBlueActive = ball.getColor() == Color.BLUE;
