@@ -1,13 +1,7 @@
-/Assignment-1/Assignment-1/nbproject/private/
-/Assignment-2/Assignment-2/nbproject/private/
-/Assignment-3/Assignment-3/nbproject/private/
-/Assignment-1/Assignment-1/build/
-/Assignment-1/Assignment-1/dist/
-/Assignment-1/Assignment-1/nbproject/
-/Assignment-1/Assignment-1/build.xml
-/Assignment-1/Assignment-1/manifest.mf
-/Assignment-1/Assignment1/nbproject/private/
-/Assignment-1/Assignment1/build/
-/Assignment-1/bin/
-/Assignment-1/build/classes/
+/build/*
+/build/
+build/
+/bin/*
+/bin/
+bin/
 
