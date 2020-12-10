@@ -372,7 +372,7 @@ public class NetworkUtils {
     ArrayList<Long> invalidIPs = getInvalidIPs();
 
     while (true) {
-      long ip = getRandomHexLong() & 0xffffffffl;
+      long ip = getRandomHexLong() & 0xffffffffL;
       boolean matches = false;
       for (Long iIP : invalidIPs) {
         if (iIP == ip) {
