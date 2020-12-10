@@ -80,7 +80,7 @@ public class NetworkUtils {
   /**
    * Ethernet (datalink) data.
    */
-  public static final long PREAMBLE = 0x48038396025285290L;
+  public static final long PREAMBLE = 48038396025285290L;
   public static final long SFD = 0b10101011;
   public static final long DESTINATION_MAC = 0x8010207A3F3EL;
   public static final long SOURCE_MAC = 0x8010206A3A4DL;

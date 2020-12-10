@@ -45,7 +45,9 @@ public class TCPSteps {
   private final SourceHost source;
   private final DestinationHost destination;
 
-  /* Variables for determining if we need to keep activating the TCP steps or not. */
+  /*
+   * Variables for determining if we need to keep activating the TCP steps or not.
+   */
   private boolean hasTransportRed = false;
   private boolean hasTransportBlue = false;
   private boolean hasNetworkRed = false;
@@ -63,6 +65,12 @@ public class TCPSteps {
    * @param ball
    */
   public void checkTCPSteps(Ball ball) {
+    this.checkTransport(ball);
+    this.checkNetwork(ball);
+    this.checkDataLink(ball);
+  }
+
+  private void checkTransport(Ball ball) {
     if (this.source.getTransport().isRedActive() && !this.hasTransportRed && ball.getColor() == Color.RED) {
       TransportLayer.transport(ball);
       this.hasTransportRed = true;
@@ -70,7 +78,9 @@ public class TCPSteps {
       TransportLayer.transport(ball);
       this.hasTransportBlue = true;
     }
-    
+  }
+
+  private void checkNetwork(Ball ball) {
     if (this.source.getNetwork().isRedActive() && !this.hasNetworkRed && ball.getColor() == Color.RED) {
       NetworkLayer.network(ball);
       this.hasNetworkRed = true;
@@ -78,7 +88,9 @@ public class TCPSteps {
       NetworkLayer.network(ball);
       this.hasNetworkBlue = true;
     }
-    
+  }
+
+  private void checkDataLink(Ball ball) {
     if (this.source.getDataLink().isRedActive() && !this.hasDataLinkRed && ball.getColor() == Color.RED) {
       DataLinkLayer.datalink(ball);
       this.hasDataLinkRed = true;
